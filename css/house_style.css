@@ -6,6 +6,10 @@ input {
 	border: solid 1px green;
 }
 
+body{
+	margin: 0px;
+}
+
 div {
 	display: block;
 }

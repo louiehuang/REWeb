@@ -2247,3 +2247,35 @@ span.color7{
 		background: #2e2e2e url('../images/icon5.png') no-repeat 8px 14px;
 	}
 }
+
+
+
+
+.footer_link {
+	height: 30px;
+	float: right;
+	margin-bottom: 10px;
+}
+
+
+.footer_link li{
+	text-align: right;
+	float: left;
+	margin-right: 10px;
+}
+
+.footer_link li a{
+	display:block;
+	color: #7D7D7D;
+	text-transform: capitalize;
+	font-size: 0.8725em;
+	-webkit-text-stroke: 0.5px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+.footer_link li a:hover {
+	color: #57C5A0;
+}
