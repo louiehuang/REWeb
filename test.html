@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/house_style.css" />
+	</head>
+
+	<body>
+
+		<form action="index.html" method="post" enctype="multipart/form-data">
+			<!--地址栏只能传文本，不能文件流，所以post, enctype-->
+			<table style="width: 400px;height: 300px; border: solid #000000;">
+				<tr>
+					<td>用户名：</td>
+					<td><input type="text" name="username" class="input1" /></td>
+				</tr>
+				<tr>
+					<td>密码：</td>
+					<td><input type="password" name="pwd" /></td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" name="r" value="1" />软件工程
+						<input type="radio" name="r" value="1" />计算机科学
+					</td>
+				</tr>
+				<tr>
+					<td>
+						爱好：
+						<input type="checkbox" name="c" value="c1" />运动
+						<input type="checkbox" name="c" value="c1" />美食
+					</td>
+				</tr>
+				<tr>
+					<td>
+						性别：
+						<select name="sex">
+						<option value="1">男</option>
+						<option value="2" selected="true">女</option>
+					</select>
+					</td>
+				</tr>
+			</table>
+
+			<input type="password" name="pwd" />
+			<input type="password" name="pwd" />
+			
+			
+
+		</form>
+
+	</body>
+
+</html>

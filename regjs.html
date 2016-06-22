@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+
+		<script type="text/javascript">
+			function checkData() {
+				var result = true;
+
+				var userName = document.getElementById("userName");
+				var pwd1 = document.getElementById("pwd_1");
+				var pwd2 = document.getElementById("pwd_2");
+
+				var c1 = document.getElementById("c1");
+				var c2 = document.getElementById("c2");
+				var c3 = document.getElementById("c3");
+				var cc = "";
+//				if (c1.checked == true) {
+//					cc += c1.value + ",";
+//				}
+//				if (c2.checked == true) {
+//					cc += c2.value + ",";
+//				}
+//				if (c3.checked == true) {
+//					cc += c3.value;
+//				}
+//				alert(cc);
+//
+//				if (userName.value == "") {
+//					result = false;
+//					alert("用户名不能为空");
+//					userName.focus();
+//				} else if (pwd1.value == "") {
+//					result = false;
+//					alert("密码不能为空");
+//					pwd1.focus();
+//				} else if (pwd2.value == "") {
+//					result = false;
+//					alert("再次输入密码不能为空");
+//					pwd2.focus();
+//				} else if (pwd1.value != pwd2.value) {
+//					result = false;
+//					alert("两次密码不一致");
+//					pwd2.focus();
+//				}
+				return result;
+			}
+		</script>
+
+	</head>
+
+	<body>
+
+		<iframe src="http://www.baidu.com" width="100%" height="400px" style="border: 0px;" scrolling="no">
+			
+			
+			
+		</iframe>
+
+		<form action="Home.html" method="get">
+			<table>
+				<tr>
+					<td>用户名：</td>
+					<td>
+						<span style="color: red">*</span>
+						<input type="text" id="userName" name="userName">
+					</td>
+				</tr>
+
+				<tr>
+					<td>密码：</td>
+					<td>
+						<span style="color: red">*</span>
+						<input type="password" id="pwd_1" name="pwd">
+					</td>
+				</tr>
+
+				<tr>
+					<td>重复密码：</td>
+					<td>
+						<span style="color: red">*</span>
+						<input type="password" id="pwd_2">
+					</td>
+				</tr>
+
+				<tr>
+					<td>爱好：</td>
+					<td>
+						<input type="checkbox" id="c1" name="c1" value="sport" />运动
+						<input type="checkbox" id="c2" name="c2" value="reading" />看书
+						<input type="checkbox" id="c3" name="c3" value="watchball" />看球
+					</td>
+				</tr>
+
+				<tr>
+					<td><input type="reset" value="重置"></td>
+					<td><input type="submit" value="注册" onclick="return checkData()"></td>
+				</tr>
+			</table>
+		
+						<input placeholder="邮箱地址:" type="email" tabindex="3" required="">
+
+
+		</form>
+
+	</body>
+
+</html>
