@@ -53,6 +53,81 @@
 	<div class="main_bg">
 		<div class="wrap">
 			<div class="main">
+
+				<div class="login_left">
+					<h3>创建新账号</h3>
+					<p>通过创建账号，您可以通过邮件更快地查询处理.</p>
+					<div class="registration_left">
+						<a href="#">
+							<div class="reg_fb">
+								<img style="width: 30px;" src="images/qq.png" alt=""><i>使用QQ账号注册</i>
+								<div class="clear"></div>
+							</div>
+						</a>
+						<div class="registration_form">
+							<!-- Form -->
+							<form id="registration_form" action="UsersAction" method="post">
+
+								<input type="hidden" name="request_type"
+									value="Register_Request" />
+
+								<div>
+									<label> <input placeholder="账号:" type="text"
+										tabindex="1" required="" autofocus="">
+									</label>
+
+								</div>
+								<div>
+									<label> <input placeholder="密码：" type="password"
+										tabindex="4" required="">
+									</label>
+								</div>
+								<div>
+									<label> <input placeholder="再次输入密码：" type="password"
+										tabindex="4" required="">
+									</label>
+									<!--<label>
+						<input placeholder="last name:" type="text" tabindex="2" required="" autofocus="">
+					</label>-->
+								</div>
+								<div class="sky_form">
+									<ul>
+										<li><label class="radio left"><input type="radio"
+												name="radio" checked=""><i>男</i></label></li>
+										<li><label class="radio"><input type="radio"
+												name="radio"><i>女</i></label></li>
+									</ul>
+								</div>
+								<div>
+									<label> <input placeholder="邮箱地址:"
+										style="text-transform: none;" type="email" tabindex="3"
+										required="">
+									</label>
+								</div>
+								<div>
+									<label> <input placeholder="手机号码:" type="text"
+										tabindex="5" required="">
+									</label>
+								</div>
+								<div></div>
+								<div>
+									<input type="submit" style="width: 200px;" value="注册"
+										id="register-submit">
+								</div>
+								<div class="sky_form">
+									<label class="checkbox"><input type="checkbox"
+										name="checkbox"><i>我同意<a class="terms" href="#">
+												服务条款</a>
+									</i></label>
+								</div>
+							</form>
+							<!-- /Form -->
+						</div>
+					</div>
+				</div>
+
+
+
 				<div class="login_left">
 					<h3>登陆账号</h3>
 					<p>您也可以使用QQ账号进行登陆.</p>
@@ -113,15 +188,19 @@
 							</a>
 							<div class="registration_form">
 								<!-- Form -->
-								<form id="registration_form" action="servlet/UsersAction" method="post">
+								<form id="registration_form" action="UsersAction" method="post">
+
+									<!--隐藏域 -->
+									<input type="hidden" name="request_type" value="Login_Request" />
+
 									<div>
-										<label> <input placeholder="账号:" type="text" name="username" 
-											tabindex="3" required="">
+										<label> <input placeholder="账号:" type="text"
+											name="username" tabindex="3" required="">
 										</label>
 									</div>
 									<div>
-										<label> <input placeholder="密码" type="password" name="pwd"
-											tabindex="4" required="">
+										<label> <input placeholder="密码" type="password"
+											name="pwd" tabindex="4" required="">
 										</label>
 									</div>
 									<div>
@@ -138,72 +217,7 @@
 					</div>
 					<!-- end registration -->
 				</div>
-				<div class="login_left">
-					<h3>创建新账号</h3>
-					<p>通过创建账号，您可以通过邮件更快地查询处理.</p>
-					<div class="registration_left">
-						<a href="#">
-							<div class="reg_fb">
-								<img style="width: 30px;" src="images/qq.png" alt=""><i>使用QQ账号注册</i>
-								<div class="clear"></div>
-							</div>
-						</a>
-						<div class="registration_form">
-							<!-- Form -->
-							<form id="registration_form" action="servlet/UsersAction" method="post">
-								<div>
-									<label> <input placeholder="账号:" type="text"
-										tabindex="1" required="" autofocus="">
-									</label>
-								</div>
-								<div>
-									<label> <input placeholder="密码：" type="password"
-										tabindex="4" required="">
-									</label>
-								</div>
-								<div>
-									<label> <input placeholder="再次输入密码：" type="password"
-										tabindex="4" required="">
-									</label>
-									<!--<label>
-						<input placeholder="last name:" type="text" tabindex="2" required="" autofocus="">
-					</label>-->
-								</div>
-								<div class="sky_form">
-									<ul>
-										<li><label class="radio left"><input type="radio"
-												name="radio" checked=""><i>男</i></label></li>
-										<li><label class="radio"><input type="radio"
-												name="radio"><i>女</i></label></li>
-									</ul>
-								</div>
-								<div>
-									<label> <input placeholder="邮箱地址:"
-										style="text-transform: none;" type="email" tabindex="3"
-										required="">
-									</label>
-								</div>
-								<div>
-									<label> <input placeholder="手机号码:" type="text"
-										tabindex="5" required="">
-									</label>
-								</div>
-								<div></div>
-								<div>
-									<input type="submit" style="width: 200px;" value="注册"
-										id="register-submit">
-								</div>
-								<div class="sky_form">
-									<label class="checkbox"><input type="checkbox"
-										name="checkbox"><i>我同意<a class="terms" href="#">
-												服务条款</a>
-									</i></label>
-								</div>
-							</form>
-							<!-- /Form -->
-						</div>
-					</div>
-				</div>
+
 				<div class="clear"></div>
 			</div>
 		</div>
