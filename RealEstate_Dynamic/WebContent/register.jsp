@@ -113,14 +113,14 @@
 							</a>
 							<div class="registration_form">
 								<!-- Form -->
-								<form id="registration_form" action="contact.php" method="post">
+								<form id="registration_form" action="servlet/UsersAction" method="post">
 									<div>
-										<label> <input placeholder="账号:" type="text"
+										<label> <input placeholder="账号:" type="text" name="username" 
 											tabindex="3" required="">
 										</label>
 									</div>
 									<div>
-										<label> <input placeholder="密码" type="password"
+										<label> <input placeholder="密码" type="password" name="pwd"
 											tabindex="4" required="">
 										</label>
 									</div>
@@ -150,7 +150,7 @@
 						</a>
 						<div class="registration_form">
 							<!-- Form -->
-							<form id="registration_form" action="contact.php" method="post">
+							<form id="registration_form" action="servlet/UsersAction" method="post">
 								<div>
 									<label> <input placeholder="账号:" type="text"
 										tabindex="1" required="" autofocus="">
