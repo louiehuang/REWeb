@@ -2,6 +2,8 @@ package com.hlyin.action;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -13,91 +15,100 @@ import javax.servlet.http.HttpServletResponse;
 import com.hlyin.model.Users;
 import com.hlyin.service.UsersService;
 
-/**
- * Servlet implementation class UsersAction
- */
-@WebServlet("/UsersAction")
-public class UsersAction extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public UsersAction() {
-		super();
-		// TODO Auto-generated constructor stub
+public class UsersAction {
+	private List list;
+	public List getList() {
+		return list;
 	}
 
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+	public void setList(List list) {
+		this.list = list;
 	}
 
-	/**
-	 * @see Servlet#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
+	private Users users;
+	public Users getUsers() {
+		return users;
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		response.setContentType("text/html; charset=utf-8");
-
-		// 获取隐藏域的值，判断处理类型
-		String requestType = request.getParameter("request_type");
-		System.out.println(requestType);
-		
-		if (requestType.equals("Login_Request")) {
-			System.out.println("处理登陆");
-			handleLoginRequest(request, response);
-		} else if (requestType.equals("Register_Request")) {
-			System.out.println("处理注册");
-			handleRegisterRequest(request, response);
-		}
-
+	public void setUsers(Users users) {
+		this.users = users;
 	}
 
-	protected void handleRegisterRequest(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+	private String message;
+	private String username;
+	private String pwd;
 
+	public String getMessage() {
+		return message;
 	}
 
-	protected void handleLoginRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		PrintWriter out = response.getWriter();
+	public String getUsername() {
+		return username;
+	}
 
-		String username = request.getParameter("username");
-		String pwd = request.getParameter("pwd");
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-		UsersService us = new UsersService();
-		Users user = us.isLogin(username, pwd);
+	public String getPwd() {
+		return pwd;
+	}
 
-		if (user != null) {
-			// out.print("<script>alert('登陆成功')</script>");
-			// response.sendRedirect("../index.jsp");
-			request.getSession().setAttribute("user", user);
-			out.print("<script language='JavaScript'>alert('登陆成功');" + "location.href='index.jsp';</script>");
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String execute() {
+		System.out.println("execute被执行");
+		System.out.println(users.getUsername());
+		System.out.println(users.getPwd());
+		if (users.getUsername().equals("admin") && users.getPwd().equals("123")) {
+			Users users1 = new Users("tom");
+			Users users2 = new Users("jack");
+			list = new ArrayList<Users>();
+			list.add(users1);
+			list.add(users2);
+			message = "登录成功!";
 		} else {
-			out.print("<script language='JavaScript'>alert('登陆失败');" + "location.href='register.jsp';</script>");
+			message = "失败!";
 		}
+		return "success";
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+	
+	public String loginJudge() {
+		System.out.println("login被执行");
+		System.out.println(users.getUsername());
+		System.out.println(users.getPwd());
+		
+		if (users.getUsername().equals("admin") && users.getPwd().equals("123")) {
+			return "login_success";
+			//message = "<script language='JavaScript'>alert('登陆成功');" + "location.href='index.jsp';</script>";
+		
+		} else {
+			
+			//message = "<script language='JavaScript'>alert('登陆失败');" + "location.href='register.jsp';</script>";
+		
+		}
+		return "login_fail";
 	}
-
+	
+	public String registerJudge() {
+		System.out.println("register被执行");
+		System.out.println(users.getUsername());
+		System.out.println(users.getPwd());
+		System.out.println(users.getPwd_confirm());
+		
+		if (users.getUsername().equals("admin") && users.getPwd().equals("123")) {
+			return "register_success";
+	
+		} else {
+			
+		}
+		return "register_fail";
+	}
 }
+

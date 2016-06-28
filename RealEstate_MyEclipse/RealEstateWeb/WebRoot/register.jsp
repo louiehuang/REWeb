@@ -42,7 +42,6 @@
 </head>
 
 <body>
-
 	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
 	<iframe src="nav_model/header_nav.html" width="100%" height="123px"
 		style="border: 0px;" scrolling="no"></iframe>
@@ -66,25 +65,25 @@
 						</a>
 						<div class="registration_form">
 							<!-- Form -->
-							<form id="registration_form" action="UsersAction" method="post">
+							<form id="registration_form" action="UsersAction!registerJudge" method="post">
 
 								<input type="hidden" name="request_type"
 									value="Register_Request" />
 
 								<div>
 									<label> <input placeholder="账号:" type="text"
-										tabindex="1" required="" autofocus="">
+										name="users.username" tabindex="1" required="" autofocus="">
 									</label>
 
 								</div>
 								<div>
 									<label> <input placeholder="密码：" type="password"
-										tabindex="4" required="">
+										name="users.pwd" tabindex="4" required="">
 									</label>
 								</div>
 								<div>
 									<label> <input placeholder="再次输入密码：" type="password"
-										tabindex="4" required="">
+										name="users.pwd_confirm" tabindex="4" required="">
 									</label>
 									<!--<label>
 						<input placeholder="last name:" type="text" tabindex="2" required="" autofocus="">
@@ -99,14 +98,14 @@
 									</ul>
 								</div>
 								<div>
-									<label> <input placeholder="邮箱地址:"
+									<label> <input placeholder="邮箱地址:" name="users.email"
 										style="text-transform: none;" type="email" tabindex="3"
 										required="">
 									</label>
 								</div>
 								<div>
 									<label> <input placeholder="手机号码:" type="text"
-										tabindex="5" required="">
+										name="users.tele" tabindex="5" required="">
 									</label>
 								</div>
 								<div></div>
@@ -188,19 +187,19 @@
 							</a>
 							<div class="registration_form">
 								<!-- Form -->
-								<form id="registration_form" action="UsersAction" method="post">
+								<form id="registration_form" action="UsersAction!loginJudge" method="post">
 
 									<!--隐藏域 -->
 									<input type="hidden" name="request_type" value="Login_Request" />
 
 									<div>
 										<label> <input placeholder="账号:" type="text"
-											name="username" tabindex="3" required="">
+											name="users.username" tabindex="3" required="">
 										</label>
 									</div>
 									<div>
 										<label> <input placeholder="密码" type="password"
-											name="pwd" tabindex="4" required="">
+											name="users.pwd" tabindex="4" required="">
 										</label>
 									</div>
 									<div>
