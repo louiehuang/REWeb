@@ -20,6 +20,7 @@
 <!-- Owl Carousel Assets -->
 <link href="js/owl-carousel/owl.carousel.css" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css" />
+
 <!-- Font Awesome -->
 <link href="font/css/font-awesome.min.css" rel="stylesheet">
 
@@ -119,22 +120,18 @@ body {
 		<div
 			style="border: solid 1px;color:gray;float:left;width:100%;height:auto;padding:10px 4px 10px 4px;">
 			<div align="left" class="container ">
-				<span><font size="4" color="black"><b> 区域：</b>
-					</fon></span> <a><span
+				<span><font size="4" color="black"><b> 区域：</b> </fon></span> <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:dodgerblue;">
 						不限</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;"> 福田</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 罗湖</span></a>&nbsp;&nbsp;
-				<a><span
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						罗湖</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;"> 南山</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 盐田</span></a>&nbsp;&nbsp;
-				<a><span
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						盐田</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;"> 宝安</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 龙岗</span></a>&nbsp;&nbsp;
-				<a><span
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						龙岗</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;">
 						龙华新区</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;">
@@ -149,8 +146,7 @@ body {
 			<div align="left" class="container">
 				<span><font size="4" color="black"><b> 均价：</b></font></span> <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:dodgerblue;">不限</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;">
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
 						1万以下</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;">
 						1-1.5万</span></a>&nbsp;&nbsp; <a><span
@@ -165,39 +161,34 @@ body {
 			<div align="left" class="container">
 				<span><font size="4" color="black"><b> 户型：</b></font></span> <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:dodgerblue;">不限</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 一房</span></a>&nbsp;&nbsp;
-				<a><span
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						一房</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;"> 二房</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 三房</span></a>&nbsp;&nbsp;
-				<a><span
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						三房</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;"> 四房</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 五房</span></a>&nbsp;&nbsp;
-				<a><span
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						五房</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;">
 						五房以上</span></a>&nbsp;&nbsp;
 			</div>
 			<div align="left" class="container">
 				<span> <font size="4" color="black"><b>类型：</b></font></span> <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:dodgerblue;">不限</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;">
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
 						普通住宅</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;">
 						复式住宅</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;">
 						商住两用</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;"> 别墅</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 商铺</span></a>&nbsp;&nbsp;
-				<a><span
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						商铺</span></a>&nbsp;&nbsp; <a><span
 					style="font-size:14px;font-family: '微软雅黑';color:black;"> 写字楼</span></a>&nbsp;&nbsp;
-				<a><span
-					style="font-size:14px;font-family: '微软雅黑';color:black;"> 厂房</span></a>&nbsp;&nbsp;
-				<select style="font-size:14px;font-family: '微软雅黑';color:black;"
-					name="more"><option selected="selected">更多</option></select>
+				<a><span style="font-size:14px;font-family: '微软雅黑';color:black;">
+						厂房</span></a>&nbsp;&nbsp; <select
+					style="font-size:14px;font-family: '微软雅黑';color:black;" name="more"><option
+						selected="selected">更多</option></select>
 			</div>
 		</div>
 		<div class="my-area">
@@ -262,6 +253,7 @@ body {
 			</div>
 		</div>
 	</div>
+	
 	<div class="container">
 		<div class="box">
 			<div class="img">
@@ -302,7 +294,7 @@ body {
 			</div>
 		</div>
 	</div>
-	</div>
+	
 	<div class="container">
 		<div class="box">
 			<div class="img">
@@ -343,9 +335,6 @@ body {
 			</div>
 		</div>
 	</div>
-	</div>
-	<br />
-	<br />
 
 	<!--底部导航-->
 	<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
