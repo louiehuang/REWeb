@@ -1,5 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
 
 <!DOCTYPE HTML>
 <html>
@@ -250,7 +255,9 @@
 				</div>
 				<!-- start grids_of_4 -->
 				<div class="grids_of_4">
-
+				
+<!-- 				循环c:foreach输出 -->
+					
 					<div class="grid1_of_4">
 						<a href="details.jsp"> <img src="images/lease_1.jpg" alt="" />
 							<div style="height: 30px; padding-left: 2%; text-align: left;">
@@ -269,6 +276,9 @@
 						</div>
 						</a>
 					</div>
+
+
+
 
 					<div class="grid1_of_4">
 						<a href="details.jsp"> <img src="images/lease_2.jpg" alt="" />

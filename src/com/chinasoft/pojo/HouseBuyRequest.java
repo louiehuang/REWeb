@@ -1,0 +1,180 @@
+package com.chinasoft.pojo;
+
+/**
+ * HouseBuyRequest entity. @author MyEclipse Persistence Tools
+ */
+
+public class HouseBuyRequest implements java.io.Serializable {
+
+	// Fields
+
+	private Integer HId;
+	private Region region;
+	private HouseType houseType;
+	private Integer UId;
+	private String title;
+	private String hdate;
+	private Double pirce;
+	private Double size;
+	private Integer houseFloor;
+	private Integer decoration;
+	private Integer orientation;
+	private String remark;
+	private Integer havailability;
+	private Integer hauthenticity;
+
+	// Constructors
+
+	/** default constructor */
+	public HouseBuyRequest() {
+	}
+
+	/** minimal constructor */
+	public HouseBuyRequest(Region region, HouseType houseType, Integer UId,
+			String hdate, Double pirce, Double size, Integer havailability,
+			Integer hauthenticity) {
+		this.region = region;
+		this.houseType = houseType;
+		this.UId = UId;
+		this.hdate = hdate;
+		this.pirce = pirce;
+		this.size = size;
+		this.havailability = havailability;
+		this.hauthenticity = hauthenticity;
+	}
+
+	/** full constructor */
+	public HouseBuyRequest(Region region, HouseType houseType, Integer UId,
+			String title, String hdate, Double pirce, Double size,
+			Integer houseFloor, Integer decoration, Integer orientation,
+			String remark, Integer havailability, Integer hauthenticity) {
+		this.region = region;
+		this.houseType = houseType;
+		this.UId = UId;
+		this.title = title;
+		this.hdate = hdate;
+		this.pirce = pirce;
+		this.size = size;
+		this.houseFloor = houseFloor;
+		this.decoration = decoration;
+		this.orientation = orientation;
+		this.remark = remark;
+		this.havailability = havailability;
+		this.hauthenticity = hauthenticity;
+	}
+
+	// Property accessors
+
+	public Integer getHId() {
+		return this.HId;
+	}
+
+	public void setHId(Integer HId) {
+		this.HId = HId;
+	}
+
+	public Region getRegion() {
+		return this.region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+	public HouseType getHouseType() {
+		return this.houseType;
+	}
+
+	public void setHouseType(HouseType houseType) {
+		this.houseType = houseType;
+	}
+
+	public Integer getUId() {
+		return this.UId;
+	}
+
+	public void setUId(Integer UId) {
+		this.UId = UId;
+	}
+
+	public String getTitle() {
+		return this.title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getHdate() {
+		return this.hdate;
+	}
+
+	public void setHdate(String hdate) {
+		this.hdate = hdate;
+	}
+
+	public Double getPirce() {
+		return this.pirce;
+	}
+
+	public void setPirce(Double pirce) {
+		this.pirce = pirce;
+	}
+
+	public Double getSize() {
+		return this.size;
+	}
+
+	public void setSize(Double size) {
+		this.size = size;
+	}
+
+	public Integer getHouseFloor() {
+		return this.houseFloor;
+	}
+
+	public void setHouseFloor(Integer houseFloor) {
+		this.houseFloor = houseFloor;
+	}
+
+	public Integer getDecoration() {
+		return this.decoration;
+	}
+
+	public void setDecoration(Integer decoration) {
+		this.decoration = decoration;
+	}
+
+	public Integer getOrientation() {
+		return this.orientation;
+	}
+
+	public void setOrientation(Integer orientation) {
+		this.orientation = orientation;
+	}
+
+	public String getRemark() {
+		return this.remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public Integer getHavailability() {
+		return this.havailability;
+	}
+
+	public void setHavailability(Integer havailability) {
+		this.havailability = havailability;
+	}
+
+	public Integer getHauthenticity() {
+		return this.hauthenticity;
+	}
+
+	public void setHauthenticity(Integer hauthenticity) {
+		this.hauthenticity = hauthenticity;
+	}
+
+}

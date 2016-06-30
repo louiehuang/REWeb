@@ -13,7 +13,7 @@
 <!--<link href='http://fonts.useso.com/css?family=Maven+Pro:400,900,700,500' rel='stylesheet' type='text/css'>-->
 <link href="css/index_nav_style.css" rel="stylesheet" type="text/css"
 	media="all" />
-	
+
 <!--- start-mmmenu-script---->
 <link href="css/jquery.mmenu.all.css" type="text/css" rel="stylesheet" />
 <link href="css/house_style.css" type="text/css" rel="stylesheet" />
@@ -64,28 +64,35 @@
 								<div class="clear"></div>
 							</div>
 						</a>
+						<!--注册表单 -->
 						<div class="registration_form">
 							<!-- Form -->
-							<form id="registration_form" action="UsersAction!registerJudge"
+							<form id="registration_form" action="um!register"
 								method="post">
 
 								<input type="hidden" name="request_type"
 									value="Register_Request" />
 
 								<div>
-									<label> <input placeholder="账号:" type="text"
-										name="users.username" tabindex="1" required="" autofocus="">
-									</label>
-
-								</div>
-								<div>
-									<label> <input placeholder="密码：" type="password"
-										name="users.pwd" tabindex="4" required="">
+									<label> <input placeholder="账号:" type="text" value="test"
+										name="users.UAccount" tabindex="1" required="" autofocus="">
 									</label>
 								</div>
+								
 								<div>
-									<label> <input placeholder="再次输入密码：" type="password"
-										name="users.pwd_confirm" tabindex="4" required="">
+									<label> <input placeholder="用户名:" type="text" value="testUser"
+										name="users.UName" tabindex="1" required="" autofocus="">
+									</label>
+								</div>		
+										
+								<div>
+									<label> <input placeholder="密码：" type="password" value="123"
+										name="users.UPwd" tabindex="4" required="">
+									</label>
+								</div>
+								<div>
+									<label> <input placeholder="再次输入密码：" type="password" value="123"
+										tabindex="4" required="">
 									</label>
 									<!--<label>
 						<input placeholder="last name:" type="text" tabindex="2" required="" autofocus="">
@@ -100,14 +107,14 @@
 									</ul>
 								</div>
 								<div>
-									<label> <input placeholder="邮箱地址:" name="users.email"
+									<label> <input placeholder="邮箱地址:" name="users.UEmail" value="1015110020@qq.com"
 										style="text-transform: none;" type="email" tabindex="3"
 										required="">
 									</label>
 								</div>
 								<div>
-									<label> <input placeholder="手机号码:" type="text"
-										name="users.tele" tabindex="5" required="">
+									<label> <input placeholder="手机号码:" type="text" value="15920000000"
+										name="users.UTele" tabindex="5" required="">
 									</label>
 								</div>
 								<div></div>
@@ -116,8 +123,9 @@
 										id="register-submit">
 								</div>
 								<div class="sky_form">
-									<label class="checkbox"><input type="checkbox"
-										name="checkbox"><i>我同意<a class="terms" href="#">
+									<label class="checkbox">
+									<input type="checkbox" name="checkbox" required="">
+										<i>我同意<a class="terms" href="#">
 												服务条款</a>
 									</i></label>
 								</div>
@@ -189,7 +197,7 @@
 							</a>
 							<div class="registration_form">
 								<!-- Form -->
-								<form id="registration_form" action="UsersAction!loginJudge"
+								<form id="registration_form" action="um!login"
 									method="post">
 
 									<!--隐藏域 -->
@@ -197,12 +205,12 @@
 
 									<div>
 										<label> <input placeholder="账号:" type="text"
-											name="users.username" tabindex="3" required="">
+											name="users.UAccount" tabindex="3" required="">
 										</label>
 									</div>
 									<div>
 										<label> <input placeholder="密码" type="password"
-											name="users.pwd" tabindex="4" required="">
+											name="users.UPwd" tabindex="4" required="">
 										</label>
 									</div>
 									<div>

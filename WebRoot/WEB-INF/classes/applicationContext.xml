@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 
-	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="url"
 			value="jdbc:sqlserver://127.0.0.1:1433;databaseName=RealEstate">
 		</property>
@@ -26,4 +23,153 @@
 				</prop>
 			</props>
 		</property>
-	</bean></beans>
+		<property name="mappingResources">
+			<list>
+				<value>com/chinasoft/pojo/HouseSellRent.hbm.xml</value>
+				<value>
+					com/chinasoft/pojo/EnterpriseUsers.hbm.xml
+				</value>
+				<value>com/chinasoft/pojo/Colletion.hbm.xml</value>
+				<value>com/chinasoft/pojo/Administrator.hbm.xml</value>
+				<value>
+					com/chinasoft/pojo/HouseSellEnterprise.hbm.xml
+				</value>
+				<value>com/chinasoft/pojo/Users.hbm.xml</value>
+				<value>com/chinasoft/pojo/Comment.hbm.xml</value>
+				<value>
+					com/chinasoft/pojo/HouseSellSecondhand.hbm.xml
+				</value>
+				<value>com/chinasoft/pojo/Region.hbm.xml</value>
+				<value>com/chinasoft/pojo/HouseType.hbm.xml</value>
+				<value>com/chinasoft/pojo/Transactions.hbm.xml</value>
+				<value>com/chinasoft/pojo/HouseBuyRent.hbm.xml</value>
+				<value>
+					com/chinasoft/pojo/HouseBuyRequest.hbm.xml
+				</value>
+				<value>com/chinasoft/pojo/Advertisement.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+
+
+	<bean id="HouseSellRentDAO" class="com.chinasoft.dao.HouseSellRentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="HouseSellRentService" class="com.chinasoft.service.HouseSellRentService">
+		<property name="houseSellRentDAO">
+			<ref bean="HouseSellRentDAO" />
+		</property>
+	</bean>
+	<bean id="HouseSellRentAction" class="com.chinasoft.action.HouseSellRentAction">
+		<property name="houseSellRentService">
+			<ref bean="HouseSellRentService" />
+		</property>
+	</bean>
+
+
+
+
+
+	<bean id="EnterpriseUsersDAO" class="com.chinasoft.dao.EnterpriseUsersDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="ColletionDAO" class="com.chinasoft.dao.ColletionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AdministratorDAO" class="com.chinasoft.dao.AdministratorDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="HouseSellEnterpriseDAO" class="com.chinasoft.dao.HouseSellEnterpriseDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+
+
+
+	<bean id="UsersDAO" class="com.chinasoft.dao.UsersDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="UsersService" class="com.chinasoft.service.UsersService">
+		<property name="usersDAO">
+			<ref bean="UsersDAO" />
+		</property>
+	</bean>
+	<bean id="UsersAction" class="com.chinasoft.action.UsersAction">
+		<property name="service">
+			<ref bean="UsersService" />
+		</property>
+	</bean>
+
+
+
+
+
+	<bean id="CommentDAO" class="com.chinasoft.dao.CommentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="HouseSellSecondhandDAO" class="com.chinasoft.dao.HouseSellSecondhandDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="RegionDAO" class="com.chinasoft.dao.RegionDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+
+	<bean id="HouseTypeDAO" class="com.chinasoft.dao.HouseTypeDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="HouseTypeService" class="com.chinasoft.service.HouseTypeService">
+		<property name="houseTypeDAO">
+			<ref bean="HouseTypeDAO" />
+		</property>
+	</bean>
+	<bean id="HouseTypeAction" class="com.chinasoft.action.HouseTypeAction">
+		<property name="houseTypeService">
+			<ref bean="HouseTypeService" />
+		</property>
+	</bean>
+
+
+
+	<bean id="TransactionsDAO" class="com.chinasoft.dao.TransactionsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="HouseBuyRentDAO" class="com.chinasoft.dao.HouseBuyRentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="HouseBuyRequestDAO" class="com.chinasoft.dao.HouseBuyRequestDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AdvertisementDAO" class="com.chinasoft.dao.AdvertisementDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+</beans>
