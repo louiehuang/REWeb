@@ -1,0 +1,22 @@
+body{
+    width:100%;
+    text-align:center;
+    height:auto;
+    margin:30px;
+    padding:0;
+  background: #faf2dc;
+}
+.div1{border:black ;width: 80%;height:auto;float:left;}
+.divi2{
+    width: 80%;
+    height:200px;
+    text-align: top;
+}
+.container-padding{
+	padding-bottom: 35px;
+}
+.my-btn{
+	width:90px;
+	height:45px;
+	margin:20px 0;
+}
