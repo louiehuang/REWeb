@@ -10,6 +10,7 @@ import com.chinasoft.service.HouseSellRentService;
 import com.chinasoft.service.HouseSellSecondhandService;
 
 public class IndexAction {
+	static int i = 1;
 
 	/**
 	 * 出租房屋服务
@@ -100,16 +101,25 @@ public class IndexAction {
 	 * @return
 	 */
 	public String LoadInfo() {
-		houseSellRentList = houseSellRentService.getRentInfo();
-		houseSellEnterpriseList = houseSellEnterpriseService.getSellNewInfo();
-		houseSellSecondhandList = houseSellSecondhandService.getSellOldInfo();
 
-		if (houseSellEnterpriseList != null && houseSellRentList != null
-				&& houseSellSecondhandList != null) {
-			return "success";
-		} else {
+		try {
+			houseSellRentList = houseSellRentService.getRentInfo(); // 房屋出租信息
+			
+			houseSellEnterpriseList = houseSellEnterpriseService
+					.getSellNewInfo(); // 新房出售信息
+			
+			houseSellSecondhandList = houseSellSecondhandService
+					.getSellOldInfo(); // 二手房出售信息
+
+//			System.out.println("第" + i + "次完成加载信息");
+//			i++;
+
+		} catch (Exception e) {
+			System.out.println(e);
 			return "error";
 		}
+
+		return "success";
 
 	}
 
@@ -124,6 +134,10 @@ public class IndexAction {
 
 	public List<HouseSellRent> Test2() {
 		return houseSellRentService.getRentInfo();
+	}
+	
+	public List<HouseSellRent> TestAll() {
+		return houseSellRentService.findAll();
 	}
 
 }

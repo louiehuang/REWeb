@@ -27,6 +27,7 @@ public class Users implements java.io.Serializable {
 
 	/** default constructor */
 	public Users() {
+		UCredit = 1;
 	}
 
 	/** minimal constructor */

@@ -65,10 +65,14 @@
 
 <body>
 	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<iframe src="nav_model/header_nav.html" width="100%" height="120px"
-		style="border: 0px;" scrolling="no"></iframe>
-
-
+	<% if (session.getAttribute("users") == null) { %>
+	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
+		height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<% } else { %>
+	<iframe id="header_nav" src="nav_model/header_nav_after.jsp" width="100%"
+		height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<% }%>
+	
 	<!-- start slider -->
 	<div class="slider">
 		<!---start-image-slider---->

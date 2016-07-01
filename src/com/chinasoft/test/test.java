@@ -32,6 +32,9 @@ public class test {
 		IndexAction action = (IndexAction) context.getBean("IndexAction");
 		
 		List<HouseSellRent> list = action.Test2();	
+
+//		List<HouseSellRent> list = action.TestAll();
+		
 		for(int i = 0; i < list.size(); i++)
 		{
 			HouseSellRent temp = list.get(i); //出租信息
@@ -43,14 +46,14 @@ public class test {
 		}
 		
 		
-		List<HouseSellEnterprise> list2 = action.Test1();	
-		for(int i = 0; i < list2.size(); i++)
-		{
-			HouseSellEnterprise temp = list2.get(i); //新房信息
-			
-			System.out.print(temp.getTitle() + " ");
-			System.out.println(temp.getRegion().getCounty());	
-		}
+//		List<HouseSellEnterprise> list2 = action.Test1();	
+//		for(int i = 0; i < list2.size(); i++)
+//		{
+//			HouseSellEnterprise temp = list2.get(i); //新房信息
+//			
+//			System.out.print(temp.getTitle() + " ");
+//			System.out.println(temp.getRegion().getCounty());	
+//		}
 		
 		
 	}

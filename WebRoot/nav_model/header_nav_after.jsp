@@ -1,3 +1,10 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
 <!DOCTYPE html>
 <html>
 
@@ -40,7 +47,7 @@
 <body>
 
 	<!-- start header -->
-	<div class="top_bg" >
+	<div class="top_bg">
 		<div class="wrap">
 			<div class="header">
 				<!--<div class="logo">
@@ -48,9 +55,11 @@
 					</div>-->
 				<div class="log_reg">
 					<ul>
-						<li><a id="header_a_log" href="../testOutput.jsp" target="_parent">登陆</a></li>
+						<li><a id="header_a_log" href="../center_p_mine.jsp"
+							target="_parent">个人中心</a></li>
 						<span class="log"> </span>
-						<li><a id="header_a_reg" href="../register.jsp"" target="_parent">注册</a></li>
+						<li><a id="header_a_reg" href="<%=basePath %>um!signOut"
+							" target="_parent">退出登陆</a></li>
 						<div class="clear"></div>
 					</ul>
 				</div>

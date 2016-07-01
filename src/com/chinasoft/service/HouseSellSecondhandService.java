@@ -20,7 +20,8 @@ public class HouseSellSecondhandService {
 	
 	public List<HouseSellSecondhand> getSellOldInfo()
 	{
-		return houseSellSecondhandDAO.getSellOldInfo();
+		return houseSellSecondhandDAO.findAll();
+//		return houseSellSecondhandDAO.getSellOldInfo();
 	}
 	
 	

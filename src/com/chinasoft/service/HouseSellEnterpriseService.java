@@ -21,9 +21,9 @@ public class HouseSellEnterpriseService {
 
 	
 	public List<HouseSellEnterprise> getSellNewInfo(){
-//		return houseSellEnterpriseDAO.findAll();
+		return houseSellEnterpriseDAO.findAll();
 		
-		return houseSellEnterpriseDAO.getSellNewInfo();
+//		return houseSellEnterpriseDAO.getSellNewInfo();
 	}
 	
 	

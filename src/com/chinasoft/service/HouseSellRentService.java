@@ -17,7 +17,9 @@ public class HouseSellRentService {
 	}
 	
 	public List<HouseSellRent> getRentInfo(){
-		List<HouseSellRent> list = houseSellRentDAO.getRentInfo();
+//		List<HouseSellRent> list = houseSellRentDAO.getRentInfo();
+		List<HouseSellRent> list = houseSellRentDAO.findAll();
+		
 		int length = list.size();
 //		return list.subList(length - 4, length); //返回最后4条
 		

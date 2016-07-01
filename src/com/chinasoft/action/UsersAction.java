@@ -1,5 +1,9 @@
 package com.chinasoft.action;
 
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.chinasoft.pojo.Users;
 import com.chinasoft.service.UsersService;
 
@@ -7,6 +11,7 @@ public class UsersAction {
 	private UsersService service; //业务接口对象，有Spring，在这个类中不用new，只用get和set
 	private Users users; //用户对象
 	private String msg; //返回页面的值
+	private HttpSession session;
 
 	public UsersService getService() {
 		return service;
@@ -37,14 +42,29 @@ public class UsersAction {
 	public String login(){
 		Users users1 = service.login(users);
 		if(users1 != null){
-			//存到session
-			msg = "登陆成功";
-			return "success";
+			//users存入session
+			session = ServletActionContext.getRequest().getSession();
+			session.setAttribute("users", users);
+			
+//			System.out.println("登陆成功, " + users);
+//			msg = "登陆成功";
+			return "logsuccess";
 		}
 		else{
-			msg = "登陆失败";
+//			msg = "登陆失败";
 			return "error";
 		}
+	}
+	
+	/**
+	 * 退出登陆
+	 * 移出session中users
+	 * @return
+	 */
+	public String signOut(){
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		session.removeAttribute("users");
+		return "signout";
 	}
 	
 	public Users loiginTest(Users users){
@@ -56,11 +76,13 @@ public class UsersAction {
 		
 		if(flag == true){
 			//存到session
-			msg = "注册成功";
-			return "success";
+			session = ServletActionContext.getRequest().getSession();
+			session.setAttribute("users", users);
+//			msg = "注册成功";
+			return "regsuccess";
 		}
 		else{
-			msg = "注册失败";
+//			msg = "注册失败";
 			return "error";
 		}
 	}

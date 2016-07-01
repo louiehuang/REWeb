@@ -162,9 +162,6 @@
 		</property>
 	</bean>
 	
-
-	
-	
 	
 	<bean id="RegionDAO" class="com.chinasoft.dao.RegionDAO">
 		<property name="sessionFactory">

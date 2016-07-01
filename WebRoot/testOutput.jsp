@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%
 	String path = request.getContextPath();
@@ -41,10 +41,12 @@
 
 <body>
 
-	<!-- 	<c:forEach var="house" items="${list}"> -->
-	<!-- 		<div>${house.community}</div> -->
-	<!-- 		<div>${house.houseType.name}</div> -->
-	<!-- 	</c:forEach> -->
+	<%
+    HttpSession s = request.getSession(); 
+    %>
+	得到Session的值是
+	<%=s.getAttribute("users") %>
+
 
 	<div class="grids_of_4">
 		<!-- 				循环c:foreach输出 -->
@@ -87,8 +89,8 @@
 
 				<div style="height: 40px;">
 					<!--split切分，取第一个价格 -->
-					<span class="grid1_of_4_priceCell">${fn:split(house.price,";")[0] }元/㎡</span> <span
-						class="grid1_of_4_commentCell">房评3条</span>
+					<span class="grid1_of_4_priceCell">${fn:split(house.price,";")[0] }元/㎡</span>
+					<span class="grid1_of_4_commentCell">房评3条</span>
 				</div>
 			</div>
 		</c:forEach>

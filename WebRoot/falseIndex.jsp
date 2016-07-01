@@ -10,12 +10,12 @@
 <html>
 <head>
 <base href="<%=basePath%>">
+
 <script language="JavaScript">
- window.location.href = 'im!LoadInfo';
+	window.location.href = 'im!LoadInfo';
 </script>
 
 <title>主页</title>
-
 </head>
 
 <body>

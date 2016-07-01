@@ -70,14 +70,19 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 	//	获取出租表前4条信息
 	@SuppressWarnings("unchecked")
 	public List<HouseSellRent> getRentInfo(){
-		//System.out.println("query");
-		session = this.getSession();
-		Query query = session.createQuery("from HouseSellRent");
-		//query.setFirstResult(0); 
-		//query.setMaxResults(num);
-		List<HouseSellRent> list = query.list();
-		
-		//session.close();
+		List<HouseSellRent> list = null;
+
+		try {
+			session = this.getSession();
+			Query query = session.createQuery("from HouseSellRent");
+			//query.setFirstResult(0); 
+			//query.setMaxResults(num);
+			list = query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}finally{
+			session.close();
+		}
 		
 		return list;
 	}
