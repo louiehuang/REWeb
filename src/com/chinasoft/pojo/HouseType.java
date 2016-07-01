@@ -12,7 +12,7 @@ public class HouseType implements java.io.Serializable {
 	// Fields
 
 	private Integer htypeId;
-	private String htypeName;
+	private String name;
 	private String remark;
 	private Set houseSellRents = new HashSet(0);
 	private Set houseSellSecondhands = new HashSet(0);
@@ -27,15 +27,15 @@ public class HouseType implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public HouseType(String htypeName) {
-		this.htypeName = htypeName;
+	public HouseType(String name) {
+		this.name = name;
 	}
 
 	/** full constructor */
-	public HouseType(String htypeName, String remark, Set houseSellRents,
+	public HouseType(String name, String remark, Set houseSellRents,
 			Set houseSellSecondhands, Set houseBuyRents, Set houseBuyRequests,
 			Set houseSellEnterprises) {
-		this.htypeName = htypeName;
+		this.name = name;
 		this.remark = remark;
 		this.houseSellRents = houseSellRents;
 		this.houseSellSecondhands = houseSellSecondhands;
@@ -54,12 +54,12 @@ public class HouseType implements java.io.Serializable {
 		this.htypeId = htypeId;
 	}
 
-	public String getHtypeName() {
-		return this.htypeName;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setHtypeName(String htypeName) {
-		this.htypeName = htypeName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getRemark() {

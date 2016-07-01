@@ -22,11 +22,11 @@
         <property name="title" type="java.lang.String">
             <column name="Title" />
         </property>
-        <property name="price" type="java.lang.Double">
-            <column name="Price" precision="53" scale="0" not-null="true" />
-        </property>
         <property name="pics" type="java.lang.String">
             <column name="Pics" />
+        </property>
+        <property name="price" type="java.lang.Double">
+            <column name="Price" precision="53" scale="0" not-null="true" />
         </property>
         <property name="size" type="java.lang.Double">
             <column name="Size" precision="53" scale="0" not-null="true" />

@@ -13,12 +13,12 @@ public class HouseSellEnterprise implements java.io.Serializable {
 	private HouseType houseType;
 	private EnterpriseUsers enterpriseUsers;
 	private String title;
+	private String pics;
 	private Integer totalNum;
 	private Integer selledNum;
 	private String addr;
 	private String openingDate;
 	private String finishDate;
-	private String pics;
 	private String price;
 	private String downpayment;
 	private String mainType;
@@ -53,24 +53,24 @@ public class HouseSellEnterprise implements java.io.Serializable {
 
 	/** full constructor */
 	public HouseSellEnterprise(Region region, HouseType houseType,
-			EnterpriseUsers enterpriseUsers, String title, Integer totalNum,
-			Integer selledNum, String addr, String openingDate,
-			String finishDate, String pics, String price, String downpayment,
-			String mainType, String size, String buildingName,
-			String developerName, Integer planningNum, Integer parkingNum,
-			Double manaFee, String propertyName, Double greeningRate,
-			Double builtupArea, Double langArea, Integer hauthenticity,
-			String remark) {
+			EnterpriseUsers enterpriseUsers, String title, String pics,
+			Integer totalNum, Integer selledNum, String addr,
+			String openingDate, String finishDate, String price,
+			String downpayment, String mainType, String size,
+			String buildingName, String developerName, Integer planningNum,
+			Integer parkingNum, Double manaFee, String propertyName,
+			Double greeningRate, Double builtupArea, Double langArea,
+			Integer hauthenticity, String remark) {
 		this.region = region;
 		this.houseType = houseType;
 		this.enterpriseUsers = enterpriseUsers;
 		this.title = title;
+		this.pics = pics;
 		this.totalNum = totalNum;
 		this.selledNum = selledNum;
 		this.addr = addr;
 		this.openingDate = openingDate;
 		this.finishDate = finishDate;
-		this.pics = pics;
 		this.price = price;
 		this.downpayment = downpayment;
 		this.mainType = mainType;
@@ -130,6 +130,14 @@ public class HouseSellEnterprise implements java.io.Serializable {
 		this.title = title;
 	}
 
+	public String getPics() {
+		return this.pics;
+	}
+
+	public void setPics(String pics) {
+		this.pics = pics;
+	}
+
 	public Integer getTotalNum() {
 		return this.totalNum;
 	}
@@ -168,14 +176,6 @@ public class HouseSellEnterprise implements java.io.Serializable {
 
 	public void setFinishDate(String finishDate) {
 		this.finishDate = finishDate;
-	}
-
-	public String getPics() {
-		return this.pics;
-	}
-
-	public void setPics(String pics) {
-		this.pics = pics;
 	}
 
 	public String getPrice() {

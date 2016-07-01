@@ -29,13 +29,13 @@
 				<value>
 					com/chinasoft/pojo/EnterpriseUsers.hbm.xml
 				</value>
-				<value>com/chinasoft/pojo/Colletion.hbm.xml</value>
 				<value>com/chinasoft/pojo/Administrator.hbm.xml</value>
 				<value>
 					com/chinasoft/pojo/HouseSellEnterprise.hbm.xml
 				</value>
 				<value>com/chinasoft/pojo/Users.hbm.xml</value>
 				<value>com/chinasoft/pojo/Comment.hbm.xml</value>
+				<value>com/chinasoft/pojo/Collect.hbm.xml</value>
 				<value>
 					com/chinasoft/pojo/HouseSellSecondhand.hbm.xml
 				</value>
@@ -50,7 +50,6 @@
 			</list>
 		</property>
 	</bean>
-
 
 
 	<bean id="HouseSellRentDAO" class="com.chinasoft.dao.HouseSellRentDAO">
@@ -71,14 +70,23 @@
 
 
 
+	<!-- Index配置 -->
+	<!-- HouseSellRentService、	HouseSellEnterpriseService -->
+	<bean id="IndexAction" class="com.chinasoft.action.IndexAction">
+		<property name="houseSellRentService">
+			<ref bean="HouseSellRentService" />
+		</property>
+		<property name="houseSellEnterpriseService">
+			<ref bean="HouseSellEnterpriseService" />
+		</property>
+	</bean>
+
+
+
+
 
 
 	<bean id="EnterpriseUsersDAO" class="com.chinasoft.dao.EnterpriseUsersDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="ColletionDAO" class="com.chinasoft.dao.ColletionDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
@@ -88,9 +96,22 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+
+
+
 	<bean id="HouseSellEnterpriseDAO" class="com.chinasoft.dao.HouseSellEnterpriseDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="HouseSellEnterpriseService" class="com.chinasoft.service.HouseSellEnterpriseService">
+		<property name="houseSellEnterpriseDAO">
+			<ref bean="HouseSellEnterpriseDAO" />
+		</property>
+	</bean>
+	<bean id="HouseSellEnterpriseAction" class="com.chinasoft.action.HouseSellEnterpriseAction">
+		<property name="houseSellEnterpriseService">
+			<ref bean="HouseSellEnterpriseService" />
 		</property>
 	</bean>
 
@@ -115,9 +136,12 @@
 
 
 
-
-
 	<bean id="CommentDAO" class="com.chinasoft.dao.CommentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CollectDAO" class="com.chinasoft.dao.CollectDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
@@ -132,6 +156,7 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+
 
 
 	<bean id="HouseTypeDAO" class="com.chinasoft.dao.HouseTypeDAO">

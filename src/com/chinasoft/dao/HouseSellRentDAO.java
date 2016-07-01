@@ -8,7 +8,6 @@ import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.chinasoft.pojo.HouseSellRent;
@@ -31,6 +30,7 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 	
 	public static final String _UID = "UId";
 	public static final String TITLE = "title";
+	public static final String PICS = "pics";
 	public static final String PRICE = "price";
 	public static final String SIZE = "size";
 	public static final String HOUSE_FLOOR = "houseFloor";
@@ -55,25 +55,6 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 			throw re;
 		}
 	}
-	
-	
-	//	获取出租表前4条信息
-	@SuppressWarnings("unchecked")
-	public List<HouseSellRent> getIndex_HouseSellRents(){
-		System.out.println("query");
-		
-		session = this.getSession();
-		Query query = session.createQuery("from HouseSellRent");
-		query.setFirstResult(0); 
-		query.setMaxResults(4);
-		
-		List<HouseSellRent> list = query.list();
-		
-		//session.close();
-		
-		return list;
-	}
-	
 
 	public void delete(HouseSellRent persistentInstance) {
 		log.debug("deleting HouseSellRent instance");
@@ -84,6 +65,21 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 			log.error("delete failed", re);
 			throw re;
 		}
+	}
+	
+	//	获取出租表前4条信息
+	@SuppressWarnings("unchecked")
+	public List<HouseSellRent> getRentInfo(){
+		//System.out.println("query");
+		session = this.getSession();
+		Query query = session.createQuery("from HouseSellRent");
+		//query.setFirstResult(0); 
+		//query.setMaxResults(num);
+		List<HouseSellRent> list = query.list();
+		
+		//session.close();
+		
+		return list;
 	}
 
 	public HouseSellRent findById(java.lang.Integer id) {
@@ -130,6 +126,10 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 
 	public List findByTitle(Object title) {
 		return findByProperty(TITLE, title);
+	}
+
+	public List findByPics(Object pics) {
+		return findByProperty(PICS, pics);
 	}
 
 	public List findByPrice(Object price) {

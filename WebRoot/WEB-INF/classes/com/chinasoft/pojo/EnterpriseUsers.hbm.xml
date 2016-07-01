@@ -10,6 +10,9 @@
             <column name="U_id" />
             <generator class="native" />
         </id>
+        <property name="UAccount" type="java.lang.String">
+            <column name="U_account" not-null="true" />
+        </property>
         <property name="UPwd" type="java.lang.String">
             <column name="U_pwd" not-null="true" />
         </property>
@@ -18,6 +21,9 @@
         </property>
         <property name="UInfo" type="java.lang.String">
             <column name="U_info" />
+        </property>
+        <property name="UHeader" type="java.lang.String">
+            <column name="U_header" />
         </property>
         <property name="UAddr" type="java.lang.String">
             <column name="U_addr" />

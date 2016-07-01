@@ -27,8 +27,8 @@ public class HouseSellSecondhandDAO extends HibernateDaoSupport {
 	// property constants
 	public static final String _UID = "UId";
 	public static final String TITLE = "title";
-	public static final String PRICE = "price";
 	public static final String PICS = "pics";
+	public static final String PRICE = "price";
 	public static final String SIZE = "size";
 	public static final String HOUSE_FLOOR = "houseFloor";
 	public static final String DECORATION = "decoration";
@@ -110,12 +110,12 @@ public class HouseSellSecondhandDAO extends HibernateDaoSupport {
 		return findByProperty(TITLE, title);
 	}
 
-	public List findByPrice(Object price) {
-		return findByProperty(PRICE, price);
-	}
-
 	public List findByPics(Object pics) {
 		return findByProperty(PICS, pics);
+	}
+
+	public List findByPrice(Object price) {
+		return findByProperty(PRICE, price);
 	}
 
 	public List findBySize(Object size) {

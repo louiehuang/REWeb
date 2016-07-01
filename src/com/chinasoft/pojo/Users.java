@@ -20,14 +20,13 @@ public class Users implements java.io.Serializable {
 	private Integer UCredit;
 	private String UTele;
 	private String UEmail;
-	private Set colletions = new HashSet(0);
+	private Set collects = new HashSet(0);
 	private Set comments = new HashSet(0);
 
 	// Constructors
 
 	/** default constructor */
 	public Users() {
-		UCredit = 1;
 	}
 
 	/** minimal constructor */
@@ -41,7 +40,7 @@ public class Users implements java.io.Serializable {
 	/** full constructor */
 	public Users(String UAccount, String UPwd, String UName, String UGender,
 			String UHeader, Integer UCredit, String UTele, String UEmail,
-			Set colletions, Set comments) {
+			Set collects, Set comments) {
 		this.UAccount = UAccount;
 		this.UPwd = UPwd;
 		this.UName = UName;
@@ -50,7 +49,7 @@ public class Users implements java.io.Serializable {
 		this.UCredit = UCredit;
 		this.UTele = UTele;
 		this.UEmail = UEmail;
-		this.colletions = colletions;
+		this.collects = collects;
 		this.comments = comments;
 	}
 
@@ -128,12 +127,12 @@ public class Users implements java.io.Serializable {
 		this.UEmail = UEmail;
 	}
 
-	public Set getColletions() {
-		return this.colletions;
+	public Set getCollects() {
+		return this.collects;
 	}
 
-	public void setColletions(Set colletions) {
-		this.colletions = colletions;
+	public void setCollects(Set collects) {
+		this.collects = collects;
 	}
 
 	public Set getComments() {

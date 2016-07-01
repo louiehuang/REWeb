@@ -49,18 +49,6 @@ public class UsersDAO extends HibernateDaoSupport {
 		}
 	}
 
-	public void saveUser(Users transientInstance) {
-
-		log.debug("saving Users instance");
-		try {
-			getHibernateTemplate().save(transientInstance);
-			log.debug("save successful");
-		} catch (RuntimeException re) {
-			log.error("save failed", re);
-			throw re;
-		}
-	}
-
 	public void delete(Users persistentInstance) {
 		log.debug("deleting Users instance");
 		try {
@@ -173,17 +161,6 @@ public class UsersDAO extends HibernateDaoSupport {
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
-			throw re;
-		}
-	}
-
-	public void update(Users instance) {
-		log.debug("updating dirty Users instance");
-		try {
-			this.getHibernateTemplate().update(instance);
-			log.debug("update successful");
-		} catch (RuntimeException re) {
-			log.error("update failed", re);
 			throw re;
 		}
 	}

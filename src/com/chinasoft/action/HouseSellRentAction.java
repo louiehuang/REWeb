@@ -35,11 +35,9 @@ public class HouseSellRentAction {
 		this.list = list;
 	}
 
-	public String getIndex_HouseSellRents() {
-
-		list = houseSellRentService.getIndex_HouseSellRents();
+	public String getRentInfo() {
+		list = houseSellRentService.getRentInfo();
 //		list = houseSellRentService.findAll();
-		
 		
 		if (list != null) {
 			return "success";
@@ -48,8 +46,10 @@ public class HouseSellRentAction {
 		}
 	}
 	
+	
+	
 	public List<HouseSellRent> Test1() {
-		return houseSellRentService.getIndex_HouseSellRents();
+		return houseSellRentService.getRentInfo();
 	}
 	
 	public List<HouseSellRent> Test2() {

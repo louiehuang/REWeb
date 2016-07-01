@@ -10,8 +10,8 @@
             <column name="HType_id" />
             <generator class="native" />
         </id>
-        <property name="htypeName" type="java.lang.String">
-            <column name="HType_name" not-null="true" />
+        <property name="name" type="java.lang.String">
+            <column name="name" not-null="true" />
         </property>
         <property name="remark" type="java.lang.String">
             <column name="Remark" />

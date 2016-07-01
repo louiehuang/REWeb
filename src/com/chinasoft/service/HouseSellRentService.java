@@ -16,12 +16,15 @@ public class HouseSellRentService {
 		this.houseSellRentDAO = houseSellRentDAO;
 	}
 	
-	public List<HouseSellRent> getIndex_HouseSellRents(){
-		return houseSellRentDAO.getIndex_HouseSellRents();
-//		return houseSellRentDAO.findAll();
+	public List<HouseSellRent> getRentInfo(){
+		List<HouseSellRent> list = houseSellRentDAO.getRentInfo();
+		int length = list.size();
+//		return list.subList(length - 4, length); //返回最后4条
 		
+		return list.subList(0, 4); //返回前4条
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<HouseSellRent> findAll(){
 		return houseSellRentDAO.findAll().subList(0, 4);
 	}

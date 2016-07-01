@@ -16,10 +16,12 @@ public class Region implements java.io.Serializable {
 	private String city;
 	private String county;
 	private Set houseBuyRents = new HashSet(0);
+	private Set houseSellRents = new HashSet(0);
 	private Set houseBuyRequests = new HashSet(0);
 	private Set houseSellEnterprises = new HashSet(0);
 	private Set houseSellSecondhands = new HashSet(0);
-	private Set houseSellRents = new HashSet(0);
+	private Set houseSellRents_1 = new HashSet(0);
+	private Set houseSellRents_2 = new HashSet(0);
 
 	// Constructors
 
@@ -36,16 +38,19 @@ public class Region implements java.io.Serializable {
 
 	/** full constructor */
 	public Region(String province, String city, String county,
-			Set houseBuyRents, Set houseBuyRequests, Set houseSellEnterprises,
-			Set houseSellSecondhands, Set houseSellRents) {
+			Set houseBuyRents, Set houseSellRents, Set houseBuyRequests,
+			Set houseSellEnterprises, Set houseSellSecondhands,
+			Set houseSellRents_1, Set houseSellRents_2) {
 		this.province = province;
 		this.city = city;
 		this.county = county;
 		this.houseBuyRents = houseBuyRents;
+		this.houseSellRents = houseSellRents;
 		this.houseBuyRequests = houseBuyRequests;
 		this.houseSellEnterprises = houseSellEnterprises;
 		this.houseSellSecondhands = houseSellSecondhands;
-		this.houseSellRents = houseSellRents;
+		this.houseSellRents_1 = houseSellRents_1;
+		this.houseSellRents_2 = houseSellRents_2;
 	}
 
 	// Property accessors
@@ -90,6 +95,14 @@ public class Region implements java.io.Serializable {
 		this.houseBuyRents = houseBuyRents;
 	}
 
+	public Set getHouseSellRents() {
+		return this.houseSellRents;
+	}
+
+	public void setHouseSellRents(Set houseSellRents) {
+		this.houseSellRents = houseSellRents;
+	}
+
 	public Set getHouseBuyRequests() {
 		return this.houseBuyRequests;
 	}
@@ -114,12 +127,20 @@ public class Region implements java.io.Serializable {
 		this.houseSellSecondhands = houseSellSecondhands;
 	}
 
-	public Set getHouseSellRents() {
-		return this.houseSellRents;
+	public Set getHouseSellRents_1() {
+		return this.houseSellRents_1;
 	}
 
-	public void setHouseSellRents(Set houseSellRents) {
-		this.houseSellRents = houseSellRents;
+	public void setHouseSellRents_1(Set houseSellRents_1) {
+		this.houseSellRents_1 = houseSellRents_1;
+	}
+
+	public Set getHouseSellRents_2() {
+		return this.houseSellRents_2;
+	}
+
+	public void setHouseSellRents_2(Set houseSellRents_2) {
+		this.houseSellRents_2 = houseSellRents_2;
 	}
 
 }

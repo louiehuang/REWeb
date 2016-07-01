@@ -22,6 +22,9 @@
         <property name="title" type="java.lang.String">
             <column name="Title" />
         </property>
+        <property name="pics" type="java.lang.String">
+            <column name="Pics" />
+        </property>
         <property name="totalNum" type="java.lang.Integer">
             <column name="TotalNum" />
         </property>
@@ -36,9 +39,6 @@
         </property>
         <property name="finishDate" type="java.lang.String">
             <column name="Finish_date" length="20" />
-        </property>
-        <property name="pics" type="java.lang.String">
-            <column name="Pics" />
         </property>
         <property name="price" type="java.lang.String">
             <column name="Price" not-null="true" />

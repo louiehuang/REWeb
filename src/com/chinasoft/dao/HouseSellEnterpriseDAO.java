@@ -5,10 +5,13 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.chinasoft.pojo.HouseSellEnterprise;
+import com.chinasoft.pojo.HouseSellRent;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -24,14 +27,16 @@ import com.chinasoft.pojo.HouseSellEnterprise;
 public class HouseSellEnterpriseDAO extends HibernateDaoSupport {
 	private static final Log log = LogFactory
 			.getLog(HouseSellEnterpriseDAO.class);
+	public static Session session;
+	
 	// property constants
 	public static final String TITLE = "title";
+	public static final String PICS = "pics";
 	public static final String TOTAL_NUM = "totalNum";
 	public static final String SELLED_NUM = "selledNum";
 	public static final String ADDR = "addr";
 	public static final String OPENING_DATE = "openingDate";
 	public static final String FINISH_DATE = "finishDate";
-	public static final String PICS = "pics";
 	public static final String PRICE = "price";
 	public static final String DOWNPAYMENT = "downpayment";
 	public static final String MAIN_TYPE = "mainType";
@@ -73,6 +78,22 @@ public class HouseSellEnterpriseDAO extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	
+	
+	//	获取出租表前4条信息
+	@SuppressWarnings("unchecked")
+	public List<HouseSellEnterprise> getSellNewInfo(){
+		//System.out.println("query");
+		session = this.getSession();
+		Query query = session.createQuery("from HouseSellEnterprise");
+		//query.setFirstResult(0); 
+		//query.setMaxResults(num);
+		List<HouseSellEnterprise> list = query.list();
+		//session.close();
+		
+		return list;
+	}
+	
 
 	public HouseSellEnterprise findById(java.lang.Integer id) {
 		log.debug("getting HouseSellEnterprise instance with id: " + id);
@@ -116,6 +137,10 @@ public class HouseSellEnterpriseDAO extends HibernateDaoSupport {
 		return findByProperty(TITLE, title);
 	}
 
+	public List findByPics(Object pics) {
+		return findByProperty(PICS, pics);
+	}
+
 	public List findByTotalNum(Object totalNum) {
 		return findByProperty(TOTAL_NUM, totalNum);
 	}
@@ -134,10 +159,6 @@ public class HouseSellEnterpriseDAO extends HibernateDaoSupport {
 
 	public List findByFinishDate(Object finishDate) {
 		return findByProperty(FINISH_DATE, finishDate);
-	}
-
-	public List findByPics(Object pics) {
-		return findByProperty(PICS, pics);
 	}
 
 	public List findByPrice(Object price) {

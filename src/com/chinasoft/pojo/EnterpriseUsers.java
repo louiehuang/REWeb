@@ -12,9 +12,11 @@ public class EnterpriseUsers implements java.io.Serializable {
 	// Fields
 
 	private Integer UId;
+	private String UAccount;
 	private String UPwd;
 	private String UName;
 	private String UInfo;
+	private String UHeader;
 	private String UAddr;
 	private Integer UValidation;
 	private String UTele;
@@ -28,18 +30,21 @@ public class EnterpriseUsers implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public EnterpriseUsers(String UPwd, String UName) {
+	public EnterpriseUsers(String UAccount, String UPwd, String UName) {
+		this.UAccount = UAccount;
 		this.UPwd = UPwd;
 		this.UName = UName;
 	}
 
 	/** full constructor */
-	public EnterpriseUsers(String UPwd, String UName, String UInfo,
-			String UAddr, Integer UValidation, String UTele, String UEmail,
-			Set houseSellEnterprises) {
+	public EnterpriseUsers(String UAccount, String UPwd, String UName,
+			String UInfo, String UHeader, String UAddr, Integer UValidation,
+			String UTele, String UEmail, Set houseSellEnterprises) {
+		this.UAccount = UAccount;
 		this.UPwd = UPwd;
 		this.UName = UName;
 		this.UInfo = UInfo;
+		this.UHeader = UHeader;
 		this.UAddr = UAddr;
 		this.UValidation = UValidation;
 		this.UTele = UTele;
@@ -55,6 +60,14 @@ public class EnterpriseUsers implements java.io.Serializable {
 
 	public void setUId(Integer UId) {
 		this.UId = UId;
+	}
+
+	public String getUAccount() {
+		return this.UAccount;
+	}
+
+	public void setUAccount(String UAccount) {
+		this.UAccount = UAccount;
 	}
 
 	public String getUPwd() {
@@ -79,6 +92,14 @@ public class EnterpriseUsers implements java.io.Serializable {
 
 	public void setUInfo(String UInfo) {
 		this.UInfo = UInfo;
+	}
+
+	public String getUHeader() {
+		return this.UHeader;
+	}
+
+	public void setUHeader(String UHeader) {
+		this.UHeader = UHeader;
 	}
 
 	public String getUAddr() {

@@ -25,9 +25,11 @@ import com.chinasoft.pojo.EnterpriseUsers;
 public class EnterpriseUsersDAO extends HibernateDaoSupport {
 	private static final Log log = LogFactory.getLog(EnterpriseUsersDAO.class);
 	// property constants
+	public static final String _UACCOUNT = "UAccount";
 	public static final String _UPWD = "UPwd";
 	public static final String _UNAME = "UName";
 	public static final String _UINFO = "UInfo";
+	public static final String _UHEADER = "UHeader";
 	public static final String _UADDR = "UAddr";
 	public static final String _UVALIDATION = "UValidation";
 	public static final String _UTELE = "UTele";
@@ -97,6 +99,10 @@ public class EnterpriseUsersDAO extends HibernateDaoSupport {
 		}
 	}
 
+	public List findByUAccount(Object UAccount) {
+		return findByProperty(_UACCOUNT, UAccount);
+	}
+
 	public List findByUPwd(Object UPwd) {
 		return findByProperty(_UPWD, UPwd);
 	}
@@ -107,6 +113,10 @@ public class EnterpriseUsersDAO extends HibernateDaoSupport {
 
 	public List findByUInfo(Object UInfo) {
 		return findByProperty(_UINFO, UInfo);
+	}
+
+	public List findByUHeader(Object UHeader) {
+		return findByProperty(_UHEADER, UHeader);
 	}
 
 	public List findByUAddr(Object UAddr) {

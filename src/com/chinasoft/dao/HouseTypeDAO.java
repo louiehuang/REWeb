@@ -25,7 +25,7 @@ import com.chinasoft.pojo.HouseType;
 public class HouseTypeDAO extends HibernateDaoSupport {
 	private static final Log log = LogFactory.getLog(HouseTypeDAO.class);
 	// property constants
-	public static final String HTYPE_NAME = "htypeName";
+	public static final String NAME = "name";
 	public static final String REMARK = "remark";
 
 	protected void initDao() {
@@ -92,8 +92,8 @@ public class HouseTypeDAO extends HibernateDaoSupport {
 		}
 	}
 
-	public List findByHtypeName(Object htypeName) {
-		return findByProperty(HTYPE_NAME, htypeName);
+	public List findByName(Object name) {
+		return findByProperty(NAME, name);
 	}
 
 	public List findByRemark(Object remark) {

@@ -13,6 +13,7 @@ public class HouseSellRent implements java.io.Serializable {
 	private HouseType houseType;
 	private Integer UId;
 	private String title;
+	private String pics;
 	private Double price;
 	private Double size;
 	private Integer houseFloor;
@@ -45,13 +46,15 @@ public class HouseSellRent implements java.io.Serializable {
 
 	/** full constructor */
 	public HouseSellRent(Region region, HouseType houseType, Integer UId,
-			String title, Double price, Double size, Integer houseFloor,
-			Integer decoration, Integer orientation, String community,
-			String remark, Integer havailability, Integer hauthenticity) {
+			String title, String pics, Double price, Double size,
+			Integer houseFloor, Integer decoration, Integer orientation,
+			String community, String remark, Integer havailability,
+			Integer hauthenticity) {
 		this.region = region;
 		this.houseType = houseType;
 		this.UId = UId;
 		this.title = title;
+		this.pics = pics;
 		this.price = price;
 		this.size = size;
 		this.houseFloor = houseFloor;
@@ -103,6 +106,14 @@ public class HouseSellRent implements java.io.Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getPics() {
+		return this.pics;
+	}
+
+	public void setPics(String pics) {
+		this.pics = pics;
 	}
 
 	public Double getPrice() {

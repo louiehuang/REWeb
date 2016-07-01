@@ -26,7 +26,7 @@
             <column name="U_header" />
         </property>
         <property name="UCredit" type="java.lang.Integer">
-            <column name="U_credit" not-null="true"/>
+            <column name="U_credit" not-null="true" />
         </property>
         <property name="UTele" type="java.lang.String">
             <column name="U_Tele" length="20" />
@@ -34,11 +34,11 @@
         <property name="UEmail" type="java.lang.String">
             <column name="U_Email" />
         </property>
-        <set name="colletions" inverse="true">
+        <set name="collects" inverse="true">
             <key>
                 <column name="U_id" not-null="true" />
             </key>
-            <one-to-many class="com.chinasoft.pojo.Colletion" />
+            <one-to-many class="com.chinasoft.pojo.Collect" />
         </set>
         <set name="comments" inverse="true">
             <key>
