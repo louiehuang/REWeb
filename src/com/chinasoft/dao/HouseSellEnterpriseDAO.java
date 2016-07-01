@@ -80,17 +80,15 @@ public class HouseSellEnterpriseDAO extends HibernateDaoSupport {
 	}
 	
 	
-	//	获取出租表前4条信息
+	//	获取企业新房表
 	@SuppressWarnings("unchecked")
 	public List<HouseSellEnterprise> getSellNewInfo(){
-		//System.out.println("query");
 		session = this.getSession();
 		Query query = session.createQuery("from HouseSellEnterprise");
 		//query.setFirstResult(0); 
 		//query.setMaxResults(num);
 		List<HouseSellEnterprise> list = query.list();
 		//session.close();
-		
 		return list;
 	}
 	

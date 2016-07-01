@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -24,6 +26,9 @@ import com.chinasoft.pojo.HouseSellSecondhand;
 public class HouseSellSecondhandDAO extends HibernateDaoSupport {
 	private static final Log log = LogFactory
 			.getLog(HouseSellSecondhandDAO.class);
+
+	public static Session session;
+	
 	// property constants
 	public static final String _UID = "UId";
 	public static final String TITLE = "title";
@@ -63,6 +68,18 @@ public class HouseSellSecondhandDAO extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	
+	
+	//	获取二手房表
+	@SuppressWarnings("unchecked")
+	public List<HouseSellSecondhand> getSellOldInfo(){
+		session = this.getSession();
+		Query query = session.createQuery("from HouseSellSecondhand");
+		List<HouseSellSecondhand> list = query.list();
+		//session.close();
+		return list;
+	}
+	
 
 	public HouseSellSecondhand findById(java.lang.Integer id) {
 		log.debug("getting HouseSellSecondhand instance with id: " + id);

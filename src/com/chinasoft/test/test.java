@@ -28,32 +28,6 @@ public class test {
 		
 		//JUnit测试
 //		//测试首页出租信息输出
-//		HouseSellRentAction action = (HouseSellRentAction) context.getBean("HouseSellRentAction");
-//		List<HouseSellRent> list = action.Test1();	
-//		for(int i = 0; i < list.size(); i++)
-//		{
-//			HouseSellRent temp = list.get(i); //出租信息
-//			
-//			HouseType houseType = temp.getHouseType(); //房屋类型
-//			
-//			System.out.print(houseType.getHtypeId() + "	");
-//			System.out.println(houseType.getName());	
-//		}
-		
-//		//测试首页出租信息输出
-//		System.out.print("测试");
-//		HouseSellEnterpriseAction action = (HouseSellEnterpriseAction) context.getBean("HouseSellEnterpriseAction");
-//		List<HouseSellEnterprise> list = action.Test1();	
-//		for(int i = 0; i < list.size(); i++)
-//		{
-//			HouseSellEnterprise temp = list.get(i); //新房信息
-//			
-//			System.out.print(temp.getTitle() + " ");
-//			System.out.println(temp.getRegion().getCounty());	
-//		}
-		
-		
-		//测试首页出租信息输出
 		System.out.println("测试");
 		IndexAction action = (IndexAction) context.getBean("IndexAction");
 		
@@ -67,6 +41,7 @@ public class test {
 			System.out.print(houseType.getHtypeId() + "	");
 			System.out.println(houseType.getName());	
 		}
+		
 		
 		List<HouseSellEnterprise> list2 = action.Test1();	
 		for(int i = 0; i < list2.size(); i++)

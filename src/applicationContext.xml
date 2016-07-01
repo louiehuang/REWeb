@@ -52,6 +52,35 @@
 	</bean>
 
 
+	<!-- 首页加载信息配置 -->
+	<!-- HouseSellRentService、	HouseSellEnterpriseService、 HouseSellSecondhandService -->
+	<bean id="IndexAction" class="com.chinasoft.action.IndexAction">
+		<property name="houseSellRentService">
+			<ref bean="HouseSellRentService" />
+		</property>
+		<property name="houseSellEnterpriseService">
+			<ref bean="HouseSellEnterpriseService" />
+		</property>
+		<property name="houseSellSecondhandService">
+			<ref bean="HouseSellSecondhandService" />
+		</property>
+	</bean>
+
+
+	<bean id="EnterpriseUsersDAO" class="com.chinasoft.dao.EnterpriseUsersDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AdministratorDAO" class="com.chinasoft.dao.AdministratorDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	
+
+	<!--出租房屋配置 -->
 	<bean id="HouseSellRentDAO" class="com.chinasoft.dao.HouseSellRentDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -68,37 +97,7 @@
 		</property>
 	</bean>
 
-
-
-	<!-- Index配置 -->
-	<!-- HouseSellRentService、	HouseSellEnterpriseService -->
-	<bean id="IndexAction" class="com.chinasoft.action.IndexAction">
-		<property name="houseSellRentService">
-			<ref bean="HouseSellRentService" />
-		</property>
-		<property name="houseSellEnterpriseService">
-			<ref bean="HouseSellEnterpriseService" />
-		</property>
-	</bean>
-
-
-
-
-
-
-	<bean id="EnterpriseUsersDAO" class="com.chinasoft.dao.EnterpriseUsersDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-	<bean id="AdministratorDAO" class="com.chinasoft.dao.AdministratorDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
-
-
-
+	<!--企业新房配置 -->
 	<bean id="HouseSellEnterpriseDAO" class="com.chinasoft.dao.HouseSellEnterpriseDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -114,7 +113,23 @@
 			<ref bean="HouseSellEnterpriseService" />
 		</property>
 	</bean>
-
+	
+	<!--二手房配置 -->
+	<bean id="HouseSellSecondhandDAO" class="com.chinasoft.dao.HouseSellSecondhandDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+		<bean id="HouseSellSecondhandService" class="com.chinasoft.service.HouseSellSecondhandService">
+		<property name="houseSellSecondhandDAO">
+			<ref bean="HouseSellSecondhandDAO" />
+		</property>
+	</bean>
+	<bean id="HouseSellSecondhandAction" class="com.chinasoft.action.HouseSellSecondhandAction">
+		<property name="houseSellSecondhandService">
+			<ref bean="HouseSellSecondhandService" />
+		</property>
+	</bean>
 
 
 
@@ -146,11 +161,11 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="HouseSellSecondhandDAO" class="com.chinasoft.dao.HouseSellSecondhandDAO">
-		<property name="sessionFactory">
-			<ref bean="sessionFactory" />
-		</property>
-	</bean>
+	
+
+	
+	
+	
 	<bean id="RegionDAO" class="com.chinasoft.dao.RegionDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -158,7 +173,7 @@
 	</bean>
 
 
-
+	<!-- 	房屋类型配置 -->
 	<bean id="HouseTypeDAO" class="com.chinasoft.dao.HouseTypeDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />

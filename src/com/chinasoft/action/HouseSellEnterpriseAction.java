@@ -23,7 +23,7 @@ public class HouseSellEnterpriseAction {
 		this.list = list;
 	}
 	
-	public String getNewSellInfo(){
+	public String getSellNewInfo(){
 		list = houseSellEnterpriseService.getSellNewInfo();
 		
 		if (list != null) {

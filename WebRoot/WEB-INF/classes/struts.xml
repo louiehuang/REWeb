@@ -8,7 +8,7 @@
 			<result name="error">register.jsp</result>
 		</action>
 	</package>
-	
+
 	<package name="usersManage" namespace="/" extends="struts-default">
 		<action name="um" class="UsersAction">
 			<result name="success">index.jsp</result>
@@ -19,17 +19,21 @@
 
 
 	<package name="houseManage" namespace="/" extends="struts-default">
-		<action name="hsrm" class="HouseSellRentAction">
+		<action name="rm" class="HouseSellRentAction">
 			<result name="success">index.jsp</result>
 			<result name="error">testOutput.jsp</result>
 		</action>
-		<action name="hsnm" class="HouseSellEnterpriseAction">
+		<action name="nm" class="HouseSellEnterpriseAction">
+			<result name="success">index.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+		<action name="om" class="HouseSellSecondhandAction">
 			<result name="success">index.jsp</result>
 			<result name="error">testOutput.jsp</result>
 		</action>
 	</package>
-	
-	
-	
-	
+
+
+
+
 </struts>    

@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%
 	String path = request.getContextPath();
@@ -11,14 +11,12 @@
 
 <!DOCTYPE HTML>
 <html>
-
 <head>
 <title>主页</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<!--<link href='http://fonts.useso.com/css?family=Maven+Pro:400,900,700,500' rel='stylesheet' type='text/css'>-->
 <link href="css/index_nav_style.css" rel="stylesheet" type="text/css"
 	media="all" />
 
@@ -302,84 +300,25 @@
 
 				<!-- start grids_of_4 -->
 				<div class="grids_of_4">
-					<div class="grid1_of_4">
-						<a href="details.jsp"> <img src="images/secondhand_sell_1.png"
-							alt="" />
-							<div style="height: 30px; padding-left: 2%; text-align: left;">
-								<h3>山海四季花园[盐田]</h3>
+					<c:forEach var="house" items="${houseSellSecondhandList}">
+						<div class="grid1_of_4">
+							<a href="<%=basePath %>details.jsp?${house.HId }"> <img
+								src=${house.pics } alt="" />
+								<div style="height: 30px; padding-left: 2%; text-align: left;">
+									<h3>${house.title }</h3>
+								</div>
+							</a>
+							<div class="grid1_of_4_houseTypeWrap">
+								<div class="grid1_of_4_houseType">${house.houseType.name }</div>
+								<div class="grid1_of_4_houseArea">${house.size }㎡</div>
 							</div>
-						</a>
-						<div class="grid1_of_4_houseTypeWrap">
-							<div class="grid1_of_4_houseType">3室2厅</div>
-							<div class="grid1_of_4_houseArea">180㎡</div>
 
-						</div>
-
-						<div style="height: 40px;">
-							<span class="grid1_of_4_priceCell">360万</span> <span
-								class="grid1_of_4_commentCell">房评18条</span>
-						</div>
-						</a>
-					</div>
-
-					<div class="grid1_of_4">
-						<a href="details.jsp"> <img src="images/secondhand_sell_2.png"
-							alt="" />
-							<div style="height: 30px; padding-left: 2%; text-align: left;">
-								<h3>桂碧园森林城市[罗湖]</h3>
+							<div style="height: 40px;">
+								<span class="grid1_of_4_priceCell">${house.price }万</span> <span
+									class="grid1_of_4_commentCell">房评3条</span>
 							</div>
-						</a>
-						<div class="grid1_of_4_houseTypeWrap">
-							<div class="grid1_of_4_houseType">3室1厅</div>
-							<div class="grid1_of_4_houseArea">120㎡</div>
-
 						</div>
-
-						<div style="height: 40px;">
-							<span class="grid1_of_4_priceCell">310万</span> <span
-								class="grid1_of_4_commentCell">房评21条</span>
-						</div>
-						</a>
-					</div>
-					<div class="grid1_of_4">
-						<a href="details.jsp"> <img src="images/secondhand_sell_3.jpg"
-							alt="" />
-							<div style="height: 30px; padding-left: 2%; text-align: left;">
-								<h3>嘉霖悦禧园[龙岗]</h3>
-							</div>
-						</a>
-						<div class="grid1_of_4_houseTypeWrap">
-							<div class="grid1_of_4_houseType">3室1厅</div>
-							<div class="grid1_of_4_houseArea">130㎡</div>
-
-						</div>
-
-						<div style="height: 40px;">
-							<span class="grid1_of_4_priceCell">210万</span> <span
-								class="grid1_of_4_commentCell">房评11条</span>
-						</div>
-						</a>
-					</div>
-					<div class="grid1_of_4">
-						<a href="details.jsp"> <img src="images/secondhand_sell_4.jpg"
-							alt="" />
-							<div style="height: 35px; padding-left: 2%; text-align: left;">
-								<h3>凯旋湾[大鹏新]</h3>
-							</div>
-						</a>
-						<div class="grid1_of_4_houseTypeWrap">
-							<div class="grid1_of_4_houseType">3室1厅</div>
-							<div class="grid1_of_4_houseArea">145㎡</div>
-
-						</div>
-
-						<div style="height: 40px;">
-							<span class="grid1_of_4_priceCell">150万</span> <span
-								class="grid1_of_4_commentCell">房评5条</span>
-						</div>
-						</a>
-					</div>
-
+					</c:forEach>
 					<div class="clear"></div>
 				</div>
 
