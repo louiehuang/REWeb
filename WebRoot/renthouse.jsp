@@ -80,7 +80,7 @@ li {
 <body>
 
 	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<iframe src="nav_model/header_nav.html" width="100%" height="123px"
+	<iframe src="nav_model/header_nav.jsp" width="100%" height="123px"
 		style="border: 0px;" scrolling="no"></iframe>
 
 
@@ -369,7 +369,7 @@ li {
 	</div>
 
 	<!--底部导航-->
-	<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 
 </body>

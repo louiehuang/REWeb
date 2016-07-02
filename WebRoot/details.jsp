@@ -37,7 +37,7 @@
 </head>
 
 <body class="back">
-	<iframe src="nav_model/header_nav.html" width="100%" height="125px"
+	<iframe src="nav_model/header_nav.jsp" width="100%" height="125px"
 		style="border: 0px;" scrolling="no"></iframe>
 
 	<div class="container-fluid mt back">
@@ -207,7 +207,7 @@
 		</div>
 	</div>
 	<div style="margin-top: 30px;">
-		<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+		<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 			style="border: 0px;" scrolling="no"></iframe>
 	</div>
 </body>

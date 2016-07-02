@@ -19,7 +19,6 @@
 
 <link href="css/index_nav_style.css" rel="stylesheet" type="text/css"
 	media="all" />
-
 <!--- start-mmmenu-script---->
 <link href="css/jquery.mmenu.all.css" type="text/css" rel="stylesheet" />
 <link href="css/house_style.css" type="text/css" rel="stylesheet" />
@@ -69,10 +68,10 @@
 	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
 		height="120px" style="border: 0px;" scrolling="no"></iframe>
 	<% } else { %>
-	<iframe id="header_nav" src="nav_model/header_nav_after.jsp" width="100%"
-		height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<iframe id="header_nav" src="nav_model/header_nav_after.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
 	<% }%>
-	
+
 	<!-- start slider -->
 	<div class="slider">
 		<!---start-image-slider---->
@@ -134,7 +133,7 @@
 										href="details.jsp"><img src="images/icon_4.png" alt=""></a>
 								</h3>
 							</div></li>
-						<li><img src="images/slider-image1.jpg" alt="image03" />
+						<li><img src="images/slider-image4.jpg" alt="image03" />
 							<div class="ei-title">
 								<h3 class="btn">19999</h3>
 								<h2>
@@ -153,7 +152,7 @@
 										href="details.jsp"><img src="images/icon_4.png" alt=""></a>
 								</h3>
 							</div></li>
-						<li><img src="images/slider-image2.jpg" alt="image04" />
+						<li><img src="images/slider-image1.jpg" alt="image04" />
 							<div class="ei-title">
 								<h3 class="btn">19999</h3>
 								<h2>
@@ -331,17 +330,9 @@
 			</div>
 		</div>
 	</div>
-	<!-- start footer -->
-	<!--<div class="footer_top">
-			<div class="wrap">
-				<div class="footer">
-					
-				</div>
-			</div>
-		</div>-->
 
 	<!--底部导航-->
-	<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 
 

@@ -80,14 +80,14 @@
 		<div class="header_btm">
 			<div class="menu">
 				<ul>
-					<li class="active"><a href="../index.jsp" target="_parent">首页</a></li>
+					<li class="active"><a href="../falseIndex.jsp" target="_parent">首页</a></li>
 					<li><a href="../secondhouse.jsp" target="_parent">租房</a></li>
 					<li><a href="../secondhouse.jsp" target="_parent">二手房</a></li>
 					<li><a href="../newhouse.jsp" target="_parent">新房</a></li>
 					<li><a href="../buyer.jsp" target="_parent">求租/购</a></li>
 					<li><a href="../seller.jsp" target="_parent">出租/售</a></li>
-					<li><a href="../index.jsp" target="_parent">成交行情</a></li>
-					<li><a href="../index.jsp" target="_parent">资讯</a></li>
+					<li><a href="../falseIndex.jsp" target="_parent">成交行情</a></li>
+					<li><a href="../falseIndex.jsp" target="_parent">资讯</a></li>
 					<div class="clear"></div>
 				</ul>
 			</div>

@@ -16,13 +16,15 @@ public class HouseSellSecondhandService {
 			HouseSellSecondhandDAO houseSellSecondhandDAO) {
 		this.houseSellSecondhandDAO = houseSellSecondhandDAO;
 	}
-	
-	
-	public List<HouseSellSecondhand> getSellOldInfo()
-	{
+
+	/**
+	 * 获取二手房的首页显示信息，4条
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<HouseSellSecondhand> getSellOldInfo() {
 		return houseSellSecondhandDAO.findAll();
-//		return houseSellSecondhandDAO.getSellOldInfo();
+		// return houseSellSecondhandDAO.getSellOldInfo();
 	}
-	
-	
+
 }

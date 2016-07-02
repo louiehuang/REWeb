@@ -44,8 +44,13 @@
 
 <body>
 	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<iframe src="nav_model/header_nav.html" width="100%" height="123px"
-		style="border: 0px;" scrolling="no"></iframe>
+	<% if (session.getAttribute("users") == null) { %>
+	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
+		height="123px" style="border: 0px;" scrolling="no"></iframe>
+	<% } else { %>
+	<iframe id="header_nav" src="nav_model/header_nav_after.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<% }%>
 
 	<!--<hr width="100%"/>-->
 
@@ -67,33 +72,59 @@
 						<!--注册表单 -->
 						<div class="registration_form">
 							<!-- Form -->
-							<form id="registration_form" action="um!register"
-								method="post">
+							<form id="registration_form" action="um!register" method="post">
 
 								<input type="hidden" name="request_type"
 									value="Register_Request" />
 
 								<div>
-									<label> <input placeholder="账号:" type="text" value="test"
-										name="users.UAccount" tabindex="1" required="" autofocus="">
+									<label> <input placeholder="账号:" type="text"
+										value="test" name="users.UAccount" tabindex="1" required=""
+										autofocus="">
 									</label>
 								</div>
-								
+
 								<div>
-									<label> <input placeholder="用户名:" type="text" value="testUser"
-										name="users.UName" tabindex="1" required="" autofocus="">
+									<label> <input placeholder="用户名:" type="text"
+										value="testUser" name="users.UName" tabindex="1" required=""
+										autofocus="">
 									</label>
-								</div>		
-										
+								</div>
+
 								<div>
-									<label> <input placeholder="密码：" type="password" value="123"
-										name="users.UPwd" tabindex="4" required="">
+									<label> <input placeholder="密码：" id="pwd1"
+										type="password" tabindex="4" required="">
 									</label>
 								</div>
 								<div>
-									<label> <input placeholder="再次输入密码：" type="password" value="123"
-										tabindex="4" required="">
+									<label> <input placeholder="再次输入密码：" id="pwd2"
+										onkeyup="passwordCheck()" type="password" tabindex="4"
+										required="">
 									</label>
+
+									<p>
+										<span id="passwordCheck"></span>
+									</p>
+
+									<script>
+										function passwordCheck() {
+											var pwd1 = document
+													.getElementById("pwd1").value;
+											var pwd2 = document
+													.getElementById("pwd2").value;
+											if (pwd1 == pwd2) {
+												document
+														.getElementById("passwordCheck").innerHTML = "<font color='green'>两次密码一致</font>";
+												document
+														.getElementById("submit").disabled = false;
+											} else {
+												document
+														.getElementById("passwordCheck").innerHTML = "<font color='red'>两次密码输入不一致</font>";
+												document
+														.getElementById("submit").disabled = true;
+											}
+										}
+									</script>
 									<!--<label>
 						<input placeholder="last name:" type="text" tabindex="2" required="" autofocus="">
 					</label>-->
@@ -107,14 +138,15 @@
 									</ul>
 								</div>
 								<div>
-									<label> <input placeholder="邮箱地址:" name="users.UEmail" value="1015110020@qq.com"
-										style="text-transform: none;" type="email" tabindex="3"
-										required="">
+									<label> <input placeholder="邮箱地址:" name="users.UEmail"
+										value="1015110020@qq.com" style="text-transform: none;"
+										type="email" tabindex="3" required="">
 									</label>
 								</div>
 								<div>
-									<label> <input placeholder="手机号码:" type="text" value="15920000000"
-										name="users.UTele" tabindex="5" required="">
+									<label> <input placeholder="手机号码:" type="text"
+										value="15920000000" name="users.UTele" tabindex="5"
+										required="">
 									</label>
 								</div>
 								<div></div>
@@ -123,10 +155,9 @@
 										id="register-submit">
 								</div>
 								<div class="sky_form">
-									<label class="checkbox">
-									<input type="checkbox" name="checkbox" required="">
-										<i>我同意<a class="terms" href="#">
-												服务条款</a>
+									<label class="checkbox"> <input type="checkbox"
+										name="checkbox" required=""> <i>我同意<a
+											class="terms" href="#"> 服务条款</a>
 									</i></label>
 								</div>
 							</form>
@@ -197,8 +228,7 @@
 							</a>
 							<div class="registration_form">
 								<!-- Form -->
-								<form id="registration_form" action="um!login"
-									method="post">
+								<form id="registration_form" action="um!login" method="post">
 
 									<!--隐藏域 -->
 									<input type="hidden" name="request_type" value="Login_Request" />
@@ -234,7 +264,7 @@
 	</div>
 
 	<!--底部导航-->
-	<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 </body>
 </html>

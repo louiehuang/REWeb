@@ -54,7 +54,7 @@
 </head>
 
 <body style="background-color:#F8F8F8">
-	<iframe src="nav_model/header_nav.html" width="100%" height="123px"
+	<iframe src="nav_model/header_nav.jsp" width="100%" height="123px"
 		style="border: 0px;" scrolling="no"></iframe>
 
 	<div class="container-fluid"
@@ -938,7 +938,7 @@
 	</div>
 
 	<!--底部导航-->
-	<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 </body>
 

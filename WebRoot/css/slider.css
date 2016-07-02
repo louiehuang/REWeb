@@ -5,11 +5,12 @@
 	License URL: http://creativecommons.org/licenses/by/3.0/
 ---*/
 /* start slider */
-.slider{
+.slider {
 	background: #2e2e2e;
 	padding-bottom: 8%;
 }
-.ei-slider{
+
+.ei-slider {
 	font-family: 'Maven Pro', sans-serif;
 	position: relative;
 	width: 100%;
@@ -17,25 +18,28 @@
 	height: 450px;
 	margin: 0 auto;
 }
-.ei-slider-loading{
+
+.ei-slider-loading {
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	top: 0px;
 	left: 0px;
-	z-index:999;
-	background:#fff;
+	z-index: 999;
+	background: #fff;
 	color: #fff;
 	text-align: center;
 	line-height: 400px;
 }
-.ei-slider-large{
+
+.ei-slider-large {
 	height: 100%;
 	width: 100%;
-	position:relative;
+	position: relative;
 	overflow: hidden;
 }
-.ei-slider-large li{
+
+.ei-slider-large li {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -43,151 +47,170 @@
 	height: 100%;
 	width: 100%;
 }
-.ei-slider-large li img{
-	margin-left:0px !important;
+
+.ei-slider-large li img {
+	margin-left: 0px !important;
 }
-.ei-title{
+
+.ei-title {
 	position: absolute;
+	padding-left: 100px;
+	padding-top:30px;
+	padding-bottom:40px;
 	right: 25%;
-	top: 15%;
+	top: 5%;
+	width: 40%;
+	height: auto;
+	background: #000;
+	filter: alpha(Opacity = 60);
+	-moz-opacity: 0.6;
+	opacity: 0.6
 }
-.btn{
+
+.btn {
 	background: #57C5A0;
 	color: #ffffff;
 	padding: 25px 12px 10px;
 	display: inline-block;
 	line-height: 1.8em;
 }
-.ei_icons{
+
+.ei_icons {
 	padding: 10px 10px 5px;
 	background: #ffffff;
 	line-height: 1.8em;
 }
-.ei-title h2{
+
+.ei-title h2 {
 	font-family: 'Maven Pro', sans-serif;
-	padding:10px 0 0;
+	padding: 10px 0 0;
 	font-size: 2.5em;
 	line-height: 1.2em;
-	/*color: #242424;*/ 
+	/*color: #242424;*/
 	color: #ffffff;
-	text-transform:capitalize;
+	text-transform: capitalize;
 }
-.ei-title h3{
+
+.ei-title h3 {
 	font-family: 'Maven Pro', sans-serif;
-	padding-top:15px;
+	padding-top: 15px;
 	font-size: 1.2em;
-	line-height:1.5em;
+	line-height: 1.5em;
 	color: #ffffff;
 }
-.ei-title h3.active{
+
+.ei-title h3.active {
 	color: #ffffff;
 }
-.ei-slider-thumbs{
+
+.ei-slider-thumbs {
 	height: 10px;
 	margin: 0 auto;
 	position: relative;
 }
-.ei-slider-thumbs li{
+
+.ei-slider-thumbs li {
 	position: relative;
 	float: left;
 	height: 100%;
 }
-.ei-slider-thumbs li.ei-slider-element{
+
+.ei-slider-thumbs li.ei-slider-element {
 	top: 0px;
 	left: 0px;
 	position: absolute;
-	width:100%;
+	width: 100%;
 	height: 100%;
 	z-index: 10;
 	text-indent: -9000px;
 	background: #5B6A7F;
 	background: #57C5A0;
 }
-.ei-slider-thumbs li a{
-	text-align:center;
+
+.ei-slider-thumbs li a {
+	text-align: center;
 	display: block;
-	background: #000000 ;
+	background: #000000;
 	width: 100%;
 	height: 100%;
 	cursor: pointer;
-	-webkit-box-shadow: 
-        0px 1px 1px 0px rgba(0,0,0,0.3), 
-        0px 1px 0px 1px rgba(48, 48, 48, 1);
-	-moz-box-shadow: 
-        0px 1px 1px 0px rgba(0,0,0,0.3), 
-        0px 1px 0px 1px rgba(255,255,255,0.5);
-	box-shadow: 
-        0px 1px 1px 0px rgba(0,0,0,0.3), 
-        0px 1px 0px 1px rgba(48, 48, 48, 1);
+	-webkit-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 1px
+		rgba(48, 48, 48, 1);
+	-moz-box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 1px
+		rgba(255, 255, 255, 0.5);
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.3), 0px 1px 0px 1px
+		rgba(48, 48, 48, 1);
 	-webkit-transition: background 0.2s ease;
-    -moz-transition: background 0.2s ease;
-    -o-transition: background 0.2s ease;
-    -ms-transition: background 0.2s ease;
-    transition: background 0.2s ease;
+	-moz-transition: background 0.2s ease;
+	-o-transition: background 0.2s ease;
+	-ms-transition: background 0.2s ease;
+	transition: background 0.2s ease;
 }
-.ei-slider-thumbs li a:hover{
+
+.ei-slider-thumbs li a:hover {
 	background-color: #f0f0f0;
 }
-.ei-slider-thumbs li a span.active{
-	color: #ffffff;	
+
+.ei-slider-thumbs li a span.active {
+	color: #ffffff;
 }
-.ei-slider-thumbs li a span{
+
+.ei-slider-thumbs li a span {
 	padding-top: 30px;
 	font-size: 1.2em;
 	display: inline-block;
 	color: #999999;
 	text-transform: capitalize;
 }
-.ei-slider-thumbs li a p{
-	text-transform:capitalize;
+
+.ei-slider-thumbs li a p {
+	text-transform: capitalize;
 	font-size: 0.8125em;
 	color: #999999;
 	line-height: 1.8em;
 }
-.ei-slider-thumbs li img{
+
+.ei-slider-thumbs li img {
 	position: absolute;
 	bottom: 50px;
 	opacity: 0;
 	z-index: 999;
 	max-width: 100%;
 	-webkit-transition: all 0.4s ease;
-    -moz-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    -ms-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-	-webkit-box-reflect: 
-        below 0px -webkit-gradient(
-            linear, 
-            left top, 
-            left bottom, 
-            from(transparent), 
-            color-stop(50%, transparent), 
-            to(rgba(255,255,255,0.3))
-            );
+	-moz-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	-ms-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+	-webkit-box-reflect: below 0px
+		-webkit-gradient(linear, left top, left bottom, from(transparent),
+		color-stop(50%, transparent), to(rgba(255, 255, 255, 0.3)));
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
-.ei-slider-thumbs li:hover img{
+
+.ei-slider-thumbs li:hover img {
 	opacity: 1;
 	bottom: 13px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 /***** Media Quries *****/
 @media only screen and (max-width: 1366px) {
-	.wrap{
-		width:95%;
+	.wrap {
+		width: 95%;
 	}
 }
+
 @media only screen and (max-width: 1280px) {
-	.wrap{
-		width:95%;
+	.wrap {
+		width: 95%;
 	}
 	.ei-title h2 {
 		font-size: 2em;
 	}
 }
+
 @media only screen and (max-width: 1024px) {
-	.wrap{
-		width:95%;
+	.wrap {
+		width: 95%;
 	}
 	.ei-slider-thumbs {
 		width: 86% !important;
@@ -195,18 +218,19 @@
 	.ei-slider-thumbs li a span {
 		font-size: 1em;
 	}
-	.hide{
+	.hide {
 		display: none;
 	}
 	.ei-title h2 {
 		font-size: 1.5em;
 	}
 }
+
 @media only screen and (max-width: 800px) {
-	.wrap{
-		width:95%;
+	.wrap {
+		width: 95%;
 	}
-	.hide1{
+	.hide1 {
 		display: none;
 	}
 	.ei-slider-thumbs li a span {
@@ -230,14 +254,16 @@
 		font-size: 13px;
 	}
 }
+
 @media only screen and (max-width: 640px) {
-	.wrap{
-		width:95%;
+	.wrap {
+		width: 95%;
 	}
 }
+
 @media only screen and (max-width: 480px) {
-	.wrap{
-		width:95%;
+	.wrap {
+		width: 95%;
 	}
 	.ei-title {
 		right: 5%;
@@ -250,9 +276,10 @@
 		top: -50px;
 	}
 }
+
 @media only screen and (max-width: 320px) {
-	.wrap{
-		width:95%;
+	.wrap {
+		width: 95%;
 	}
 	.ei-title {
 		right: 0%;

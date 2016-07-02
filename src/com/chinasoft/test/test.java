@@ -31,10 +31,7 @@ public class test {
 		System.out.println("≤‚ ‘");
 		IndexAction action = (IndexAction) context.getBean("IndexAction");
 		
-		List<HouseSellRent> list = action.Test2();	
-
-//		List<HouseSellRent> list = action.TestAll();
-		
+		List<HouseSellRent> list = action.Test2();			
 		for(int i = 0; i < list.size(); i++)
 		{
 			HouseSellRent temp = list.get(i); //≥ˆ◊‚–≈œ¢

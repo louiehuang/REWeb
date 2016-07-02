@@ -26,7 +26,7 @@
 </head>
 
 <body style="background-color:#F8F8F8">
-	<iframe src="nav_model/header_nav.html" width="100%" height="125px"
+	<iframe src="nav_model/header_nav.jsp" width="100%" height="125px"
 		style="border: 0px;" scrolling="no"></iframe>
 	<div class="container-fluid"
 		style="margin-top:20px; margin-bottom: 50px;"">
@@ -344,7 +344,7 @@
 			</div>
 		</div>
 	</div>
-	<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 </body>
 

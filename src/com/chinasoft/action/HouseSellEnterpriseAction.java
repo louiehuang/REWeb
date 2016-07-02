@@ -5,9 +5,14 @@ import java.util.List;
 import com.chinasoft.pojo.HouseSellEnterprise;
 import com.chinasoft.service.HouseSellEnterpriseService;
 
+/**
+ * 出售企业新房Action
+ * @author hlyin
+ *
+ */
 public class HouseSellEnterpriseAction {
 	private HouseSellEnterpriseService houseSellEnterpriseService;
-	private List<HouseSellEnterprise> list;
+	private List<HouseSellEnterprise> list; //接收首页显示的4条新房信息，返回给首页index.jsp
 	
 	public HouseSellEnterpriseService getHouseSellEnterpriseService() {
 		return houseSellEnterpriseService;
@@ -22,6 +27,7 @@ public class HouseSellEnterpriseAction {
 	public void setList(List<HouseSellEnterprise> list) {
 		this.list = list;
 	}
+	
 	
 	public String getSellNewInfo(){
 		list = houseSellEnterpriseService.getSellNewInfo();

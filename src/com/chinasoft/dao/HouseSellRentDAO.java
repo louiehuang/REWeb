@@ -67,26 +67,6 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 		}
 	}
 	
-	//	获取出租表前4条信息
-	@SuppressWarnings("unchecked")
-	public List<HouseSellRent> getRentInfo(){
-		List<HouseSellRent> list = null;
-
-		try {
-			session = this.getSession();
-			Query query = session.createQuery("from HouseSellRent");
-			//query.setFirstResult(0); 
-			//query.setMaxResults(num);
-			list = query.list();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}finally{
-			session.close();
-		}
-		
-		return list;
-	}
-
 	public HouseSellRent findById(java.lang.Integer id) {
 		log.debug("getting HouseSellRent instance with id: " + id);
 		try {

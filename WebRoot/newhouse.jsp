@@ -79,7 +79,7 @@ li {
 </head>
 <body>
 
-	<iframe src="nav_model/header_nav.html" width="100%" height="123px"
+	<iframe src="nav_model/header_nav.jsp" width="100%" height="123px"
 		style="border: 0px;" scrolling="no"></iframe>
 
 	<div class="container">
@@ -321,7 +321,7 @@ li {
 			</div>
 		</div>
 	</div>
-	<iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 </body>
 </html>

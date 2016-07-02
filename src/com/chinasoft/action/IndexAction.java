@@ -9,6 +9,13 @@ import com.chinasoft.service.HouseSellEnterpriseService;
 import com.chinasoft.service.HouseSellRentService;
 import com.chinasoft.service.HouseSellSecondhandService;
 
+/**
+ * 首页Action<br/>
+ * 加载首页显示的信息<br/>
+ * 每次加载首页时调用LoadInfo()方法<br/>
+ * @author hlyin
+ *
+ */
 public class IndexAction {
 	static int i = 1;
 
@@ -96,33 +103,32 @@ public class IndexAction {
 	}
 
 	/**
-	 * 加载首页的房屋信息 出租房屋 企业新房 出售二手房
-	 * 
+	 * 加载首页的房屋信息：
+	 * 出租房屋、企业新房、出售二手房
 	 * @return
 	 */
 	public String LoadInfo() {
-
 		try {
-			houseSellRentList = houseSellRentService.getRentInfo(); // 房屋出租信息
-			
-			houseSellEnterpriseList = houseSellEnterpriseService
-					.getSellNewInfo(); // 新房出售信息
-			
-			houseSellSecondhandList = houseSellSecondhandService
-					.getSellOldInfo(); // 二手房出售信息
+			// 房屋出租信息
+			houseSellRentList = houseSellRentService.getRentInfo();
 
-//			System.out.println("第" + i + "次完成加载信息");
-//			i++;
+			// 新房出售信息
+			houseSellEnterpriseList = houseSellEnterpriseService.getSellNewInfo();
 
+			// 二手房出售信息
+			houseSellSecondhandList = houseSellSecondhandService.getSellOldInfo();
+
+			// System.out.println("第" + i + "次完成加载信息");
+			// i++;
 		} catch (Exception e) {
 			System.out.println(e);
 			return "error";
 		}
 
 		return "success";
-
 	}
 
+	
 	/**
 	 * 企业新房获取测试
 	 * 
@@ -135,9 +141,6 @@ public class IndexAction {
 	public List<HouseSellRent> Test2() {
 		return houseSellRentService.getRentInfo();
 	}
-	
-	public List<HouseSellRent> TestAll() {
-		return houseSellRentService.findAll();
-	}
+
 
 }

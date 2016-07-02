@@ -35,6 +35,11 @@ public class HouseSellRentAction {
 		this.list = list;
 	}
 
+	/**
+	 * 获取房屋出租信息供首页显示，4条
+	 * @return
+	 * 成功返回success，跳转
+	 */
 	public String getRentInfo() {
 		list = houseSellRentService.getRentInfo();
 //		list = houseSellRentService.findAll();
@@ -47,15 +52,10 @@ public class HouseSellRentAction {
 	}
 	
 	
-	
-	public List<HouseSellRent> Test1() {
+	public List<HouseSellRent> Test() {
 		return houseSellRentService.getRentInfo();
 	}
 	
-	public List<HouseSellRent> Test2() {
-		return houseSellRentService.findAll();
-	}
-
 
 }
 

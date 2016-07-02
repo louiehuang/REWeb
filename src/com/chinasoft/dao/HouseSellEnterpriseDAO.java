@@ -80,17 +80,17 @@ public class HouseSellEnterpriseDAO extends HibernateDaoSupport {
 	}
 	
 	
-	//	获取企业新房表
-	@SuppressWarnings("unchecked")
-	public List<HouseSellEnterprise> getSellNewInfo(){
-		session = this.getSession();
-		Query query = session.createQuery("from HouseSellEnterprise");
-		//query.setFirstResult(0); 
-		//query.setMaxResults(num);
-		List<HouseSellEnterprise> list = query.list();
-		//session.close();
-		return list;
-	}
+//	//	获取企业新房表
+//	@SuppressWarnings("unchecked")
+//	public List<HouseSellEnterprise> getSellNewInfo(){
+//		session = this.getSession();
+//		Query query = session.createQuery("from HouseSellEnterprise");
+//		//query.setFirstResult(0); 
+//		//query.setMaxResults(num);
+//		List<HouseSellEnterprise> list = query.list();
+//		//session.close();
+//		return list;
+//	}
 	
 
 	public HouseSellEnterprise findById(java.lang.Integer id) {
