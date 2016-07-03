@@ -42,14 +42,13 @@ public class UsersAction {
 	public String login(){
 		System.out.println("login执行: " + users.getUAccount());
 		
-		Users users1 = service.login(users);
-		if(users1 != null){
+		Users curUser = service.login(users);
+		if(curUser != null){
 			//users存入session
 			session = ServletActionContext.getRequest().getSession();
-			session.setAttribute("users", users);
+			session.setAttribute("users", curUser);
 			
 //			System.out.println("登陆成功, " + users);
-//			msg = "登陆成功";
 			return "logsuccess";
 		}
 		else{
