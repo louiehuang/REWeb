@@ -2,13 +2,13 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<!-- action -->
-	
-<!-- 	<package name="indexManage" namespace="/" extends="struts-default"> -->
-<!-- 		<action name="im" class="IndexAction"> -->
-<!-- 			<result name="success">index.jsp</result> -->
-<!-- 			<result name="error">register.jsp</result> -->
-<!-- 		</action> -->
-<!-- 	</package> -->
+
+	<!-- <package name="indexManage" namespace="/" extends="struts-default"> -->
+	<!-- <action name="im" class="IndexAction"> -->
+	<!-- <result name="success">index.jsp</result> -->
+	<!-- <result name="error">register.jsp</result> -->
+	<!-- </action> -->
+	<!-- </package> -->
 
 	<package name="usersManage" namespace="/" extends="struts-default">
 		<action name="im" class="IndexAction">
@@ -29,6 +29,9 @@
 				<param name="actionName">im</param>
 				<param name="method">LoadInfo</param>
 			</result>
+
+			<result name="admin_update_success">admin.jsp</result>
+
 		</action>
 	</package>
 
@@ -50,6 +53,29 @@
 	</package>
 
 
+
+	<package name="adminManage" namespace="/"
+		extends="struts-default, json-default">
+		<action name="admin_um" class="HouseSellRentAction">
+			<result name="success">index.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+
+		<action name="json_queryUser" class="JsonAction" method="json_findUser">
+			<result type="json" name="find_success">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+
+		<action name="json_saveUser" class="JsonAction" method="json_saveUser">
+			<result type="json" name="save_success">
+				<param name="root">saveFlag</param>
+			</result>
+
+		</action>
+
+
+	</package>
 
 
 </struts>    

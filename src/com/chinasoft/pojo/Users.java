@@ -27,7 +27,7 @@ public class Users implements java.io.Serializable {
 
 	/** default constructor */
 	public Users() {
-		UCredit = 1;
+		//不能设置属性值，如UCredit=1，否则查询不到在数据库中字段不为这里设置值的记录，如某一用户UCredit=3，则找不到
 	}
 
 	/** minimal constructor */

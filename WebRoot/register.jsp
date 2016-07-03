@@ -92,7 +92,7 @@
 								</div>
 
 								<div>
-									<label> <input placeholder="密码：" id="pwd1"
+									<label> <input placeholder="密码：" id="pwd1" name="users.UPwd"
 										type="password" tabindex="4" required="">
 									</label>
 								</div>
@@ -116,18 +116,16 @@
 												document
 														.getElementById("passwordCheck").innerHTML = "<font color='green'>两次密码一致</font>";
 												document
-														.getElementById("submit").disabled = false;
+														.getElementById("register-submit").disabled = false;
 											} else {
 												document
 														.getElementById("passwordCheck").innerHTML = "<font color='red'>两次密码输入不一致</font>";
 												document
-														.getElementById("submit").disabled = true;
+														.getElementById("register-submit").disabled = true;
 											}
 										}
 									</script>
-									<!--<label>
-						<input placeholder="last name:" type="text" tabindex="2" required="" autofocus="">
-					</label>-->
+
 								</div>
 								<div class="sky_form">
 									<ul>
@@ -149,6 +147,10 @@
 										required="">
 									</label>
 								</div>
+
+								<!--UCredit默认值 -->
+								<input type="hidden" value="1" name="users.UCredit">
+
 								<div></div>
 								<div>
 									<input type="submit" style="width: 200px;" value="注册"
@@ -227,6 +229,7 @@
 								</div>
 							</a>
 							<div class="registration_form">
+							
 								<!-- Form -->
 								<form id="registration_form" action="um!login" method="post">
 

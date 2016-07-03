@@ -1,3 +1,4 @@
+<%@page import="com.chinasoft.pojo.Users"%>
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -64,10 +65,14 @@
 
 <body>
 	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<% if (session.getAttribute("users") == null) { %>
+	<% if (session.getAttribute("users") == null) { 
+	%>
 	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
 		height="120px" style="border: 0px;" scrolling="no"></iframe>
-	<% } else { %>
+	<% } else { 
+		Users u = (Users) session.getAttribute("users");
+		System.out.println(u.getUAccount());
+	%>
 	<iframe id="header_nav" src="nav_model/header_nav_after.jsp"
 		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
 	<% }%>
@@ -273,7 +278,7 @@
 				<div class="grids_of_4">
 					<c:forEach var="house" items="${houseSellEnterpriseList}">
 						<div class="grid1_of_4">
-							<a href="details.jsp"> <img src=${house.pics } alt="" />
+							<a href="<%=basePath %>details.jsp?${house.HId }"> <img src=${house.pics } alt="" />
 								<div style="height: 30px; padding-left: 2%; text-align: left;">
 									<h3>${house.title }</h3>
 								</div>

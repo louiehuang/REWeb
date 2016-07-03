@@ -17,7 +17,7 @@
 	media="screen">
 
 <script type="text/javascript" src="js/common/jquery-2.0.0.min.js"></script>
-<script type="text/javascript" src="js/common/jquery-ui"></script>
+<!-- <script type="text/javascript" src="js/common/jquery-ui"></script> -->
 <script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 
 <script type="text/javascript">

@@ -34,13 +34,13 @@
         <property name="UEmail" type="java.lang.String">
             <column name="U_Email" />
         </property>
-        <set name="collects" inverse="true">
+        <set name="collects" inverse="true" lazy="false">
             <key>
                 <column name="U_id" not-null="true" />
             </key>
             <one-to-many class="com.chinasoft.pojo.Collect" />
         </set>
-        <set name="comments" inverse="true">
+        <set name="comments" inverse="true" lazy="false">
             <key>
                 <column name="U_id" not-null="true" />
             </key>

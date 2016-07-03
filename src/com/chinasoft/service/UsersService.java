@@ -42,6 +42,18 @@ public class UsersService {
 		}
 		return flag;
 	}
+	
+	public List findByUAccount(Object UAccount) {
+		return usersDAO.findByUAccount(UAccount);
+	}
+	
+	public List findByExample(Users user) {
+		return usersDAO.findByExample(user);
+	}
+	
+	public void save(Users user){
+		usersDAO.save(user);
+	}
 
 
 }
