@@ -78,6 +78,12 @@
 				<param name="root">saveFlag</param>
 			</result>
 		</action>
+		
+		<action name="json_queryAllUser" class="JsonAction" method="json_findAllUser">
+			<result type="json" name="findAll_success">
+				<param name="root">dataMap_AllUser</param>
+			</result>
+		</action>
 
 
 	</package>

@@ -2,12 +2,6 @@ package com.chinasoft.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.ServletActionContext;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import com.chinasoft.dao.UsersDAO;
 import com.chinasoft.pojo.Users;
 
@@ -26,6 +20,7 @@ public class UsersService {
 
 	// 这一层可以返回任意类型，不用通action层只能返回String
 	// 此层也可以传参数
+	@SuppressWarnings("unchecked")
 	public Users login(Users users) {
 		List<Users> list = usersDAO.findByExample(users);
 		if (list.size() > 0) {
@@ -46,13 +41,20 @@ public class UsersService {
 		return flag;
 	}
 	
-	public List findByUAccount(Object UAccount) {
+	@SuppressWarnings("unchecked")
+	public List<Users> findByUAccount(Object UAccount) {
 		return usersDAO.findByUAccount(UAccount);
 	}
 	
-	public List findByExample(Users user) {
+	@SuppressWarnings("unchecked")
+	public List<Users> findByExample(Users user) {
 		return usersDAO.findByExample(user);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Users> findAll(){
+		return usersDAO.findAll();
+	} 
 	
 	public void save(Users user){
 		usersDAO.save(user);

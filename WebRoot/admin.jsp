@@ -145,16 +145,51 @@
 		}
 		htmls.push('</table>');
 
-		$('#tableDiv').html(htmls.join(''));
+		//$('#tableDiv').html(htmls.join(''));
+		$('#tableDivAllUser').html(htmls.join(''));
+
+	}
+
+	//创建查询所有用户表格
+	function createAllUserTable(data) {
+		json = data.list;
+		pageIndex = data.pageIndex;
+		pageSize = data.pageSize;
+		pageCount = data.pageCount;
+		$("#pageIndex").attr("value", pageIndex);
+		$("#pageIndex").attr("value", pageIndex);
+		$("#pageCount").attr("value", pageCount);
+		
+
+		//alert(pageIndex + "," + pageSize + "," + pageCount);
+
+		var htmls = [ '<table class=\"table table-hover\" id=\"UserTable\">' ];
+		htmls.push('<thead><tr>');
+		for ( var k in json[0])
+			htmls.push('<td>' + k + '</td>');
+		htmls.push('</tr></thead>');
+		htmls.push('<tbody>');
+
+		for (var i = 0, L = json.length; i < L; i++) {
+			htmls.push('<tr>');
+			for ( var k in json[i]) {
+				htmls.push('<td>' + json[i][k] + '</td>');
+			}
+			htmls.push('</tr>');
+		}
+		htmls.push('</tbody></table>');
+
+		$('#tableDivAllUser').html(htmls.join(''));
+
 	}
 
 	function loadUserInfo(jsonList) {
 		//json一个list
-		
+
 		creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
 		//inputUserType province-select city-select county-select inputCommunity
 		cur = 0;
-		for ( var k in jsonList[0]) { 
+		for ( var k in jsonList[0]) {
 			switch (cur) {
 			case 0:
 				$("#inputUAccount").attr("value", jsonList[0][k]);
@@ -169,13 +204,13 @@
 			case 3: {
 				// $("#inputSex").prop("checked", true);
 				// $("#inputSex").prop("checked", "checked");
-// 								if (jsonList[0][k] == "男") {
-// 									$("#inputSex").bootstrapSwitch("toggleState");
-// 									$("#inputSex").bootstrapSwitch("setState", true); 	
-// 								}else{
-// 									$("#inputSex").bootstrapSwitch("toggleState");
-// 									$("#inputSex").bootstrapSwitch("setState", flase); 	
-// 								}
+				// 								if (jsonList[0][k] == "男") {
+				// 									$("#inputSex").bootstrapSwitch("toggleState");
+				// 									$("#inputSex").bootstrapSwitch("setState", true); 	
+				// 								}else{
+				// 									$("#inputSex").bootstrapSwitch("toggleState");
+				// 									$("#inputSex").bootstrapSwitch("setState", flase); 	
+				// 								}
 				break;
 			}
 			case 5:
@@ -214,48 +249,148 @@
 				type : 'post',
 				dataType : "json",
 				//data : "user.UAccount=" + $("#UAccount").val(),
-				data: {"user.UAccount": $("#UAccount").val()},
+				data : {
+					"user.UAccount" : $("#UAccount").val()
+				},
 				//async : false, //默认为true 异步   
 				error : function() {
 					alert('error');
 				},
 				success : function(data) {
-					createTable(data.list);
+					//createTable(data.list);
 					loadUserInfo(data.list);
 				}
 			});
 		});
 
-		
+		//修改用户信息
 		$("#add_user_submit").click(function() {
 			$.ajax({
 				url : 'json_updateUser.action',
 				type : 'post',
 				dataType : "json",
-				data: {
-						   "a_user.UId": $("#inputUId").val(), //用id赋值
-						   "a_user.UAccount": $("#inputUAccount").val(),
-						   "a_user.UPwd": $("#inputPassword").val(),	
-						   "a_user.UName": $("#inputUsername").val(),	
-						   "a_user.UGender": $("#inputSex").val(),	
-						   "a_user.UCredit": $("#credit-select").val(),	
-						   "a_user.UTele": $("#inputPhoneNumber").val(),	
-						   "a_user.UEmail": $("#inputEmail").val(),	
+				data : {
+					"a_user.UId" : $("#inputUId").val(), //用id赋值
+					"a_user.UAccount" : $("#inputUAccount").val(),
+					"a_user.UPwd" : $("#inputPassword").val(),
+					"a_user.UName" : $("#inputUsername").val(),
+					"a_user.UGender" : $("#inputSex").val(),
+					"a_user.UCredit" : $("#credit-select").val(),
+					"a_user.UTele" : $("#inputPhoneNumber").val(),
+					"a_user.UEmail" : $("#inputEmail").val(),
 				},
 				async : false, //默认为true 异步   
 				error : function() {
 					alert('error' + ", " + $("#inputUAccount").val());
 				},
 				success : function(data) {
-					alert("用户信息修改成功" );
+					alert("用户信息修改成功");
 				}
 			});
 		});
-		
-		
+
+		$("#btn_um_query_all").click(function() {
+			
+			$.ajax({
+				url : 'json_queryAllUser.action',
+				type : 'post',
+				dataType : "json",
+				//data : "user.UAccount=" + $("#UAccount").val(),
+				data : {
+					"pageIndex" : 1,
+					"pageSize" : 10,
+					"pageCount" : 0,
+				},
+				async : false, //默认为true 异步   
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					createAllUserTable(data);
+					//loadUserInfo(data.list);
+				}
+			});
+			
+			//async : false,同步，执行完回调函数success后设置了pageIndex和pageCount控件值后，这里再进行获取和赋值
+			var pageIndex = $("#pageIndex").val();
+			var pageCount = $("#pageCount").val();
+			$("#curPageIndex").attr("value", pageIndex);
+			$("#curPageCount").attr("value", pageCount);
+			
+		});
+
+		$("#btn_um_lastpage").click(function() {
+			var pageIndex = $("#pageIndex").val();
+			var pageCount = $("#pageCount").val();
+
+			if (pageIndex <= 1) {
+				pageIndex = 1;
+			} else {
+				pageIndex--;
+			}
+
+			$("#curPageIndex").attr("value", pageIndex);
+			$("#curPageCount").attr("value", pageCount);
+			
+			$.ajax({
+				url : 'json_queryAllUser.action',
+				type : 'post',
+				dataType : "json",
+				//data : "user.UAccount=" + $("#UAccount").val(),
+				data : {
+					"pageIndex" : pageIndex,
+					"pageSize" : pageSize,
+					"pageCount" : pageCount,
+				},
+				//async : false, //默认为true 异步  
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					createAllUserTable(data);
+				}
+			});
+		});
+
+		$("#btn_um_nextpage").click(function() {
+			var pageIndex = $("#pageIndex").val();
+			var pageCount = $("#pageCount").val();
+
+			if (pageIndex >= pageCount) {
+				pageIndex = pageCount;
+			} else {
+				pageIndex++;
+			}
+
+			$("#curPageIndex").attr("value", pageIndex);
+			$("#curPageCount").attr("value", pageCount);
+			
+
+			$.ajax({
+				url : 'json_queryAllUser.action',
+				type : 'post',
+				dataType : "json",
+				//data : "user.UAccount=" + $("#UAccount").val(),
+				data : {
+					"pageIndex" : pageIndex,
+					"pageSize" : pageSize,
+					"pageCount" : pageCount,
+				},
+				//async : false, //默认为true 异步  
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					createAllUserTable(data);
+				}
+			});
+		});
 
 	});
 </script>
+
+
+
 
 
 <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
@@ -265,6 +400,13 @@
 <body onload="setup();preselect('湖北省');promptinfo();">
 	<iframe id="header_nav" src="nav_model/header_nav_admin.jsp"
 		width="100%" height="48px" style="border: 0px;" scrolling="no"></iframe>
+
+
+	<!-- 	分页隐藏域 -->
+	<input type="hidden" name="hiddenPageIndex" id="pageIndex" value="1" />
+	<input type="hidden" name="hiddenPageSize" id="pageSize" value="10" />
+	<input type="hidden" name="hiddenPageCount" id="pageCount" value="0" />
+
 
 	<div id="wrapper">
 		<div id="content">
@@ -374,6 +516,8 @@
 							</li>
 							<li><a href="#delUser" data-toggle="tab">查看/删除</a></li>
 						</ul>
+
+
 						<div class="tab-content">
 							<div class="tab-pane active" id="addUser">
 								<div class="container-fluid">
@@ -394,7 +538,7 @@
 												<button type="submit" class="btn btn-primary"
 													onclick="changeToUserAdd()">退出修改</button>
 
-												<div id="tableDiv"></div>
+												<!-- 												<div id="tableDiv"></div> -->
 											</div>
 
 
@@ -410,8 +554,10 @@
 													</div>
 													<div id="accordion-element-basic" class="accordion-body ">
 														<div class="accordion-inner ">
+	
+															<!-- 隐藏域，存放用户ID -->
+															<input type="hidden" id="inputUId"/>
 
-															<input type="hidden" name="a_user.UId" id="inputUId"/>
 															<div class="my-container accordion-gap">
 																<label class="my-control-label">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
 																<div class=" my-control">
@@ -455,15 +601,6 @@
 															</div>
 
 
-
-
-															<!--毒瘤		-->
-															<!-- <input type="hidden" name="a_user.UCredit" value="1"/> -->
-
-
-
-
-
 														</div>
 													</div>
 												</div>
@@ -504,42 +641,43 @@
 								<br /> <br />
 							</div>
 
-							<div class="tab-pane" id="delUser">
-								<div class="container accordion-gap">
-									<table class="table table-hover " id="UserTable">
-										<thead>
-											<tr>
-												<td>用户ID</td>
-												<td>邮箱</td>
-												<td>用户名</td>
-												<td>密码</td>
-												<td>性别</td>
-												<td>联系电话</td>
-												<td>信用等级</td>
-												<td>身份</td>
-												<td>地址</td>
-											</tr>
-										</thead>
 
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>2@gmail.com</td>
-												<td>小王</td>
-												<td>12121212</td>
-												<td>男</td>
-												<td>13874562134</td>
-												<td>四星</td>
-												<td>个人用户</td>
-												<td>湖北省武汉市珞喻路152号华中师范大学</td>
-											</tr>
-										</tbody>
-									</table>
-									<button class="btn btn-info my-center-block accordion-gap"
-										name="del_user_submit">确认删除</button>
+							<!-- 查看/删除 -->
+							<div class="tab-pane" id="delUser">
+								<div style="float:right; margin-right:100px;margin-top:30px;">
+									<input id="intputPageCount"
+										style="width:170px;height:30px; margin-right:30px;"
+										type="text" value="" placeholder="请输入分页大小" />
+									<button id="btn_um_query_all" type="submit"
+										class="btn btn-primary" style="width:150px;">查询</button>
+
+								</div>
+
+								<div style="clear:both;height:5px"></div>
+
+
+
+								<div class="container accordion-gap">
+									<div id="tableDivAllUser"></div>
+
+									<div style="clear:both;height:5px;margin-bottom:30px;"></div>
+									<div style="margin-bottom:80px;float:right;margin-right:65px;">
+									
+									当前
+									<input type="text" style="width:20px" id="curPageIndex"  readonly="readonly"/>
+									/ 
+									<input type="text" style="width:20px" id="curPageCount"  readonly="readonly"/>
+									 页
+									
+									
+										
+										<button id="btn_um_lastpage" class="btn btn-primary"
+											style="width:80px;margin-left:30px;">上一页</button>
+										<button id="btn_um_nextpage" class="btn btn-primary"
+											style="width:80px;margin-left:30px;">下一页</button>
+									</div>
 								</div>
 							</div>
-						</div>
 						</article>
 					</div>
 					<div id="tab-4" class="tab">
