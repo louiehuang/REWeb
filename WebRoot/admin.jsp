@@ -20,6 +20,8 @@
 <script src="js/common/bootstrap.min.js"></script>
 <script src=" js/admin/bootstrap-switch.min.js "></script>
 <script type="text/javascript" src="js/admin/geo.js"></script>
+
+
 <script>
 	$(function() {
 		$("[name='state']").bootstrapSwitch({
@@ -128,6 +130,7 @@
 
 
 <script type="text/javascript">
+	//测试表
 	function createTable(json) {
 		var htmls = [ '<table>' ];
 
@@ -145,13 +148,68 @@
 		}
 		htmls.push('</table>');
 
-		//$('#tableDiv').html(htmls.join(''));
 		$('#tableDivAllUser').html(htmls.join(''));
 
 	}
 
+	//切换页面
+	function changeCurPage(self) {
+		/*从隐藏域获取当前页和总页数*/
+		var pageIndex = $("#pageIndex").val();
+		var pageCount = $("#pageCount").val();
+		//alert(self.id + "," + pageIndex + ", " + pageCount);
+
+		/*设置下一次的当前页*/
+		if (self.id == "btn_um_lastpage") { //上一页
+			//alert("btn_um_lastpage");
+			if (pageIndex <= 1) {
+				pageIndex = 1;
+			} else {
+				pageIndex--;
+			}
+		} else if (self.id == "btn_um_nextpage") { //下一页
+			//alert("btn_um_nextpage");
+			if (pageIndex >= pageCount) {
+				pageIndex = pageCount;
+			} else {
+				pageIndex++;
+			}
+		}
+
+		/*更新隐藏域以便下一次执行函数进行获取*/
+		$("#curPageIndex").attr("value", pageIndex);
+		$("#curPageCount").attr("value", pageCount);
+
+		/*局部刷新页面，输出获得的数据*/
+		$.ajax({
+			url : 'json_queryAllUser.action',
+			type : 'post',
+			dataType : "json",
+			data : {
+				"pageIndex" : pageIndex,
+				"pageSize" : pageSize,
+				"pageCount" : pageCount,
+			},
+			//async : false, //默认为true 异步  
+			error : function() {
+				alert('error');
+			},
+			success : function(data) {
+				//alert(JSON.stringify(data));
+				createAllUserTable(data);
+			}
+		});
+	}
+
 	//创建查询所有用户表格
 	function createAllUserTable(data) {
+		/*返回的data形式的json数据，字段顺序和数据库中字段顺序不同，
+		因此需要进行处理：
+		1.可以在后台对data进行按期望的字段顺序拼接；
+		2.jquery的data Adapter指定格式
+		 */
+
+		//alert(JSON.stringify(data));
 		json = data.list;
 		pageIndex = data.pageIndex;
 		pageSize = data.pageSize;
@@ -159,33 +217,41 @@
 		$("#pageIndex").attr("value", pageIndex);
 		$("#pageIndex").attr("value", pageIndex);
 		$("#pageCount").attr("value", pageCount);
-		
-
-		//alert(pageIndex + "," + pageSize + "," + pageCount);
 
 		var htmls = [ '<table class=\"table table-hover\" id=\"UserTable\">' ];
 		htmls.push('<thead><tr>');
-		for ( var k in json[0])
-			htmls.push('<td>' + k + '</td>');
+
+		htmls.push('<td>' + "用户ID" + '</td>');
+		htmls.push('<td>' + "用户账号" + '</td>');
+		htmls.push('<td>' + "用户密码" + '</td>');
+		htmls.push('<td>' + "用户名称" + '</td>');
+		htmls.push('<td>' + "性别" + '</td>');
+		htmls.push('<td>' + "联系电话" + '</td>');
+		htmls.push('<td>' + "电子邮箱" + '</td>');
+		htmls.push('<td>' + "信用等级" + '</td>');
+
 		htmls.push('</tr></thead>');
 		htmls.push('<tbody>');
 
 		for (var i = 0, L = json.length; i < L; i++) {
 			htmls.push('<tr>');
-			for ( var k in json[i]) {
-				htmls.push('<td>' + json[i][k] + '</td>');
-			}
+			htmls.push('<td>' + json[i].UId + '</td>');
+			htmls.push('<td>' + json[i].UAccount + '</td>');
+			htmls.push('<td>' + json[i].UPwd + '</td>');
+			htmls.push('<td>' + json[i].UName + '</td>');
+			htmls.push('<td>' + json[i].UGender + '</td>');
+			htmls.push('<td>' + json[i].UTele + '</td>');
+			htmls.push('<td>' + json[i].UEmail + '</td>');
+			htmls.push('<td>' + json[i].UCredit + '</td>');
 			htmls.push('</tr>');
 		}
-		htmls.push('</tbody></table>');
 
+		htmls.push('</tbody></table>');
 		$('#tableDivAllUser').html(htmls.join(''));
 
 	}
 
 	function loadUserInfo(jsonList) {
-		//json一个list
-
 		creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
 		//inputUserType province-select city-select county-select inputCommunity
 		cur = 0;
@@ -231,7 +297,6 @@
 		}
 
 		// 		var arr = new Array("#inputEmail", "#inputUsername", "#inputPassword");
-
 		// 		for (var i = 0, L = jsonList.length; i < L; i++) {
 		// 			var j = 0;
 		// 			for ( var k in jsonList[i]) {
@@ -289,101 +354,35 @@
 			});
 		});
 
+		//查询所有用户信息，生成分页表
 		$("#btn_um_query_all").click(function() {
+			pageSize = $("#pageSize").attr("value");
 			
 			$.ajax({
 				url : 'json_queryAllUser.action',
 				type : 'post',
 				dataType : "json",
-				//data : "user.UAccount=" + $("#UAccount").val(),
 				data : {
 					"pageIndex" : 1,
-					"pageSize" : 10,
+					"pageSize" : pageSize,
 					"pageCount" : 0,
 				},
-				async : false, //默认为true 异步   
+				async : false, //同步 
 				error : function() {
 					alert('error');
 				},
 				success : function(data) {
-					createAllUserTable(data);
-					//loadUserInfo(data.list);
+					//alert(JSON.stringify(data.list));
+					createAllUserTable(data); //显示用户表
 				}
 			});
-			
-			//async : false,同步，执行完回调函数success后设置了pageIndex和pageCount控件值后，这里再进行获取和赋值
+
+			//前面设置async为false, 即同步，执行完回调函数success后设置了pageIndex和pageCount控件值后，这里再进行获取和赋值
 			var pageIndex = $("#pageIndex").val();
 			var pageCount = $("#pageCount").val();
 			$("#curPageIndex").attr("value", pageIndex);
 			$("#curPageCount").attr("value", pageCount);
-			
-		});
 
-		$("#btn_um_lastpage").click(function() {
-			var pageIndex = $("#pageIndex").val();
-			var pageCount = $("#pageCount").val();
-
-			if (pageIndex <= 1) {
-				pageIndex = 1;
-			} else {
-				pageIndex--;
-			}
-
-			$("#curPageIndex").attr("value", pageIndex);
-			$("#curPageCount").attr("value", pageCount);
-			
-			$.ajax({
-				url : 'json_queryAllUser.action',
-				type : 'post',
-				dataType : "json",
-				//data : "user.UAccount=" + $("#UAccount").val(),
-				data : {
-					"pageIndex" : pageIndex,
-					"pageSize" : pageSize,
-					"pageCount" : pageCount,
-				},
-				//async : false, //默认为true 异步  
-				error : function() {
-					alert('error');
-				},
-				success : function(data) {
-					createAllUserTable(data);
-				}
-			});
-		});
-
-		$("#btn_um_nextpage").click(function() {
-			var pageIndex = $("#pageIndex").val();
-			var pageCount = $("#pageCount").val();
-
-			if (pageIndex >= pageCount) {
-				pageIndex = pageCount;
-			} else {
-				pageIndex++;
-			}
-
-			$("#curPageIndex").attr("value", pageIndex);
-			$("#curPageCount").attr("value", pageCount);
-			
-
-			$.ajax({
-				url : 'json_queryAllUser.action',
-				type : 'post',
-				dataType : "json",
-				//data : "user.UAccount=" + $("#UAccount").val(),
-				data : {
-					"pageIndex" : pageIndex,
-					"pageSize" : pageSize,
-					"pageCount" : pageCount,
-				},
-				//async : false, //默认为true 异步  
-				error : function() {
-					alert('error');
-				},
-				success : function(data) {
-					createAllUserTable(data);
-				}
-			});
 		});
 
 	});
@@ -404,7 +403,7 @@
 
 	<!-- 	分页隐藏域 -->
 	<input type="hidden" name="hiddenPageIndex" id="pageIndex" value="1" />
-	<input type="hidden" name="hiddenPageSize" id="pageSize" value="10" />
+	<!-- 	<input type="hidden" name="hiddenPageSize" id="pageSize" value="10" /> -->
 	<input type="hidden" name="hiddenPageCount" id="pageCount" value="0" />
 
 
@@ -538,11 +537,7 @@
 												<button type="submit" class="btn btn-primary"
 													onclick="changeToUserAdd()">退出修改</button>
 
-												<!-- 												<div id="tableDiv"></div> -->
 											</div>
-
-
-											<!-- 											<form action="um!updateFromAdmin" method="post"> -->
 
 
 											<div class="accordion" id="accordion-423793">
@@ -554,9 +549,9 @@
 													</div>
 													<div id="accordion-element-basic" class="accordion-body ">
 														<div class="accordion-inner ">
-	
+
 															<!-- 隐藏域，存放用户ID -->
-															<input type="hidden" id="inputUId"/>
+															<input type="hidden" id="inputUId" />
 
 															<div class="my-container accordion-gap">
 																<label class="my-control-label">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
@@ -634,7 +629,6 @@
 													value="提交" id="add_user_submit">
 											</div>
 
-											<!-- 											</form> -->
 										</div>
 									</div>
 								</div>
@@ -645,7 +639,7 @@
 							<!-- 查看/删除 -->
 							<div class="tab-pane" id="delUser">
 								<div style="float:right; margin-right:100px;margin-top:30px;">
-									<input id="intputPageCount"
+									<input id="pageSize"
 										style="width:170px;height:30px; margin-right:30px;"
 										type="text" value="" placeholder="请输入分页大小" />
 									<button id="btn_um_query_all" type="submit"
@@ -658,23 +652,21 @@
 
 
 								<div class="container accordion-gap">
-									<div id="tableDivAllUser"></div>
+									<div id="tableDivAllUser"
+										style="margin-left:3%; margin-right:3%"></div>
 
-									<div style="clear:both;height:5px;margin-bottom:30px;"></div>
-									<div style="margin-bottom:80px;float:right;margin-right:65px;">
-									
-									当前
-									<input type="text" style="width:20px" id="curPageIndex"  readonly="readonly"/>
-									/ 
-									<input type="text" style="width:20px" id="curPageCount"  readonly="readonly"/>
-									 页
-									
-									
-										
-										<button id="btn_um_lastpage" class="btn btn-primary"
-											style="width:80px;margin-left:30px;">上一页</button>
-										<button id="btn_um_nextpage" class="btn btn-primary"
-											style="width:80px;margin-left:30px;">下一页</button>
+									<div style="clear:both;height:5px; margin-bottom:30px;"></div>
+
+									<div style="margin-bottom:150px;float:right;margin-right:65px;">
+										当前 <input type="text" style="width:20px" id="curPageIndex"
+											readonly="readonly" /> / <input type="text"
+											style="width:20px" id="curPageCount" readonly="readonly" />
+										页 <input id="btn_um_lastpage" class="btn btn-primary"
+											onclick="changeCurPage(this)" type="button"
+											style="width:80px;margin-left:30px;" value="上一页" /> <input
+											id="btn_um_nextpage" class="btn btn-primary"
+											onclick="changeCurPage(this)" type="button"
+											style="width:80px;margin-left:30px;" value="下一页" />
 									</div>
 								</div>
 							</div>

@@ -10,7 +10,6 @@ import java.util.Set;
 public class Users implements java.io.Serializable {
 
 	// Fields
-
 	private Integer UId;
 	private String UAccount;
 	private String UPwd;

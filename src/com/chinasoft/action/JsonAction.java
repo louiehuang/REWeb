@@ -17,7 +17,7 @@ public class JsonAction {
 	private boolean updateFlag; //更新标志
 
 	private int pageIndex = 1;
-	private int pageSize = 10;
+	private int pageSize = 10; //默认分页大小
 	private int pageCount = 0;
 
 	public int getPageIndex() {
@@ -169,20 +169,24 @@ public class JsonAction {
 	}
 	
 	
+	/**
+	 * 查询所有用户
+	 * @return
+	 */
 	public String json_findAllUser() {
+		System.out.println("json_findAllUser执行: ");
 		try {
 			dataMap_AllUser = new HashMap<String, Object>();
-			// List list = usersService.findByUAccount(uAccount);
 			List<Users> list = new ArrayList<Users>();
 			list = usersService.findAll();
 			list = cutPage(list, pageIndex, pageSize); //分页
-			
-			dataMap_AllUser.put("list", list);
+
+			dataMap_AllUser.put("list", list);			
 			dataMap_AllUser.put("pageIndex", pageIndex);
 			dataMap_AllUser.put("pageSize", pageSize);
 			dataMap_AllUser.put("pageCount", pageCount);
 			
-			dataMap_AllUser.put("success_queryAllUser", true);
+			//dataMap_AllUser.put("success_queryAllUser", true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -190,6 +194,13 @@ public class JsonAction {
 		return "findAll_success";
 	}
 	
+	/**
+	 * 根据当前所在页 和 每页大小进行分页
+	 * @param list
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
 	public List<Users> cutPage(List<Users> list, int pageIndex, int pageSize) {
 		List<Users> newList = new ArrayList<Users>();
 		if (list != null) {

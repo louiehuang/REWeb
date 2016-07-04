@@ -66,7 +66,7 @@
 				<param name="root">dataMap</param>
 			</result>
 		</action>
-		
+
 		<action name="json_updateUser" class="JsonAction" method="json_updateUser">
 			<result type="json">
 				<param name="root">updateFlag</param>
@@ -78,7 +78,7 @@
 				<param name="root">saveFlag</param>
 			</result>
 		</action>
-		
+
 		<action name="json_queryAllUser" class="JsonAction" method="json_findAllUser">
 			<result type="json" name="findAll_success">
 				<param name="root">dataMap_AllUser</param>
