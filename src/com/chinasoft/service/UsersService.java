@@ -2,6 +2,9 @@ package com.chinasoft.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -54,6 +57,12 @@ public class UsersService {
 	public void save(Users user){
 		usersDAO.save(user);
 	}
+	
+	
+	public void update(Users user) {
+		usersDAO.update(user);
+	}
+	
 
 
 }

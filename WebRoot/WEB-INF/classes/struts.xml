@@ -66,12 +66,17 @@
 				<param name="root">dataMap</param>
 			</result>
 		</action>
+		
+		<action name="json_updateUser" class="JsonAction" method="json_updateUser">
+			<result type="json">
+				<param name="root">updateFlag</param>
+			</result>
+		</action>
 
 		<action name="json_saveUser" class="JsonAction" method="json_saveUser">
-			<result type="json" name="save_success">
+			<result type="json">
 				<param name="root">saveFlag</param>
 			</result>
-
 		</action>
 
 

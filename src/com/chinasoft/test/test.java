@@ -33,6 +33,14 @@ public class test {
 		//JUnit²âÊÔ
 //		//²âÊÔÊ×Ò³³ö×âĞÅÏ¢Êä³ö
 		System.out.println("²âÊÔ");
+		
+		
+		
+		
+		
+		
+		
+		
 //		IndexAction action = (IndexAction) context.getBean("IndexAction");
 //		List<HouseSellRent> list = action.Test2();			
 //		for(int i = 0; i < list.size(); i++)
@@ -46,15 +54,15 @@ public class test {
 //		}
 		
 
-		JsonAction action = (JsonAction) context.getBean("JsonAction");
-		Map<String, Object> dataMap = action.json_Test();
-		List<Users> list = new ArrayList<Users>();
-		list = (List<Users>) dataMap.get("list");
-		for(int i = 0; i < list.size(); i++){
-			System.out.println(list.get(i).getUAccount());
-		}
-		
-		System.out.println(dataMap);
+//		JsonAction action = (JsonAction) context.getBean("JsonAction");
+//		Map<String, Object> dataMap = action.json_Test();
+//		List<Users> list = new ArrayList<Users>();
+//		list = (List<Users>) dataMap.get("list");
+//		for(int i = 0; i < list.size(); i++){
+//			System.out.println(list.get(i).getUAccount());
+//		}
+//		
+//		System.out.println(dataMap);
 
 		
 		

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="com.chinasoft.pojo.Users"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -147,43 +148,47 @@
 		$('#tableDiv').html(htmls.join(''));
 	}
 
-	function loadUserInfo(json) {
+	function loadUserInfo(jsonList) {
+		//json一个list
+		
 		creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
-
 		//inputUserType province-select city-select county-select inputCommunity
 		cur = 0;
-		for ( var k in json[0]) {
+		for ( var k in jsonList[0]) { 
 			switch (cur) {
 			case 0:
-				$("#inputUAccount").attr("value", json[0][k]);
+				$("#inputUAccount").attr("value", jsonList[0][k]);
 				break;
 			case 1: {
-				creditSelect[json[0][k] - 1].selected = true; //0~4对应1~5星
+				creditSelect[jsonList[0][k] - 1].selected = true; //0~4对应1~5星
 				break;
 			}
 			case 2:
-				$("#inputEmail").attr("value", json[0][k]);
+				$("#inputEmail").attr("value", jsonList[0][k]);
 				break;
 			case 3: {
 				// $("#inputSex").prop("checked", true);
 				// $("#inputSex").prop("checked", "checked");
-				// 				if (json[0][k] == "男") {
-				// 					$("#inputSex").bootstrapSwitch("toggleState");
-				// 					$("#inputSex").bootstrapSwitch("setState", true); 	
-				// 				}else{
-				// 					$("#inputSex").bootstrapSwitch("toggleState");
-				// 					$("#inputSex").bootstrapSwitch("setState", flase); 	
-				// 				}
+// 								if (jsonList[0][k] == "男") {
+// 									$("#inputSex").bootstrapSwitch("toggleState");
+// 									$("#inputSex").bootstrapSwitch("setState", true); 	
+// 								}else{
+// 									$("#inputSex").bootstrapSwitch("toggleState");
+// 									$("#inputSex").bootstrapSwitch("setState", flase); 	
+// 								}
 				break;
 			}
+			case 5:
+				$("#inputUId").attr("value", jsonList[0][k]);
+				break;
 			case 6:
-				$("#inputUsername").attr("value", json[0][k]);
+				$("#inputUsername").attr("value", jsonList[0][k]);
 				break;
 			case 7:
-				$("#inputPassword").attr("value", json[0][k]);
+				$("#inputPassword").attr("value", jsonList[0][k]);
 				break;
 			case 8:
-				$("#inputPhoneNumber").attr("value", json[0][k]);
+				$("#inputPhoneNumber").attr("value", jsonList[0][k]);
 				break;
 			}
 
@@ -192,10 +197,10 @@
 
 		// 		var arr = new Array("#inputEmail", "#inputUsername", "#inputPassword");
 
-		// 		for (var i = 0, L = json.length; i < L; i++) {
+		// 		for (var i = 0, L = jsonList.length; i < L; i++) {
 		// 			var j = 0;
-		// 			for ( var k in json[i]) {
-		// 				$(arr[j]).attr("value", json[i][k]);
+		// 			for ( var k in jsonList[i]) {
+		// 				$(arr[j]).attr("value", jsonList[i][k]);
 		// 				j++;
 		// 			}
 		// 		}
@@ -224,19 +229,25 @@
 		
 		$("#add_user_submit").click(function() {
 			$.ajax({
-				url : 'json_saveUser.action',
+				url : 'json_updateUser.action',
 				type : 'post',
 				dataType : "json",
-				data: {"a_user.UAccount": $("#inputUAccount").val(),
-//						   "a_user.UPwd": $("#a_user.UPwd").val(),	
-//						   "a_user.UName": $("#a_user.UName").val(),	
+				data: {
+						   "a_user.UId": $("#inputUId").val(), //用id赋值
+						   "a_user.UAccount": $("#inputUAccount").val(),
+						   "a_user.UPwd": $("#inputPassword").val(),	
+						   "a_user.UName": $("#inputUsername").val(),	
+						   "a_user.UGender": $("#inputSex").val(),	
+						   "a_user.UCredit": $("#credit-select").val(),	
+						   "a_user.UTele": $("#inputPhoneNumber").val(),	
+						   "a_user.UEmail": $("#inputEmail").val(),	
 				},
 				async : false, //默认为true 异步   
 				error : function() {
 					alert('error' + ", " + $("#inputUAccount").val());
 				},
 				success : function(data) {
-					alert("修改成功, " + data);
+					alert("用户信息修改成功" );
 				}
 			});
 		});
@@ -247,14 +258,6 @@
 </script>
 
 
-<!-- <script type="text/javascript"> -->
-<!-- 	$(function() { -->
-<!-- 		$("#b01").click(function() { -->
-<!-- 			$("inputUsername").val("123"); -->
-<!-- 			$("inputUsername").attr("value", "456"); -->
-<!-- 		}); -->
-<!-- 	}); -->
-<!-- </script> -->
 <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 </head>
 
@@ -408,6 +411,7 @@
 													<div id="accordion-element-basic" class="accordion-body ">
 														<div class="accordion-inner ">
 
+															<input type="hidden" name="a_user.UId" id="inputUId"/>
 															<div class="my-container accordion-gap">
 																<label class="my-control-label">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
 																<div class=" my-control">
@@ -453,9 +457,9 @@
 
 
 
-
 															<!--毒瘤		-->
-															<!-- 																<input type="hidden" name="a_user.UCredit" value="1"/> -->
+															<!-- <input type="hidden" name="a_user.UCredit" value="1"/> -->
+
 
 
 

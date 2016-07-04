@@ -17,6 +17,15 @@ public class JsonAction {
 	private Users user;
 	private Users a_user;
 	private boolean saveFlag;
+	private boolean updateFlag;
+
+	public boolean isUpdateFlag() {
+		return updateFlag;
+	}
+
+	public void setUpdateFlag(boolean updateFlag) {
+		this.updateFlag = updateFlag;
+	}
 
 	public boolean isSaveFlag() {
 		return saveFlag;
@@ -57,68 +66,86 @@ public class JsonAction {
 	public void setDataMap(Map<String, Object> dataMap) {
 		this.dataMap = dataMap;
 	}
-	
+
 	/**
 	 * 根据用户账号查询用户信息
+	 * 
 	 * @return
 	 */
-	public String json_findUser(){
+	public String json_findUser() {
 		String uAccount = user.getUAccount();
 		System.out.println("json_findUser执行: " + uAccount);
-		
-//		ServletRequest request = ServletActionContext.getRequest();
-//		uAccount = request.getParameter("uAccount");
-		
-		try{
+
+		// ServletRequest request = ServletActionContext.getRequest();
+		// uAccount = request.getParameter("uAccount");
+
+		try {
 			dataMap = new HashMap<String, Object>();
-//			List list = usersService.findByUAccount(uAccount);
-			List list = usersService.findByExample(user);
+			// List list = usersService.findByUAccount(uAccount);
+			List<Users> list = usersService.findByExample(user);
 			dataMap.put("list", list);
 			dataMap.put("success_queryUser", true);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        // 返回结果  
-        return "find_success"; 
+		// 返回结果
+		return "find_success";
 	}
-	
-	
+
 	/**
-	 * 保存对用户信息的修改
+	 * 更新对用户信息的修改
+	 * 
 	 * @return
 	 */
-	public String json_saveUser(){
+	public String json_updateUser() {
+		try {
+			a_user.setUGender((a_user.getUGender().equals("on") ? "男" : "女"));
+
+			System.out.println("json_updateUser执行: " + a_user.getUId() + ","
+					+ a_user.getUAccount() + "," + a_user.getUPwd() + ","
+					+ a_user.getUName() + "," + a_user.getUGender() + ","
+					+ a_user.getUHeader() + "," + a_user.getUCredit() + ","
+					+ a_user.getUTele() + "," + a_user.getUEmail());
+
+			usersService.update(a_user);
+
+			updateFlag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
+
+	/**
+	 * 添加用户信息
+	 * 
+	 * @return
+	 */
+	public String json_saveUser() {
 		String uAccount = a_user.getUAccount();
 		System.out.println("json_findUser执行: " + uAccount);
 
-		try{
+		try {
 			saveFlag = true;
 			System.out.println(saveFlag);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        // 返回结果  
-        return "save_success"; 
+		// 返回结果
+		return "save_success";
 	}
-	
-	
-	
-	
-	
-	public Map<String, Object> json_Test(){
-		try{
+
+	public Map<String, Object> json_Test() {
+		try {
 			dataMap = new HashMap<String, Object>();
 			List list = usersService.findByUAccount("test");
 			dataMap.put("list", list);
 			dataMap.put("success", true);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        // 返回结果  
-        return dataMap; 
+		// 返回结果
+		return dataMap;
 	}
-	
-	
-	
 
 }
