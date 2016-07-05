@@ -35,7 +35,7 @@
    </key>
    <one-to-many class="com.chinasoft.pojo.HouseBuyRent"/>
   </set>
-  <set inverse="true" name="houseBuyRequests" sort="unsorted">
+  <set inverse="true" name="houseBuyRequests" sort="unsorted" lazy="false">
    <key>
     <column name="HType_id" not-null="true"/>
    </key>

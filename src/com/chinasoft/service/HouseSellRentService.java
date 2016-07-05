@@ -27,5 +27,11 @@ public class HouseSellRentService {
 		// return list.subList(length - 4, length); //返回最后4条
 		return list.subList(0, 4); // 返回前4条
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<HouseSellRent> findAll(){
+		List<HouseSellRent> list = houseSellRentDAO.findAll();
+		return list;
+	}
 
 }

@@ -31,5 +31,10 @@ public class HouseSellEnterpriseService {
 	public List<HouseSellEnterprise> getSellNewInfo() {
 		return houseSellEnterpriseDAO.findAll().subList(0, 4);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<HouseSellEnterprise> findAll() {
+		return houseSellEnterpriseDAO.findAll();
+	}
 
 }

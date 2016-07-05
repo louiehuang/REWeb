@@ -19,43 +19,43 @@
         <property name="county" type="java.lang.String">
             <column name="County" not-null="true" />
         </property>
-        <set name="houseBuyRents" inverse="true">
+        <set name="houseBuyRents" inverse="true" lazy="false">
             <key>
                 <column name="Region_id" not-null="true" />
             </key>
             <one-to-many class="com.chinasoft.pojo.HouseBuyRent" />
         </set>
-        <set name="houseSellRents" inverse="true">
+        <set name="houseSellRents" inverse="true" lazy="false">
             <key>
                 <column name="Region_id" not-null="true" />
             </key>
             <one-to-many class="com.chinasoft.pojo.HouseSellRent" />
         </set>
-        <set name="houseBuyRequests" inverse="true">
+        <set name="houseBuyRequests" inverse="true" lazy="false">
             <key>
                 <column name="Region_id" not-null="true" />
             </key>
             <one-to-many class="com.chinasoft.pojo.HouseBuyRequest" />
         </set>
-        <set name="houseSellEnterprises" inverse="true">
+        <set name="houseSellEnterprises" inverse="true" lazy="false">
             <key>
                 <column name="Region_id" not-null="true" />
             </key>
             <one-to-many class="com.chinasoft.pojo.HouseSellEnterprise" />
         </set>
-        <set name="houseSellSecondhands" inverse="true">
+        <set name="houseSellSecondhands" inverse="true" lazy="false">
             <key>
                 <column name="Region_id" />
             </key>
             <one-to-many class="com.chinasoft.pojo.HouseSellSecondhand" />
         </set>
-        <set name="houseSellRents_1" inverse="true">
+        <set name="houseSellRents_1" inverse="true" lazy="false">
             <key>
                 <column name="Region_id" not-null="true" />
             </key>
             <one-to-many class="com.chinasoft.pojo.HouseSellRent" />
         </set>
-        <set name="houseSellRents_2" inverse="true">
+        <set name="houseSellRents_2" inverse="true" lazy="false">
             <key>
                 <column name="Region_id" not-null="true" />
             </key>

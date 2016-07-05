@@ -70,6 +70,15 @@
 		<property name="usersService">
 			<ref bean="UsersService" />
 		</property>
+		<property name="houseSellRentService">
+			<ref bean="HouseSellRentService" />
+		</property>
+		<property name="houseSellEnterpriseService">
+			<ref bean="HouseSellEnterpriseService" />
+		</property>
+		<property name="houseSellSecondhandService">
+			<ref bean="HouseSellSecondhandService" />
+		</property>
 	</bean>
 
 

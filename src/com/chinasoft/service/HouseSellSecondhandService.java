@@ -26,5 +26,10 @@ public class HouseSellSecondhandService {
 		return houseSellSecondhandDAO.findAll();
 		// return houseSellSecondhandDAO.getSellOldInfo();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<HouseSellSecondhand> findAll() {
+		return houseSellSecondhandDAO.findAll();
+	}
 
 }

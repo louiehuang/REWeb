@@ -26,6 +26,7 @@ import com.chinasoft.pojo.HouseSellEnterprise;
 import com.chinasoft.pojo.HouseSellRent;
 import com.chinasoft.pojo.HouseType;
 import com.chinasoft.pojo.Users;
+import com.chinasoft.service.HouseSellRentService;
 
 //JUnit类
 public class test {
@@ -39,17 +40,34 @@ public class test {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
 
-		UsersDAO userDao = (UsersDAO) context.getBean("UsersDAO");
-		CollectDAO collectDao = (CollectDAO) context.getBean("CollectDAO");
+//		UsersDAO userDao = (UsersDAO) context.getBean("UsersDAO");
+//		CollectDAO collectDao = (CollectDAO) context.getBean("CollectDAO");
+//		
+//
+//		/*级联删除*/
+//		try {
+//			Users user = userDao.findById(11);
+//			System.out.print(user.getUAccount());
+//			userDao.delete(user);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		
 
-		/*级联删除*/
-		try {
-			Users user = userDao.findById(11);
-			System.out.print(user.getUAccount());
-			userDao.delete(user);
-		} catch (Exception e) {
+		HouseSellRentService houseSellRentService = (HouseSellRentService) context.getBean("HouseSellRentService");
+		try{
+			List<HouseSellRent> list = houseSellRentService.findAll();
+			for(int i = 0; i < list.size(); i++){
+				System.out.print(list.get(i).getHId() + ", " + 
+				list.get(i).getRegion().getCity() + list.get(i).getRegion().getCounty() 
+				+ list.get(i).getHouseType().getName());
+			}
+			
+		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		
 
 		// IndexAction action = (IndexAction) context.getBean("IndexAction");
 		// List<HouseSellRent> list = action.Test2();

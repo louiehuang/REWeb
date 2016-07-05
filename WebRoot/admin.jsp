@@ -22,7 +22,6 @@
 <script type="text/javascript" src="js/admin/geo.js"></script>
 <script src="layer/layer.js"></script>
 
-
 <script>
 	$(function() {
 		$("[name='state']").bootstrapSwitch({
@@ -268,7 +267,7 @@
 		//alert(self.id);
 		var UId = (self.id).substr(14);
 		//alert(UId);
-		
+
 		layer.confirm('确定删除此用户？', {
 			btn : [ '确定', '取消' ]
 		//按钮
@@ -413,6 +412,193 @@
 </script>
 
 
+<script type="text/javascript">
+	//创建查询房屋表格
+	function createAllHouseTable(data) {
+		var str = $("#btn_queryHouseMode").text();
+		var json = "";
+		if (str == "查询二手房屋") {
+			json = data.secondList;
+		} else if (str == "查询出租房屋") {
+			json = data.rentList;
+		}
+
+		/*设置新的页数*/
+		house_pageIndex = data.house_pageIndex;
+		house_pageSize = data.house_pageSize;
+		house_pageCount = data.house_pageCount;
+		$("#house_pageIndex").attr("value", house_pageIndex);
+		$("#house_pageSize").attr("value", house_pageSize);
+		$("#house_pageCount").attr("value", house_pageCount);
+
+		var htmls = [ '<table class=\"table table-hover\" id=\"HouseTable\">' ];
+
+		htmls.push('<thead><tr>');
+		var arrHeader = new Array("房屋ID", "用户ID", "标题", "价格", "地域", "户型", "面积",
+				"楼层", "小区", "真实性", "有效性");
+		for (var i = 0; i < arrHeader.length; i++) {
+			htmls.push('<td>' + arrHeader[i] + '</td>');
+		}
+		htmls.push('</tr></thead>');
+		htmls.push('<tbody>');
+		for (var i = 0, L = json.length; i < L; i++) {
+			htmls.push('<tr>');
+
+			htmls.push('<td>' + json[i].HId + '</td>');
+			htmls.push('<td>' + json[i].UId + '</td>');
+			htmls.push('<td>' + json[i].title + '</td>');
+			htmls.push('<td>' + json[i].price + '</td>');
+			htmls.push('<td>' + json[i].region.province + '-'
+					+ json[i].region.city + '-' + json[i].region.county
+					+ '</td>');
+			htmls.push('<td>' + json[i].houseType.name + '</td>');
+			htmls.push('<td>' + json[i].size + '</td>');
+			htmls.push('<td>' + json[i].houseFloor + '</td>');
+			htmls.push('<td>' + json[i].community + '</td>');
+			htmls.push('<td>' + json[i].hauthenticity + '</td>');
+			htmls.push('<td>' + json[i].havailability + '</td>');
+
+			//删除按钮
+			htmls.push('<td>' + '<input id=\"btn_hm_delete_' + json[i].HId
+					+ '\" class=\"btn btn-danger\"'
+					+ 'onclick=\"deleteUser(this)\" type=\"button\"'
+					+ 'style=\"width:65px;\" value=\"删除\" />' + '</td>');
+
+			htmls.push('</tr>');
+		}
+		htmls.push('</tbody></table>');
+
+		$('#tableDivAllHouse').html(htmls.join(''));
+
+	}
+
+	function selectHouseQueryMode(self) {
+		var str = $("#btn_queryHouseMode").text();
+		//alert(str);
+		//alert(self.id);
+		switch (self.id) {
+		case "queryHouse_Enterprise": {
+			str = "查询企业楼盘";
+			break;
+		}
+		case "queryHouse_Secondhand": {
+			str = "查询二手房屋";
+			break;
+		}
+		case "queryHouse_Rent": {
+			str = "查询出租房屋";
+			break;
+		}
+		}
+
+		// 		$("selectedqueryHouseMode").attr("value", str);
+		$("#btn_queryHouseMode").text(str);
+
+	}
+
+	//根据用户ID删除用户，并更新管理员界面用户表的显示
+	function deleteUser(self) {
+		//btn_um_delete_1, btn_um_delete_12
+		//alert(self.id);
+		var HId = (self.id).substr(14);
+		//alert(UId);
+
+		layer.confirm('确定删除此记录？', {
+			btn : [ '确定', '取消' ]
+		//按钮
+		}, function() {
+			alert(HId);
+			
+// 			/*局部刷新页面，输出获得的数据*/
+// 			$.ajax({
+// 				url : 'json_deleteUser.action',
+// 				type : 'post',
+// 				dataType : "json",
+// 				data : {
+// 					"UId" : UId,
+// 				},
+				async : false, //默认为true 异步  
+// 				error : function() {
+// 					alert('error');
+// 				},
+// 				success : function(data) {
+// 					createAllUserTable(data);
+// 				}
+//			});
+
+			layer.msg('删除成功', {
+				icon : 1
+			});
+		}, function() {
+			layer.msg('取消删除', {
+				time : 2000, //20s后自动关闭
+				btn : [ '好' ]
+			});
+		});
+	}
+
+	$(document).ready(
+			function() {
+				//查询房屋信息，生成分页表
+				$("#btn_um_queryHouse_all").click(
+						function() {
+							/*
+							初次查询默认传入pageIndex=1,pageSize=10给后台JsonAction，用户可在初次查询更改pageSize值
+							查询后返回一个大小为pageSize的列表(data.list)和查询后计算出的pageCount,并返回pageIndex和pageSize
+							回调success中，调用createAllUserTable函数中根据data.list生成查询结果
+							设置同步，在执行完success后对控件curPageIndex和curPageCount进行赋值显示，若异步则可能赋值在回调前执行，此时值为空
+							 */
+							var house_queryMode = "HouseSellEnterprise";
+							var tmp = $("#btn_queryHouseMode").text();
+							switch (tmp) {
+							case "查询企业楼盘":
+								house_queryMode = "HouseSellEnterprise";
+								break;
+							case "查询二手房屋":
+								house_queryMode = "HouseSellSecondhand";
+								break;
+							case "查询出租房屋":
+								house_queryMode = "HouseSellRent";
+								break;
+							}
+
+							var house_pageSize = $("#house_pageSize").attr(
+									"value");
+
+							$.ajax({
+								url : 'json_queryAllHouse.action',
+								type : 'post',
+								dataType : "json",
+								data : {
+									"house_queryMode" : house_queryMode,
+									"house_pageIndex" : 1,
+									"house_pageSize" : house_pageSize,
+								},
+								async : false, //同步 
+								error : function() {
+									alert('error');
+								},
+								success : function(data) {
+									//alert(JSON.stringify(data.list));
+									if (data.enterList != null) {
+									} else if (data.secondList != null
+											|| data.rentList != null) {
+										createAllHouseTable(data); //显示二手房表或出租表
+									}
+								}
+							});
+
+							//前面设置async为false, 即同步，执行完回调函数success后设置了pageIndex和pageCount控件值后，这里再进行获取和赋值
+							// 			var pageIndex = $("#pageIndex").val();
+							// 			var pageCount = $("#pageCount").val();
+							// 			$("#curPageIndex").attr("value", pageIndex);
+							// 			$("#curPageCount").attr("value", pageCount);
+
+						});
+
+			});
+</script>
+
 
 <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 </head>
@@ -537,9 +723,9 @@
 						</div>
 
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#addUser" data-toggle="tab">修改用户信息</a>
+							<li class="active"><a href="#addUser" data-toggle="tab">查询/修改用户信息</a>
 							</li>
-							<li><a href="#delUser" data-toggle="tab">查看用户信息</a></li>
+							<li><a href="#delUser" data-toggle="tab">查看/删除用户信息</a></li>
 						</ul>
 
 						<!-- 修改用户信息 -->
@@ -705,113 +891,59 @@
 							<p class="subtitle">修改房屋真实性及其他信息、删除虚假房源等</p>
 						</div>
 						<ul class="nav nav-tabs">
-							<li><a href="#updateHouse" data-toggle="tab">更改房屋信息</a></li>
-							<li><a href="#delHouse" data-toggle="tab">删除房屋信息</a></li>
+							<li><a href="#delHouse" data-toggle="tab">房屋信息</a></li>
 						</ul>
 						<div class="tab-content">
-							<div class="tab-pane active" id="updateHouse">
-								<div class=" accordion-gap">
-									<div class="container-fluid">
-										<div class="row-fluid">
-											<div class="container">
-												<div class="my-container">
-													<input class="input-medium search-query my-input"
-														type="text" placeholder="请输入房源信息ID..." />
-													<button type="submit" class="btn my-btn">查找</button>
-												</div>
-												<div class="my-container accordion-gap">
-													<label class="my-control-label">房源信息ID</label>
-													<div class=" my-control">
-														<input type="text" id="inputId" readonly="readonly">
-													</div>
-												</div>
-												<div class="my-container ">
-													<label class="my-control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;段</label>
-													<div class=" my-control">
-														<input type="text" id="inputAddress">
-													</div>
-												</div>
-												<div class="my-container">
-													<label class="my-control-label">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</label>
-													<div class=" my-control">
-														<input type="text" id="inputHouseType">
-													</div>
-												</div>
-												<div class="my-container">
-													<label class="my-control-label">面&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;积</label>
-													<div class=" my-control">
-														<input type="text" id="inputArea">
-													</div>
-												</div>
-												<div class="my-container">
-													<label class="my-control-label">楼&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;层</label>
-													<div class=" my-control">
-														<input id="inputFloor" type="text" />
-													</div>
-												</div>
-												<div class="my-container">
-													<label class="my-control-label">真&nbsp;&nbsp;&nbsp;&nbsp;实&nbsp;&nbsp;&nbsp;&nbsp;性</label>
-													<div class="bootstrap-switch my-control">
-														<input type="radio" name="trueness" id="inputTrueness" />
-													</div>
-												</div>
-												<div class="my-container">
-													<label class="my-control-label">有&nbsp;&nbsp;&nbsp;&nbsp;效&nbsp;&nbsp;&nbsp;&nbsp;性</label>
-													<div class="bootstrap-switch my-control">
-														<input type="radio" name="availability"
-															id="inputAvailability" />
-													</div>
-												</div>
-												<div class="my-center-block">
-													<button class="btn btn-info accordion-gap"
-														name="update_house_submit">保存修改</button>
-												</div>
-											</div>
-										</div>
+							<div class="tab-pane active" id="delHouse">
+
+								<!--分页输入框 -->
+								<div style="float:right; margin-right:100px;margin-top:30px;">
+									<!-- 查询模式隐藏域 -->
+									<input type="hidden" id="selectedqueryHouseMode" /> <label
+										style="width:80px">查询方式: </label>
+									<div class="btn-group" style="margin-right:30px;">
+										<button id="btn_queryHouseMode" type="button"
+											class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown">
+											查询企业楼盘
+											<!-- <span class="caret"></span> -->
+
+										</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a id="queryHouse_Enterprise" href='javascript:'
+												onclick='selectHouseQueryMode(this)'>查询企业楼盘</a></li>
+											<li class="divider"></li>
+											<li><a id="queryHouse_Secondhand" href='javascript:'
+												onclick='selectHouseQueryMode(this)'>查询二手房屋</a></li>
+											<li class="divider"></li>
+											<li><a id="queryHouse_Rent" href='javascript:'
+												onclick='selectHouseQueryMode(this)'>查询出租房屋</a></li>
+										</ul>
 									</div>
+
+
+									<label style="width:80px">分页大小：</label> <input
+										id="house_pageSize"
+										style="width:120px;height:30px; margin-right:30px;"
+										type="text" value="10" />
+									<button id="btn_um_queryHouse_all" type="submit"
+										class="btn btn-primary" style="width:150px;">查询</button>
 								</div>
-							</div>
-							<div class="tab-pane" id="delHouse">
+
+								<div style="clear:both;height:5px"></div>
+
 								<div class="container accordion-gap">
-									<table class="table table-hover " id="HouseTables">
-										<thead>
-											<tr>
-												<td>房源信息ID</td>
-												<td>用户ID</td>
-												<td>户型</td>
-												<td>楼层</td>
-												<td>地址</td>
-												<td>面积</td>
-												<td>价格</td>
-												<td>真实性</td>
-												<td>有效性</td>
-												<td>备注</td>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>4</td>
-												<td>2</td>
-												<td>两房一厅</td>
-												<td>5</td>
-												<td>湖北省武汉市珞瑜路152号华中师范大学</td>
-												<td>80</td>
-												<td>100</td>
-												<td>1</td>
-												<td>1</td>
-												<td>无</td>
-											</tr>
-										</tbody>
-									</table>
-									<div class="my-center-block">
-										<button class="btn btn-info accordion-gap"
-											name="del_house_submit">确认删除</button>
-									</div>
+
+									<div id="tableDivAllHouse"
+										style="margin-left:3%; margin-right:3%"></div>
+
+
 								</div>
 							</div>
 						</div>
 						</article>
 					</div>
+
 					<div id="tab-5" class="tab">
 						<article>
 						<div class="text-section">

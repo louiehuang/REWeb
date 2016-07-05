@@ -93,6 +93,14 @@
 		</action>
 
 
+		<action name="json_queryAllHouse" class="JsonAction" method="json_queryAllHouse">
+			<result type="json" name="findAllHouse_success">
+				<param name="root">dataMap_AllHouse</param>
+			</result>
+		</action>
+
+
+
 	</package>
 
 
