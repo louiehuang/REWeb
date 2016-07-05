@@ -10,6 +10,7 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.catalina.User;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,7 +19,9 @@ import com.chinasoft.action.HouseSellEnterpriseAction;
 import com.chinasoft.action.HouseSellRentAction;
 import com.chinasoft.action.IndexAction;
 import com.chinasoft.action.JsonAction;
+import com.chinasoft.dao.CollectDAO;
 import com.chinasoft.dao.UsersDAO;
+import com.chinasoft.pojo.Collect;
 import com.chinasoft.pojo.HouseSellEnterprise;
 import com.chinasoft.pojo.HouseSellRent;
 import com.chinasoft.pojo.HouseType;
@@ -29,19 +32,24 @@ public class test {
 
 	@Test
 	public void test() {
-		// fail("Not yet implemented");
+
+		// JUnit测试
+		System.out.println("测试");
 
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
 
-		UsersDAO userDao = (UsersDAO) context.getBean("UsersDao");
+		UsersDAO userDao = (UsersDAO) context.getBean("UsersDAO");
+		CollectDAO collectDao = (CollectDAO) context.getBean("CollectDAO");
 
-		// JUnit测试
-		// //测试首页出租信息输出
-		System.out.println("测试");
-
-		String listStr = "{\"用户ID\":\"1\",\"用户账号\":\"test\"}]";
-
+		/*级联删除*/
+		try {
+			Users user = userDao.findById(11);
+			System.out.print(user.getUAccount());
+			userDao.delete(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// IndexAction action = (IndexAction) context.getBean("IndexAction");
 		// List<HouseSellRent> list = action.Test2();

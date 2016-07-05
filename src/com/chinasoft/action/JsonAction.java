@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.chinasoft.pojo.Users;
 import com.chinasoft.service.UsersService;
 
@@ -13,8 +14,10 @@ public class JsonAction {
 	private Map<String, Object> dataMap_AllUser; //查询全部用户
 	private Users user;
 	private Users a_user;
-	private boolean saveFlag; //新增标志
-	private boolean updateFlag; //更新标志
+	private boolean saveUserFlag; //新增标志
+	private boolean updateUserFlag; //更新标志
+	private boolean deleteUserFlag; //删除标志
+	private String UId;
 
 	private int pageIndex = 1;
 	private int pageSize = 10; //默认分页大小
@@ -52,20 +55,36 @@ public class JsonAction {
 		this.dataMap_AllUser = dataMap_AllUser;
 	}
 
-	public boolean isUpdateFlag() {
-		return updateFlag;
+	public boolean isSaveUserFlag() {
+		return saveUserFlag;
 	}
 
-	public void setUpdateFlag(boolean updateFlag) {
-		this.updateFlag = updateFlag;
+	public void setSaveUserFlag(boolean saveUserFlag) {
+		this.saveUserFlag = saveUserFlag;
 	}
 
-	public boolean isSaveFlag() {
-		return saveFlag;
+	public boolean isUpdateUserFlag() {
+		return updateUserFlag;
 	}
 
-	public void setSaveFlag(boolean saveFlag) {
-		this.saveFlag = saveFlag;
+	public void setUpdateUserFlag(boolean updateUserFlag) {
+		this.updateUserFlag = updateUserFlag;
+	}
+
+	public boolean isDeleteUserFlag() {
+		return deleteUserFlag;
+	}
+
+	public void setDeleteUserFlag(boolean deleteUserFlag) {
+		this.deleteUserFlag = deleteUserFlag;
+	}
+
+	public String getUId() {
+		return UId;
+	}
+
+	public void setUId(String uId) {
+		UId = uId;
 	}
 
 	public Users getA_user() {
@@ -142,7 +161,7 @@ public class JsonAction {
 
 			usersService.update(a_user);
 
-			updateFlag = true;
+			updateUserFlag = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -159,13 +178,13 @@ public class JsonAction {
 		System.out.println("json_findUser执行: " + uAccount);
 
 		try {
-			saveFlag = true;
-			System.out.println(saveFlag);
+			saveUserFlag = true;
+			System.out.println(saveUserFlag);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		// 返回结果
-		return "save_success";
+		return "saveUser_success";
 	}
 	
 	
@@ -174,7 +193,7 @@ public class JsonAction {
 	 * @return
 	 */
 	public String json_findAllUser() {
-		System.out.println("json_findAllUser执行: ");
+		System.out.println("json_findAllUser执行...");
 		try {
 			dataMap_AllUser = new HashMap<String, Object>();
 			List<Users> list = new ArrayList<Users>();
@@ -191,7 +210,7 @@ public class JsonAction {
 			e.printStackTrace();
 		}
 		// 返回结果
-		return "findAll_success";
+		return "findAllUser_success";
 	}
 	
 	/**
@@ -221,6 +240,32 @@ public class JsonAction {
 			}
 		}
 		return newList;
+	}
+	
+	/**
+	 * 删除选中用户，根据UId删除
+	 * @return
+	 */
+	public String json_deleteUser() {
+		System.out.println("json_deleteUser执行, 删除 " + UId);
+
+		try {
+			Users user = usersService.findById(Integer.parseInt(UId));
+			//System.out.println(user.getUAccount());
+			usersService.delete(user);
+			
+			//deleteUserFlag = true;
+			
+			//删除后更新前台用户表显示
+			String call = json_findAllUser();
+			dataMap_AllUser.put("deleteUser_success", true);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 返回结果
+		return "deleteUser_success";
 	}
 	
 	

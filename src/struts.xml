@@ -69,18 +69,25 @@
 
 		<action name="json_updateUser" class="JsonAction" method="json_updateUser">
 			<result type="json">
-				<param name="root">updateFlag</param>
+				<param name="root">updateUserFlag</param>
 			</result>
 		</action>
 
 		<action name="json_saveUser" class="JsonAction" method="json_saveUser">
 			<result type="json">
-				<param name="root">saveFlag</param>
+				<param name="root">saveUserFlag</param>
 			</result>
 		</action>
 
 		<action name="json_queryAllUser" class="JsonAction" method="json_findAllUser">
-			<result type="json" name="findAll_success">
+			<result type="json" name="findAllUser_success">
+				<param name="root">dataMap_AllUser</param>
+			</result>
+		</action>
+		
+		
+		<action name="json_deleteUser" class="JsonAction" method="json_deleteUser">
+			<result type="json" name="deleteUser_success">
 				<param name="root">dataMap_AllUser</param>
 			</result>
 		</action>

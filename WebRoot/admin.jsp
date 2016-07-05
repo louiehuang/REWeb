@@ -20,6 +20,7 @@
 <script src="js/common/bootstrap.min.js"></script>
 <script src=" js/admin/bootstrap-switch.min.js "></script>
 <script type="text/javascript" src="js/admin/geo.js"></script>
+<script src="layer/layer.js"></script>
 
 
 <script>
@@ -130,15 +131,17 @@
 
 
 <script type="text/javascript">
-	//测试表
+	//输出测试表
 	function createTable(json) {
 		var htmls = [ '<table>' ];
 
 		htmls.push('<tr>');
+		//遍历json[0]的键，生成表头
 		for ( var k in json[0])
 			htmls.push('<td>' + k + '</td>');
 		htmls.push('</tr>');
 
+		//遍历json[i]的值
 		for (var i = 0, L = json.length; i < L; i++) {
 			htmls.push('<tr>');
 			for ( var k in json[i]) {
@@ -152,7 +155,7 @@
 
 	}
 
-	//切换页面
+	//切换页面，判断上一页或下一页对下次应显示的当前页pageIndex进行更新，并从后台获取数据
 	function changeCurPage(self) {
 		/*从隐藏域获取当前页和总页数*/
 		var pageIndex = $("#pageIndex").val();
@@ -207,20 +210,22 @@
 		因此需要进行处理：
 		1.可以在后台对data进行按期望的字段顺序拼接；
 		2.jquery的data Adapter指定格式
+		3.更改前端的输出顺序
 		 */
 
-		//alert(JSON.stringify(data));
-		json = data.list;
+		json = data.list; //获取返回的列表   dataMap_AllUser.put("list", list);	
+
+		/*设置新的页数*/
 		pageIndex = data.pageIndex;
 		pageSize = data.pageSize;
 		pageCount = data.pageCount;
 		$("#pageIndex").attr("value", pageIndex);
-		$("#pageIndex").attr("value", pageIndex);
+		$("#pageSize").attr("value", pageSize);
 		$("#pageCount").attr("value", pageCount);
 
 		var htmls = [ '<table class=\"table table-hover\" id=\"UserTable\">' ];
-		htmls.push('<thead><tr>');
 
+		htmls.push('<thead><tr>');
 		htmls.push('<td>' + "用户ID" + '</td>');
 		htmls.push('<td>' + "用户账号" + '</td>');
 		htmls.push('<td>' + "用户密码" + '</td>');
@@ -229,10 +234,9 @@
 		htmls.push('<td>' + "联系电话" + '</td>');
 		htmls.push('<td>' + "电子邮箱" + '</td>');
 		htmls.push('<td>' + "信用等级" + '</td>');
-
 		htmls.push('</tr></thead>');
-		htmls.push('<tbody>');
 
+		htmls.push('<tbody>');
 		for (var i = 0, L = json.length; i < L; i++) {
 			htmls.push('<tr>');
 			htmls.push('<td>' + json[i].UId + '</td>');
@@ -243,71 +247,87 @@
 			htmls.push('<td>' + json[i].UTele + '</td>');
 			htmls.push('<td>' + json[i].UEmail + '</td>');
 			htmls.push('<td>' + json[i].UCredit + '</td>');
+
+			//删除按钮
+			htmls.push('<td>' + '<input id=\"btn_um_delete_' + json[i].UId
+					+ '\" class=\"btn btn-danger\"'
+					+ 'onclick=\"deleteUser(this)\" type=\"button\"'
+					+ 'style=\"width:65px;\" value=\"删除\" />' + '</td>');
+
 			htmls.push('</tr>');
 		}
-
 		htmls.push('</tbody></table>');
+
 		$('#tableDivAllUser').html(htmls.join(''));
 
 	}
 
+	//根据用户ID删除用户，并更新管理员界面用户表的显示
+	function deleteUser(self) {
+		//btn_um_delete_1, btn_um_delete_12
+		//alert(self.id);
+		var UId = (self.id).substr(14);
+		//alert(UId);
+		
+		layer.confirm('确定删除此用户？', {
+			btn : [ '确定', '取消' ]
+		//按钮
+		}, function() {
+			/*局部刷新页面，输出获得的数据*/
+			$.ajax({
+				url : 'json_deleteUser.action',
+				type : 'post',
+				dataType : "json",
+				data : {
+					"UId" : UId,
+				},
+				//async : false, //默认为true 异步  
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					createAllUserTable(data);
+				}
+			});
+
+			layer.msg('删除成功', {
+				icon : 1
+			});
+		}, function() {
+			layer.msg('取消删除', {
+				time : 2000, //20s后自动关闭
+				btn : [ '好' ]
+			});
+		});
+	}
+
+	//加载单个用户信息到控件
 	function loadUserInfo(jsonList) {
 		creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
-		//inputUserType province-select city-select county-select inputCommunity
-		cur = 0;
-		for ( var k in jsonList[0]) {
-			switch (cur) {
-			case 0:
-				$("#inputUAccount").attr("value", jsonList[0][k]);
-				break;
-			case 1: {
-				creditSelect[jsonList[0][k] - 1].selected = true; //0~4对应1~5星
-				break;
-			}
-			case 2:
-				$("#inputEmail").attr("value", jsonList[0][k]);
-				break;
-			case 3: {
-				// $("#inputSex").prop("checked", true);
-				// $("#inputSex").prop("checked", "checked");
-				// 								if (jsonList[0][k] == "男") {
-				// 									$("#inputSex").bootstrapSwitch("toggleState");
-				// 									$("#inputSex").bootstrapSwitch("setState", true); 	
-				// 								}else{
-				// 									$("#inputSex").bootstrapSwitch("toggleState");
-				// 									$("#inputSex").bootstrapSwitch("setState", flase); 	
-				// 								}
-				break;
-			}
-			case 5:
-				$("#inputUId").attr("value", jsonList[0][k]);
-				break;
-			case 6:
-				$("#inputUsername").attr("value", jsonList[0][k]);
-				break;
-			case 7:
-				$("#inputPassword").attr("value", jsonList[0][k]);
-				break;
-			case 8:
-				$("#inputPhoneNumber").attr("value", jsonList[0][k]);
-				break;
-			}
 
-			cur++;
-		}
+		$("#inputUId").attr("value", jsonList[0].UId);
+		$("#inputUAccount").attr("value", jsonList[0].UAccount);
+		creditSelect[jsonList[0].UCredit - 1].selected = true; //0~4对应1~5星
+		$("#inputEmail").attr("value", jsonList[0].UEmail);
+		$("#inputUsername").attr("value", jsonList[0].UName);
+		$("#inputPassword").attr("value", jsonList[0].UPwd);
+		$("#inputPhoneNumber").attr("value", jsonList[0].UTele);
 
-		// 		var arr = new Array("#inputEmail", "#inputUsername", "#inputPassword");
-		// 		for (var i = 0, L = jsonList.length; i < L; i++) {
-		// 			var j = 0;
-		// 			for ( var k in jsonList[i]) {
-		// 				$(arr[j]).attr("value", jsonList[i][k]);
-		// 				j++;
-		// 			}
-		// 		}
+		// 				$("#inputSex").prop("checked", true);
+		// 				$("#inputSex").prop("checked", "checked");
+		// 				if (jsonList[0][k] == "男") {
+		// 					$("#inputSex").bootstrapSwitch("toggleState");
+		// 					$("#inputSex").bootstrapSwitch("setState", true);
+		// 				} else {
+		// 					$("#inputSex").bootstrapSwitch("toggleState");
+		// 					$("#inputSex").bootstrapSwitch("setState", flase);
+		// 				}
 
 	}
 
 	$(document).ready(function() {
+
+		//根据用户账号查询单个用户的信息
 		$("#btn_um_query").click(function() {
 			$.ajax({
 				url : 'json_queryUser.action',
@@ -322,20 +342,19 @@
 					alert('error');
 				},
 				success : function(data) {
-					//createTable(data.list);
-					loadUserInfo(data.list);
+					loadUserInfo(data.list); //加载信息到控件
 				}
 			});
 		});
 
-		//修改用户信息
+		//保存修改的用户信息
 		$("#add_user_submit").click(function() {
 			$.ajax({
 				url : 'json_updateUser.action',
 				type : 'post',
 				dataType : "json",
 				data : {
-					"a_user.UId" : $("#inputUId").val(), //用id赋值
+					"a_user.UId" : $("#inputUId").val(),
 					"a_user.UAccount" : $("#inputUAccount").val(),
 					"a_user.UPwd" : $("#inputPassword").val(),
 					"a_user.UName" : $("#inputUsername").val(),
@@ -349,15 +368,21 @@
 					alert('error' + ", " + $("#inputUAccount").val());
 				},
 				success : function(data) {
-					alert("用户信息修改成功");
+					alert("用户" + $("#inputUAccount").val() + "信息修改成功");
 				}
 			});
 		});
 
 		//查询所有用户信息，生成分页表
 		$("#btn_um_query_all").click(function() {
+			/*
+			初次查询默认传入pageIndex=1,pageSize=10给后台JsonAction，用户可在初次查询更改pageSize值
+			查询后返回一个大小为pageSize的列表(data.list)和查询后计算出的pageCount,并返回pageIndex和pageSize
+			回调success中，调用createAllUserTable函数中根据data.list生成查询结果
+			设置同步，在执行完success后对控件curPageIndex和curPageCount进行赋值显示，若异步则可能赋值在回调前执行，此时值为空
+			 */
 			pageSize = $("#pageSize").attr("value");
-			
+
 			$.ajax({
 				url : 'json_queryAllUser.action',
 				type : 'post',
@@ -365,7 +390,6 @@
 				data : {
 					"pageIndex" : 1,
 					"pageSize" : pageSize,
-					"pageCount" : 0,
 				},
 				async : false, //同步 
 				error : function() {
@@ -387,8 +411,6 @@
 
 	});
 </script>
-
-
 
 
 
@@ -504,26 +526,30 @@
 						</article>
 					</div>
 
+
+
+					<!-- 用户信息管理 -->
 					<div id="tab-3" class="tab">
 						<article>
 						<div class="text-section">
 							<h1>用户信息管理</h1>
 							<p class="subtitle">添加新用户、修改用户信用等级及其他信息、删除恶意用户等</p>
 						</div>
+
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#addUser" data-toggle="tab">添加/修改</a>
+							<li class="active"><a href="#addUser" data-toggle="tab">修改用户信息</a>
 							</li>
-							<li><a href="#delUser" data-toggle="tab">查看/删除</a></li>
+							<li><a href="#delUser" data-toggle="tab">查看用户信息</a></li>
 						</ul>
 
-
+						<!-- 修改用户信息 -->
 						<div class="tab-content">
 							<div class="tab-pane active" id="addUser">
 								<div class="container-fluid">
 									<div class="row-fluid">
 										<div class="container" style="padding-top:40px;">
 
-
+											<!-- 查询框 -->
 											<div class="my-query">
 												<label class="my-control-label">身&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;份</label>
 												<div class="bootstrap-switch my-control">
@@ -536,10 +562,9 @@
 													class="btn btn-primary" onclick="changeToUserUpdate()">查询</button>
 												<button type="submit" class="btn btn-primary"
 													onclick="changeToUserAdd()">退出修改</button>
-
 											</div>
 
-
+											<!-- 显示信息 -->
 											<div class="accordion" id="accordion-423793">
 												<div class="accordion-group accordion-group-gap">
 													<div class="accordion-heading ">
@@ -550,7 +575,7 @@
 													<div id="accordion-element-basic" class="accordion-body ">
 														<div class="accordion-inner ">
 
-															<!-- 隐藏域，存放用户ID -->
+															<!-- 隐藏域，存放用户ID，后台更新数据时需要UId来定位 -->
 															<input type="hidden" id="inputUId" />
 
 															<div class="my-container accordion-gap">
@@ -594,8 +619,6 @@
 																		onKeyUp="checkNum(this);" />
 																</div>
 															</div>
-
-
 														</div>
 													</div>
 												</div>
@@ -624,33 +647,31 @@
 												</div>
 											</div>
 											<br />
-											<div class="my-center-block">
+											<div class="my-center-block" style="margin-bottom:100px;">
 												<input type="submit" class="btn btn-large btn-primary "
-													value="提交" id="add_user_submit">
+													style="width:100px;" value="提交" id="add_user_submit">
 											</div>
-
 										</div>
 									</div>
 								</div>
-								<br /> <br />
 							</div>
 
 
 							<!-- 查看/删除 -->
 							<div class="tab-pane" id="delUser">
+								<!--分页输入框 -->
 								<div style="float:right; margin-right:100px;margin-top:30px;">
-									<input id="pageSize"
-										style="width:170px;height:30px; margin-right:30px;"
-										type="text" value="" placeholder="请输入分页大小" />
+									<label style="width:80px">分页大小：</label> <input id="pageSize"
+										style="width:120px;height:30px; margin-right:30px;"
+										type="text" value="10" />
 									<button id="btn_um_query_all" type="submit"
 										class="btn btn-primary" style="width:150px;">查询</button>
-
 								</div>
 
 								<div style="clear:both;height:5px"></div>
 
 
-
+								<!-- 页面选择 -->
 								<div class="container accordion-gap">
 									<div id="tableDivAllUser"
 										style="margin-left:3%; margin-right:3%"></div>
@@ -670,8 +691,13 @@
 									</div>
 								</div>
 							</div>
+						</div>
 						</article>
 					</div>
+
+
+
+					<!-- 房屋信息管理 -->
 					<div id="tab-4" class="tab">
 						<article>
 						<div class="text-section">
