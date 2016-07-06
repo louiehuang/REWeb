@@ -33,5 +33,15 @@ public class HouseSellRentService {
 		List<HouseSellRent> list = houseSellRentDAO.findAll();
 		return list;
 	}
+	
+	public HouseSellRent findById(Integer id){
+		return houseSellRentDAO.findById(id);
+	}
+	
+	public void delete(HouseSellRent house){
+		houseSellRentDAO.delete(house);
+	}
+
+	
 
 }

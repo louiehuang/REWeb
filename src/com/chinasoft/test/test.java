@@ -40,13 +40,11 @@ public class test {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
 
-//		UsersDAO userDao = (UsersDAO) context.getBean("UsersDAO");
-//		CollectDAO collectDao = (CollectDAO) context.getBean("CollectDAO");
-//		
+//		UsersDAO userDao = (UsersDAO) context.getBean("UsersDAO");		
 //
 //		/*¼¶ÁªÉ¾³ý*/
 //		try {
-//			Users user = userDao.findById(11);
+//			Users user = userDao.findById(17);
 //			System.out.print(user.getUAccount());
 //			userDao.delete(user);
 //		} catch (Exception e) {

@@ -36,5 +36,16 @@ public class HouseSellEnterpriseService {
 	public List<HouseSellEnterprise> findAll() {
 		return houseSellEnterpriseDAO.findAll();
 	}
+	
+	public HouseSellEnterprise findById(Integer id){
+		return houseSellEnterpriseDAO.findById(id);
+	}
+	
+	public void delete(HouseSellEnterprise house){
+		houseSellEnterpriseDAO.delete(house);
+	}
+	
+	
+	
 
 }

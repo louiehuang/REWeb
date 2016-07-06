@@ -88,7 +88,7 @@ public class UsersService {
 	 * @param id
 	 * @return
 	 */
-	public Users findById(int id) {
+	public Users findById(Integer id) {
 		return usersDAO.findById(id);
 	}
 	

@@ -84,8 +84,8 @@
 				<param name="root">dataMap_AllUser</param>
 			</result>
 		</action>
-		
-		
+
+
 		<action name="json_deleteUser" class="JsonAction" method="json_deleteUser">
 			<result type="json" name="deleteUser_success">
 				<param name="root">dataMap_AllUser</param>
@@ -93,12 +93,19 @@
 		</action>
 
 
-		<action name="json_queryAllHouse" class="JsonAction" method="json_queryAllHouse">
+		<!-- 房屋管理 -->
+		<action name="json_queryAllHouse" class="AdministratorAction"
+			method="json_queryAllHouse">
 			<result type="json" name="findAllHouse_success">
 				<param name="root">dataMap_AllHouse</param>
 			</result>
 		</action>
 
+		<action name="json_deleteHouse" class="AdministratorAction" method="json_deleteHouse">
+			<result type="json" name="deleteHouse_success">
+				<param name="root">dataMap_AllHouse</param>
+			</result>
+		</action>
 
 
 	</package>

@@ -10,13 +10,13 @@
             <column name="H_id" />
             <generator class="native" />
         </id>
-        <many-to-one name="region" class="com.chinasoft.pojo.Region" fetch="select">
+        <many-to-one name="region" class="com.chinasoft.pojo.Region" fetch="select" lazy="false">
             <column name="Region_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="houseType" class="com.chinasoft.pojo.HouseType" fetch="join">
+        <many-to-one name="houseType" class="com.chinasoft.pojo.HouseType" fetch="join" lazy="false">
             <column name="HType_id" not-null="true" />
         </many-to-one>
-        <many-to-one name="enterpriseUsers" class="com.chinasoft.pojo.EnterpriseUsers" fetch="select">
+        <many-to-one name="enterpriseUsers" class="com.chinasoft.pojo.EnterpriseUsers" fetch="select" lazy="false">
             <column name="U_id" not-null="true" />
         </many-to-one>
         <property name="title" type="java.lang.String">
