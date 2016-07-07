@@ -511,7 +511,7 @@
 			data : {
 				"house_pageIndex" : house_pageIndex,
 				"house_pageSize" : house_pageSize,
-				"house_pageIndex" : house_pageIndex,
+				"house_pageCount" : house_pageCount,
 			},
 			//async : false, //默认为true 异步  
 			error : function() {
@@ -648,6 +648,300 @@
 </script>
 
 
+
+
+
+<!-- 房屋管理 控制-->
+<script type="text/javascript">
+	//创建查询房屋表格
+	function createVeriTable(data) {
+		var json = "";
+		if (data.unprocessedList != null) {
+			json = data.unprocessedList; //显示二手房表或出租表
+		} else if (data.processedList != null) {
+			json = data.processedList; //显示二手房表或出租表
+		}
+
+		/*设置新的页数*/
+		veri_pageIndex = data.veri_pageIndex;
+		veri_pageSize = data.veri_pageSize;
+		veri_pageCount = data.veri_pageCount;
+		$("#veri_pageIndex").attr("value", veri_pageIndex);
+		$("#veri_pageSize").attr("value", veri_pageSize);
+		$("#veri_pageCount").attr("value", veri_pageCount);
+
+		//alert($("#veri_pageIndex").attr("value") + ", " + $("#veri_pageCount").attr("value"));
+
+		var htmls = [ '<table class=\"table table-hover\" id=\"VeriTable\">' ];
+
+		htmls.push('<thead><tr>');
+		var arrHeader = new Array("ID", "申请日期", "房屋类型", "房屋ID", "申请说明", "地址",
+				"处理结果", "操作");
+		for (var i = 0; i < arrHeader.length; i++) {
+			htmls.push('<td>' + arrHeader[i] + '</td>');
+		}
+		htmls.push('</tr></thead>');
+
+		htmls.push('<tbody>');
+		for (var i = 0, L = json.length; i < L; i++) {
+			htmls.push('<tr>');
+			var housetype = "";
+			switch (json[i].htype) {
+			case 1:
+				housetype = "企业楼盘";
+				break;
+			case 2:
+				housetype = "二手房屋";
+				break;
+			case 3:
+				housetype = "出租房屋";
+				break;
+			}
+
+			htmls.push('<td>' + json[i].id + '</td>');
+			htmls.push('<td>' + json[i].vdate + '</td>');
+			htmls.push('<td>' + housetype + '</td>');
+			htmls.push('<td>' + json[i].HId + '</td>');
+			htmls.push('<td>' + json[i].content + '</td>');
+			htmls.push('<td>' + json[i].region.province + '-'
+					+ json[i].region.city + '-' + json[i].region.county
+					+ '</td>');
+
+			var res = "";
+			switch(json[i].vres){
+			case 0: res = "未处理"; break;
+			case 1: res = "已通过"; break;
+			case 2: res = "不通过"; break;
+			}
+			
+			//处理结果
+			htmls
+					.push('<td>'
+							+ '<div class=\"btn-group\">'
+							+ '<button id=\"btn_veriRes_' + 
+							json[i].id + '\" type=\"button\" class=\"btn btn-info dropdown-toggle\"' + 
+							'data-toggle=\"dropdown\">' + res + '</button>'
+							
+							+ '<ul class=\"dropdown-menu\" role=\"menu\">'
+							+ '<li><a id=\"veriUnhandle?'
+							+ json[i].id
+							+ '\" href=\'javascript:\' '
+							+ 'onclick=\'selectProcessRes(this)\'>未处理</a></li>'
+
+							+ '<li class=\"divider\"></li> <li><a id=\"veriPassed?'
+							+ json[i].id
+							+ '\" '
+							+ 'href=\'javascript:\' onclick=\'selectProcessRes(this)\'>已通过</a></li>'
+
+							+ '<li class=\"divider\"></li> <li><a id=\"veriFailed?'
+							+ json[i].id
+							+ '\" '
+							+ 'href=\'javascript:\' onclick=\'selectProcessRes(this)\'>不通过</a></li>'
+							+ '</ul> </div>' + '</td>');
+
+			//保存和删除按钮
+			htmls
+					.push('<td>'
+							+ '<input id=\"btn_vm_save_'
+							+ json[i].id
+							+ '\" class=\"btn btn-success\"'
+							+ 'onclick=\"updateVeri(this)\" type=\"button\"'
+							+ 'style=\"width:65px;margin-right:10px;\" value=\"保存\" />'
+							+ '<input id=\"btn_vm_delete_'
+							+ json[i].id
+							+ '\" class=\"btn btn-danger\"'
+							+ 'onclick=\"deleteVeri(this)\" type=\"button\"'
+							+ 'style=\"width:65px; margin-right:-20px;\" value=\"删除\" />'
+							+ '</td>');
+
+			htmls.push('</tr>');
+		}
+		htmls.push('</tbody></table>');
+
+		$('#tableDivVeri').html(htmls.join(''));
+
+	}
+
+	/*设置处理结果*/
+	function selectProcessRes(self) {
+		//veriPassed?2 表示ID为2的申请通过
+		var arr = (self.id).split("?");
+		var res = arr[0]; //veriPassed
+		var id = arr[1]; //2
+		var display = "未处理";
+
+		switch (res) {
+		case "veriUnhandle":
+			res = "1"; display = "未处理";
+			break;
+		case "veriPassed":
+			res = "2"; display = "已通过";
+			break;
+		case "veriFailed":
+			res = "3"; display = "不通过";
+			break;
+		}
+		
+		$("#btn_veriRes_" + id).text(display); //更新选择显示
+
+	}
+	
+	/*保存验证处理结果*/
+	function updateVeri(self){
+		var id = (self.id).substr(12);
+		var res = $("#btn_veriRes_" + id).text(); //处理结果 ， "未处理"、"已通过"、"不通过"
+
+		layer.confirm('确定修改此记录？', {
+			btn : [ '确定', '取消' ]
+		//按钮
+		}, function() {
+			/*局部刷新页面，输出获得的数据*/
+			$.ajax({
+				url : 'json_updateVeri.action',
+				type : 'post',
+				dataType : "json",
+				data : {
+					"VId" : id,
+					"processRes" : res,
+				},
+				async : false, //同步 
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					//alert(JSON.stringify(data.unprocessedList));
+					createVeriTable(data);
+				}
+			});
+			
+			layer.msg('修改成功', {
+				icon : 1
+			});
+		}, function() {
+			layer.msg('取消修改', {
+				time : 2000, //2s后自动关闭
+				btn : [ '好' ]
+			});
+		});
+		
+	}
+
+	//切换页面，判断上一页或下一页对下次应显示的当前页pageIndex进行更新，并从后台获取数据
+	function changeCurVeriPage(self) {
+		/*从隐藏域获取当前页和总页数*/
+		var veri_pageIndex = $("#veri_pageIndex").val();
+		var veri_pageCount = $("#veri_pageCount").val();
+		//alert(self.id + "," + veri_pageIndex + ", " + veri_pageCount);
+
+		/*设置下一次的当前页*/
+		if (self.id == "btn_vm_lastpage") { //上一页
+			//alert("btn_hm_lastpage");
+			if (veri_pageIndex <= 1) {
+				veri_pageIndex = 1;
+			} else {
+				veri_pageIndex--;
+			}
+		} else if (self.id == "btn_vm_nextpage") { //下一页
+			//alert("btn_um_nextpage");
+			if (veri_pageIndex >= veri_pageCount) {
+				veri_pageIndex = veri_pageCount;
+			} else {
+				veri_pageIndex++;
+			}
+		}
+
+		/*更新隐藏域以便下一次执行函数进行获取*/
+		$("#curVeriPageIndex").attr("value", veri_pageIndex);
+		$("#curVeriPageCount").attr("value", veri_pageCount);
+
+		//alert(self.id + "," + veri_pageIndex + ", " + veri_pageCount);
+
+		/*局部刷新页面，输出获得的数据*/
+		$.ajax({
+			url : 'json_queryVeri.action',
+			type : 'post',
+			dataType : "json",
+			data : {
+				"veri_pageIndex" : veri_pageIndex,
+				"veri_pageSize" : veri_pageSize,
+				"veri_pageCount" : veri_pageCount,
+			},
+			async : false, //同步 
+			error : function() {
+				alert('error');
+			},
+			success : function(data) {
+				//alert(JSON.stringify(data.unprocessedList));
+				createVeriTable(data);
+			}
+		});
+	}
+
+	/*设置查询方式*/
+	function selectVeriQueryMode(self) {
+		var str = $("#btn_queryVeriMode").text();
+		switch (self.id) {
+		case "queryVerificaton":
+			str = "未处理验证";
+			break;
+		case "queryVerificaton_processed":
+			str = "已处理验证";
+			break;
+		}
+		$("#btn_queryVeriMode").text(str);
+	}
+
+	$(document).ready(function() {
+		//查询房屋信息，生成分页表
+		$("#btn_vm_queryVeri").click(function() {
+			var veri_queryMode = "queryVerificaton"; //默认查询企业房屋
+			var tmp = $("#btn_queryVeriMode").text(); //获取查询方式选择值并更新查询方式
+			switch (tmp) {
+			case "未处理验证":
+				veri_queryMode = "queryVerificaton";
+				break;
+			case "已处理验证":
+				veri_queryMode = "queryVerificaton_processed";
+				break;
+			}
+
+			var veri_pageSize = $("#veri_pageSize").attr("value");
+
+			$.ajax({
+				url : 'json_queryVeri.action',
+				type : 'post',
+				dataType : "json",
+				data : {
+					"veri_queryMode" : veri_queryMode,
+					"veri_pageIndex" : 1,
+					"veri_pageSize" : veri_pageSize,
+				},
+				async : false, //同步 
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					//alert(JSON.stringify(data.unprocessedList));
+					createVeriTable(data);
+
+				}
+			});
+
+			//前面设置async为false, 即同步，执行完回调函数success后设置了pageIndex和pageCount控件值后，这里再进行获取和赋值
+			var veri_pageIndex = $("#veri_pageIndex").val();
+			var veri_pageCount = $("#veri_pageCount").val();
+			$("#curVeriPageIndex").attr("value", veri_pageIndex);
+			$("#curVeriPageCount").attr("value", veri_pageCount);
+
+		});
+
+	});
+</script>
+
+
+
+
+
 <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 </head>
 
@@ -656,6 +950,11 @@
 	<iframe id="header_nav" src="nav_model/header_nav_admin.jsp"
 		width="100%" height="48px" style="border: 0px;" scrolling="no"></iframe>
 
+
+	<!-- 房屋分页隐藏域 -->
+	<input type="hidden" id="veri_pageIndex" value="1" />
+	<!-- <input type="hidden" id="veri_pageSize" value="10" /> -->
+	<input type="hidden" id="veri_pageCount" value="1" />
 
 	<!-- 用户分页隐藏域 -->
 	<input type="hidden" name="hiddenPageIndex" id="pageIndex" value="1" />
@@ -693,37 +992,58 @@
 							<h1>房屋验证</h1>
 							<p class="subtitle">验证卖方提交的房屋信息是否真实，并对房屋信息进行相应修改.</p>
 						</div>
-						<div class="container">
-							<table class="table table-hover " id="verifyTable">
-								<thead>
-									<tr>
-										<td>申请日期</td>
-										<td>用户ID</td>
-										<td>房屋信息ID</td>
-										<td>地址</td>
-										<td>验证结果</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>2016-6-21</td>
-										<td>1</td>
-										<td>4</td>
-										<td>湖北省武汉市珞瑜路152号华中师范大学</td>
-										<td>
-											<div class="switch">
-												<input type="radio" name="authenticity" />
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+						<div class="tab-content">
+							<div class="tab-pane active" id="delHouse">
+
+								<!--分页输入框 -->
+								<div style="float:right; margin-right:100px;margin-top:30px;">
+									<!-- 查询模式隐藏域 -->
+									<input type="hidden" id="selectedqueryHouseMode" /> <label
+										style="width:80px">查询方式: </label>
+									<div class="btn-group">
+										<button id="btn_queryVeriMode" type="button"
+											class="btn btn-primary dropdown-toggle"
+											data-toggle="dropdown">未处理验证</button>
+										<ul class="dropdown-menu" role="menu">
+											<li><a id="queryVerificaton" href='javascript:'
+												onclick='selectVeriQueryMode(this)'>未处理验证</a></li>
+											<li class="divider"></li>
+											<li><a id="queryVerificaton_processed"
+												href='javascript:' onclick='selectVeriQueryMode(this)'>已处理验证</a></li>
+										</ul>
+									</div>
+									<span class="caret" style="margin-right:30px;"></span> <label
+										style="width:80px">分页大小：</label> <input id="veri_pageSize"
+										style="width:120px;height:30px; margin-right:30px;"
+										type="text" value="10" />
+									<button id="btn_vm_queryVeri" type="submit"
+										class="btn btn-primary" style="width:150px;">查询</button>
+								</div>
+
+								<div style="clear:both;height:5px"></div>
+
+								<div class="container accordion-gap">
+
+									<div id="tableDivVeri" style="margin-left:3%; margin-right:3%"></div>
+
+									<div style="clear:both;height:5px; margin-bottom:30px;"></div>
+
+									<div style="margin-bottom:150px;float:right;margin-right:65px;">
+										当前 <input type="text" style="width:20px" id="curVeriPageIndex"
+											readonly="readonly" /> / <input type="text"
+											style="width:20px" id="curVeriPageCount" readonly="readonly" />
+										页 <input id="btn_vm_lastpage" class="btn btn-primary"
+											onclick="changeCurVeriPage(this)" type="button"
+											style="width:80px;margin-left:30px;" value="上一页" /> <input
+											id="btn_vm_nextpage" class="btn btn-primary"
+											onclick="changeCurVeriPage(this)" type="button"
+											style="width:80px;margin-left:30px;" value="下一页" />
+									</div>
+
+								</div>
+							</div>
 						</div>
 						</article>
-						<div class="my-center-block">
-							<button name="verify_save" class="btn btn-info " onclick="">保存</button>
-							<!--保存  post修改值至后台-->
-						</div>
 					</div>
 
 					<div id="tab-2" class="tab">
@@ -1013,6 +1333,9 @@
 						</article>
 					</div>
 
+
+
+					<!-- 管理广告 -->
 					<div id="tab-5" class="tab">
 						<article>
 						<div class="text-section">
@@ -1077,35 +1400,45 @@
 									</div>
 								</div>
 							</div>
+							
+							
+							
 							<div class="tab-pane" id="delAd">
+								
+								<!--分页输入框 -->
+								<div style="float:right; margin-right:100px;margin-top:30px;">
+									<label style="width:80px">分页大小：</label> <input
+										id="ad_pageSize"
+										style="width:120px;height:30px; margin-right:30px;"
+										type="text" value="10" />
+									<button id="btn_am_queryHouse_all" type="submit"
+										class="btn btn-primary" style="width:150px;">查询</button>
+								</div>
+
+								<div style="clear:both;height:5px"></div>
+
 								<div class="container accordion-gap">
-									<table class="table table-hover " id="AdTable">
-										<thead>
-											<tr>
-												<td>广告ID</td>
-												<td>时间</td>
-												<td>用户ID</td>
-												<td>用户类型</td>
-												<td>广告花费</td>
-												<td>广告内容</td>
-											</tr>
-										</thead>
-										<tbody id="delAdTable">
-											<tr>
-												<td>1</td>
-												<td>2016-6-23</td>
-												<td>1</td>
-												<td>1</td>
-												<td>5000</td>
-												<td>一口气上五楼，不费劲！</td>
-											</tr>
-										</tbody>
-									</table>
-									<div class="my-center-block">
-										<button class="btn btn-info accordion-gap"
-											name="del_ad_submit">确认删除</button>
+
+									<div id="tableDivAllAd"
+										style="margin-left:3%; margin-right:3%"></div>
+
+									<div style="clear:both;height:5px; margin-bottom:30px;"></div>
+
+									<div style="margin-bottom:150px;float:right;margin-right:65px;">
+										当前 <input type="text" style="width:20px"
+											id="curAdPageIndex" readonly="readonly" /> / <input
+											type="text" style="width:20px" id="curAdPageCount"
+											readonly="readonly" /> 页 <input id="btn_am_lastpage"
+											class="btn btn-primary" onclick="changeCurAdPage(this)"
+											type="button" style="width:80px;margin-left:30px;"
+											value="上一页" /> <input id="btn_am_nextpage"
+											class="btn btn-primary" onclick="changeCurAdPage(this)"
+											type="button" style="width:80px;margin-left:30px;"
+											value="下一页" />
 									</div>
 								</div>
+
+
 							</div>
 						</article>
 					</div>

@@ -5,10 +5,12 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
+import org.hibernate.Query;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.chinasoft.pojo.Collect;
+import com.chinasoft.pojo.Users;
 
 /**
  * A data access object (DAO) providing persistence and search support for
@@ -64,10 +66,17 @@ public class CollectDAO extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	
+	
+
+	
+	
+	
 
 	public List findByExample(Collect instance) {
 		log.debug("finding Collect instance by example");
 		try {
+			
 			List results = getHibernateTemplate().findByExample(instance);
 			log.debug("find by example successful, result size: "
 					+ results.size());

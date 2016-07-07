@@ -21,11 +21,13 @@ import com.chinasoft.action.IndexAction;
 import com.chinasoft.action.JsonAction;
 import com.chinasoft.dao.CollectDAO;
 import com.chinasoft.dao.UsersDAO;
+import com.chinasoft.dao.VerificationDAO;
 import com.chinasoft.pojo.Collect;
 import com.chinasoft.pojo.HouseSellEnterprise;
 import com.chinasoft.pojo.HouseSellRent;
 import com.chinasoft.pojo.HouseType;
 import com.chinasoft.pojo.Users;
+import com.chinasoft.pojo.Verification;
 import com.chinasoft.service.HouseSellRentService;
 
 //JUnit¿‡
@@ -40,6 +42,22 @@ public class test {
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"applicationContext.xml");
 
+		VerificationDAO verificationDAO = (VerificationDAO) context.getBean("VerificationDAO");
+		Verification veri = verificationDAO.findById(1);
+		veri.setVres(0);
+		verificationDAO.update(veri);
+		
+		
+		
+//		CollectDAO collectDao = (CollectDAO) context.getBean("CollectDAO");
+//		List list = collectDao.findByProperty("users.UId", 1);
+//		for(int i = 0; i < list.size(); i++){
+//			Collect tmp = (Collect)list.get(i);
+//			System.out.println(tmp.getHId());
+//		}
+		
+		
+		
 //		UsersDAO userDao = (UsersDAO) context.getBean("UsersDAO");		
 //
 //		/*º∂¡™…æ≥˝*/
@@ -52,18 +70,18 @@ public class test {
 //		}
 		
 
-		HouseSellRentService houseSellRentService = (HouseSellRentService) context.getBean("HouseSellRentService");
-		try{
-			List<HouseSellRent> list = houseSellRentService.findAll();
-			for(int i = 0; i < list.size(); i++){
-				System.out.print(list.get(i).getHId() + ", " + 
-				list.get(i).getRegion().getCity() + list.get(i).getRegion().getCounty() 
-				+ list.get(i).getHouseType().getName());
-			}
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+//		HouseSellRentService houseSellRentService = (HouseSellRentService) context.getBean("HouseSellRentService");
+//		try{
+//			List<HouseSellRent> list = houseSellRentService.findAll();
+//			for(int i = 0; i < list.size(); i++){
+//				System.out.print(list.get(i).getHId() + ", " + 
+//				list.get(i).getRegion().getCity() + list.get(i).getRegion().getCounty() 
+//				+ list.get(i).getHouseType().getName());
+//			}
+//			
+//		}catch(Exception e){
+//			e.printStackTrace();
+//		}
 		
 		
 

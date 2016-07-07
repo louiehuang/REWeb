@@ -106,6 +106,20 @@
 				<param name="root">dataMap_AllHouse</param>
 			</result>
 		</action>
+		
+		<!-- 验证管理 -->
+		<action name="json_queryVeri" class="AdministratorAction" method="json_queryVeri">
+			<result type="json" name="findVeri_success">
+				<param name="root">dataMap_Veri</param>
+			</result>
+		</action>
+		<action name="json_updateVeri" class="AdministratorAction" method="json_updateVeri">
+			<result type="json" name="updateVeri_success">
+				<param name="root">dataMap_Veri</param>
+			</result>
+		</action>
+		
+		
 
 
 	</package>
