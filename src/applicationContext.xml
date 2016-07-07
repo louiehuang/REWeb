@@ -127,6 +127,10 @@
 		<property name="verificationService">
 			<ref bean="VerificationService" />
 		</property>
+		
+		<property name="advertisementService">
+			<ref bean="AdvertisementService" />
+		</property>
 	</bean>
 
 
@@ -267,9 +271,16 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+	
+	
 	<bean id="AdvertisementDAO" class="com.chinasoft.dao.AdvertisementDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AdvertisementService" class="com.chinasoft.service.AdvertisementService">
+		<property name="advertisementDAO">
+			<ref bean="AdvertisementDAO" />
 		</property>
 	</bean>
 	

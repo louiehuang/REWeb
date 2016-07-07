@@ -28,7 +28,8 @@ public class AdvertisementDAO extends HibernateDaoSupport {
 	public static final String _UTYPE = "UType";
 	public static final String AD_CONTENT = "adContent";
 	public static final String AD_COST = "adCost";
-	public static final String AD_DATE = "adDate";
+	public static final String START_DATE = "startDate";
+	public static final String END_DATE = "endDate";
 
 	protected void initDao() {
 		// do nothing
@@ -45,6 +46,18 @@ public class AdvertisementDAO extends HibernateDaoSupport {
 		}
 	}
 
+	public void update(Advertisement transientInstance) {
+		log.debug("updating Advertisement instance");
+		try {
+			getHibernateTemplate().update(transientInstance);
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			log.error("update failed", re);
+			throw re;
+		}
+	}
+	
+	
 	public void delete(Advertisement persistentInstance) {
 		log.debug("deleting Advertisement instance");
 		try {
@@ -110,8 +123,12 @@ public class AdvertisementDAO extends HibernateDaoSupport {
 		return findByProperty(AD_COST, adCost);
 	}
 
-	public List findByAdDate(Object adDate) {
-		return findByProperty(AD_DATE, adDate);
+	public List findByStartDate(Object startDate) {
+		return findByProperty(START_DATE, startDate);
+	}
+
+	public List findByEndDate(Object endDate) {
+		return findByProperty(END_DATE, endDate);
 	}
 
 	public List findAll() {

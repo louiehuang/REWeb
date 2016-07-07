@@ -7,11 +7,13 @@ import java.util.Map;
 
 import org.apache.commons.validator.Var;
 
+import com.chinasoft.pojo.Advertisement;
 import com.chinasoft.pojo.HouseSellEnterprise;
 import com.chinasoft.pojo.HouseSellRent;
 import com.chinasoft.pojo.HouseSellSecondhand;
 import com.chinasoft.pojo.Users;
 import com.chinasoft.pojo.Verification;
+import com.chinasoft.service.AdvertisementService;
 import com.chinasoft.service.HouseSellEnterpriseService;
 import com.chinasoft.service.HouseSellRentService;
 import com.chinasoft.service.HouseSellSecondhandService;
@@ -40,6 +42,22 @@ public class AdministratorAction {
 	private String VId; // 验证的id
 	private Verification veri; // 验证对象
 	private String processRes; // 处理结果
+	
+	
+	/*广告管理*/
+	private AdvertisementService advertisementService;
+	private Map<String, Object> dataMap_Ad;
+	private int ad_pageIndex = 1;
+	private int ad_pageSize = 10; // 默认分页大小
+	private int ad_pageCount = 0;
+	private String AId; // 验证的id
+	private Advertisement ad; // 验证对象
+	
+	
+	
+	
+	
+	
 
 	public String json_deleteHouse() {
 		System.out.println("json_deleteHouse执行, 删除 " + HId);
@@ -235,6 +253,86 @@ public class AdministratorAction {
 		return "updateVeri_success";
 	}
 
+	
+	
+	
+	/*广告管理*/
+	public String json_querySingleAd(){
+		System.out.println("json_querySingleAd执行: " + AId);
+		
+		try {
+			dataMap_Ad = new HashMap<String, Object>();
+			// List list = usersService.findByUAccount(uAccount);
+			Advertisement res = advertisementService.findById(Integer.parseInt(AId));
+			dataMap_Ad.put("ad", res);
+			dataMap_Ad.put("success_queryUser", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 返回结果
+		return "findSignleAd_success";
+	}
+	
+	
+	
+	/**
+	 * 查询所有广告
+	 * @return
+	 */
+	public String json_queryAllAd() {
+		System.out.println("json_queryAllAd执行...");
+		/* 判断查询类型 */
+
+		try {
+			dataMap_Ad = new HashMap<String, Object>();
+			List<Advertisement> adList = advertisementService.findAll();
+			adList = cutAdPage(adList, ad_pageIndex, ad_pageSize); // 分页
+			
+			dataMap_Ad.put("adList", adList);
+			dataMap_Ad.put("ad_pageIndex", ad_pageIndex);
+			dataMap_Ad.put("ad_pageSize", ad_pageSize);
+			dataMap_Ad.put("ad_pageCount", ad_pageCount);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 返回结果
+		return "findAllAd_success";
+	}
+	
+	
+	
+	public List cutAdPage(List list, int pageIndex, int pageSize) {
+		List newList = new ArrayList();
+
+		if (list != null) {
+			if (list.size() % pageSize == 0) {
+				ad_pageCount = list.size() / pageSize;
+			} else {
+				ad_pageCount = list.size() / pageSize + 1;
+			}
+
+			int start = (pageIndex - 1) * pageSize;
+			int end = pageIndex * pageSize;
+			if (end > list.size()) {
+				end = list.size();
+			}
+
+			for (int i = start; i < end; i++) {
+				newList.add(list.get(i));
+			}
+		}
+
+		return newList;
+	}
+	
+	
+	
+	
+	
+	
+	
 	public HouseSellRentService getHouseSellRentService() {
 		return houseSellRentService;
 	}
@@ -382,5 +480,68 @@ public class AdministratorAction {
 	public void setProcessRes(String processRes) {
 		this.processRes = processRes;
 	}
+	
+	
+	
+	/*广告管理*/
+	public AdvertisementService getAdvertisementService() {
+		return advertisementService;
+	}
+
+	public void setAdvertisementService(AdvertisementService advertisementService) {
+		this.advertisementService = advertisementService;
+	}
+
+	public Map<String, Object> getDataMap_Ad() {
+		return dataMap_Ad;
+	}
+
+	public void setDataMap_Ad(Map<String, Object> dataMap_Ad) {
+		this.dataMap_Ad = dataMap_Ad;
+	}
+
+	public int getAd_pageIndex() {
+		return ad_pageIndex;
+	}
+
+	public void setAd_pageIndex(int ad_pageIndex) {
+		this.ad_pageIndex = ad_pageIndex;
+	}
+
+	public int getAd_pageSize() {
+		return ad_pageSize;
+	}
+
+	public void setAd_pageSize(int ad_pageSize) {
+		this.ad_pageSize = ad_pageSize;
+	}
+
+	public int getAd_pageCount() {
+		return ad_pageCount;
+	}
+
+	public void setAd_pageCount(int ad_pageCount) {
+		this.ad_pageCount = ad_pageCount;
+	}
+
+	public String getAId() {
+		return AId;
+	}
+
+	public void setAId(String aId) {
+		AId = aId;
+	}
+
+	public Advertisement getAd() {
+		return ad;
+	}
+
+	public void setAd(Advertisement ad) {
+		this.ad = ad;
+	}
+	
+	
+	
+	
 
 }

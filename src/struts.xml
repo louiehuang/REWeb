@@ -120,6 +120,17 @@
 		</action>
 		
 		
+		<!--广告管理 -->
+		<action name="json_queryAllAd" class="AdministratorAction" method="json_queryAllAd">
+			<result type="json" name="findAllAd_success">
+				<param name="root">dataMap_Ad</param>
+			</result>
+		</action>
+		<action name="json_querySingleAd" class="AdministratorAction" method="json_querySingleAd">
+			<result type="json" name="findSignleAd_success">
+				<param name="root">dataMap_Ad</param>
+			</result>
+		</action>
 
 
 	</package>

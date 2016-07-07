@@ -60,12 +60,14 @@ public class JsonAction {
 	 */
 	public String json_updateUser() {
 		try {
-//			a_user.setUGender((a_user.getUGender().equals("on") ? "男" : "女"));
-//			System.out.println("json_updateUser执行: " + a_user.getUId() + ","
-//					+ a_user.getUAccount() + "," + a_user.getUPwd() + ","
-//					+ a_user.getUName() + "," + a_user.getUGender() + ","
-//					+ a_user.getUHeader() + "," + a_user.getUCredit() + ","
-//					+ a_user.getUTele() + "," + a_user.getUEmail());
+			a_user.setUGender((a_user.getUGender().equals("on") ? "男" : "女"));
+			//性别，nchar(1)
+			
+			System.out.println("json_updateUser执行: " + a_user.getUId() + ","
+					+ a_user.getUAccount() + "," + a_user.getUPwd() + ","
+					+ a_user.getUName() + "," + a_user.getUGender() + ","
+					+ a_user.getUHeader() + "," + a_user.getUCredit() + ","
+					+ a_user.getUTele() + "," + a_user.getUEmail());
 
 			usersService.update(a_user);
 

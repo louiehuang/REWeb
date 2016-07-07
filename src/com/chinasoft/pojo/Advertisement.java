@@ -13,7 +13,8 @@ public class Advertisement implements java.io.Serializable {
 	private Integer UType;
 	private String adContent;
 	private Integer adCost;
-	private String adDate;
+	private String startDate;
+	private String endDate;
 
 	// Constructors
 
@@ -22,19 +23,19 @@ public class Advertisement implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Advertisement(String adContent, Integer adCost) {
+	public Advertisement(String adContent) {
 		this.adContent = adContent;
-		this.adCost = adCost;
 	}
 
 	/** full constructor */
 	public Advertisement(Integer UId, Integer UType, String adContent,
-			Integer adCost, String adDate) {
+			Integer adCost, String startDate, String endDate) {
 		this.UId = UId;
 		this.UType = UType;
 		this.adContent = adContent;
 		this.adCost = adCost;
-		this.adDate = adDate;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	// Property accessors
@@ -79,12 +80,20 @@ public class Advertisement implements java.io.Serializable {
 		this.adCost = adCost;
 	}
 
-	public String getAdDate() {
-		return this.adDate;
+	public String getStartDate() {
+		return this.startDate;
 	}
 
-	public void setAdDate(String adDate) {
-		this.adDate = adDate;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return this.endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 
 }
