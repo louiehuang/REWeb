@@ -248,15 +248,34 @@
 			});
 		}, function() {
 			layer.msg('取消删除', {
-				time : 2000, //20s后自动关闭
+				time : 2000, //2s后自动关闭
 				btn : [ '好' ]
 			});
 		});
 	}
+	
+	function selectUserGender(self){
+		var str = $("#btn_userGender").val();
+		var genderBtn = document.getElementById('btn_userGender');
+		switch (self.id) {
+		case "userGender_Male":
+			str = "男"; 
+			genderBtn.setAttribute("class", "btn btn-primary dropdown-toggle"); 
+			break;
+		case "userGender_Female":
+			str = "女";
+			genderBtn.setAttribute("class", "btn btn-danger dropdown-toggle"); 
+			break;
+		}
+
+		$("#btn_userGender").text(str);
+		
+	}
 
 	//加载单个用户信息到控件
 	function loadUserInfo(jsonList) {
-		creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
+		var creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
+		var genderBtn = document.getElementById('btn_userGender');
 
 		$("#inputUId").attr("value", jsonList[0].UId);
 		$("#inputUAccount").attr("value", jsonList[0].UAccount);
@@ -265,16 +284,14 @@
 		$("#inputUsername").attr("value", jsonList[0].UName);
 		$("#inputPassword").attr("value", jsonList[0].UPwd);
 		$("#inputPhoneNumber").attr("value", jsonList[0].UTele);
-
-		// 				$("#inputSex").prop("checked", true);
-		// 				$("#inputSex").prop("checked", "checked");
-		// 				if (jsonList[0][k] == "男") {
-		// 					$("#inputSex").bootstrapSwitch("toggleState");
-		// 					$("#inputSex").bootstrapSwitch("setState", true);
-		// 				} else {
-		// 					$("#inputSex").bootstrapSwitch("toggleState");
-		// 					$("#inputSex").bootstrapSwitch("setState", flase);
-		// 				}
+		
+		var gender = jsonList[0].UGender;
+		$("#btn_userGender").text(gender);
+		if(gender == "男"){
+			genderBtn.setAttribute("class", "btn btn-primary dropdown-toggle"); 
+		}else{
+			genderBtn.setAttribute("class", "btn btn-danger dropdown-toggle"); 
+		}
 
 	}
 
@@ -969,48 +986,47 @@
 	//加载单个广告信息到控件
 	function loadAdInfo(ad) {
 		$("#inputAdUserID").attr("value", ad.UId);
-		
-		var str="企业用户";
-		if(ad.UType == 1){
-			str="企业用户";
-		}else{
-			str="个人用户";
+
+		var str = "企业用户";
+		if (ad.UType == 1) {
+			str = "企业用户";
+		} else {
+			str = "个人用户";
 		}
-		
+
 		$("#btn_adPublishMode").text(str);
 		$("#inputAdUserType").attr("value", ad.UType);
-		
-		
+
 		$("#inputAdStartDate").attr("value", ad.startDate);
 		$("#inputAdEndDate").attr("value", ad.endDate);
 		$("#inputAdMoney").attr("value", ad.adCost);
 		$("#inputAdContent").attr("value", ad.adContent);
 	}
 
-	
 	/*设置广告用户类型，企业用户为1，个人用户为0*/
 	function selectAdPublishMode(self) {
 		var str = $("#inputAdUserType").val();
 		var val = 1;
 		switch (self.id) {
 		case "adPublish_Enterprise":
-			str = "企业用户"; val = 1;
+			str = "企业用户";
+			val = 1;
 			break;
 		case "adPublish_User":
-			str = "个人用户"; val = 0;
+			str = "个人用户";
+			val = 0;
 			break;
 		}
 
 		$("#inputAdUserType").attr("value", val);
 		$("#btn_adPublishMode").text(str);
 	}
-	
 
 	//根据用户ID删除房屋，并更新管理员界面房屋表的显示
 	function deleteAd(self) {
 		//btn_am_delete_1, btn_am_delete_12
 		var AId = (self.id).substr(14);
-		
+
 		layer.confirm('确定删除此记录？', {
 			btn : [ '确定', '取消' ]
 		//按钮
@@ -1022,7 +1038,7 @@
 				dataType : "json",
 				data : {
 					"AId" : AId,
-				}, 
+				},
 				error : function() {
 					alert('error');
 				},
@@ -1041,7 +1057,7 @@
 		});
 
 	};
-	
+
 	$(document).ready(function() {
 
 		//根据广告ID查询单个广告的信息
@@ -1066,7 +1082,6 @@
 			});
 		});
 
-		
 		//保存添加或修改的广告信息
 		$("#add_ad_submit").click(function() {
 			var type = $("#add_ad_submit").attr("value");
@@ -1136,7 +1151,7 @@
 			});
 
 		});
-		
+
 	});
 </script>
 
@@ -1293,116 +1308,156 @@
 						<!-- 修改用户信息 -->
 						<div class="tab-content">
 							<div class="tab-pane active" id="addUser">
-								<div class="container-fluid">
+								<div class="container-fluid" style="height:660px">
 									<div class="row-fluid">
 										<div class="container" style="padding-top:40px;">
-
-											<!-- 查询框 -->
-											<div class="my-query">
-												<label class="my-control-label">身&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;份</label>
-												<div class="bootstrap-switch my-control">
-													<input type="radio" name="UserType" id="inputUserType" />
-												</div>
-												<input id="UAccount" name="user.UAccount"
-													style="width:200px;height:30px; margin-left:60px;"
-													type="text" value="test" placeholder="请输入用户账号" />
-												<button id="btn_um_query" type="submit"
-													class="btn btn-primary" onclick="changeToUserUpdate()">查询</button>
-												<button type="submit" class="btn btn-primary"
-													onclick="changeToUserAdd()">退出修改</button>
-											</div>
 
 											<!-- 显示信息 -->
 											<div class="accordion" id="accordion-423793">
 												<div class="accordion-group accordion-group-gap">
-													<div class="accordion-heading ">
-														<a class="accordion-toggle my-accordion"
-															data-toggle="collapse" data-parent="#accordion-423793"
-															href="#accordion-element-basic">基本信息</a>
-													</div>
-													
-													
+
 													<div id="accordion-element-basic" class="accordion-body ">
 														<div class="accordion-inner ">
 
 															<!-- 隐藏域，存放用户ID，后台更新数据时需要UId来定位 -->
 															<input type="hidden" id="inputUId" />
 
-															<div class="my-container accordion-gap">
-																<label class="my-control-label">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
-																<div class=" my-control">
-																	<input type="text" id="inputUAccount"
-																		name="a_user.UAccount">
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
-																<div class=" my-control">
-																	<input type="text" id="inputEmail" name="a_user.UEmail">
-																</div>
-															</div>
-															<div class="my-container ">
-																<label class="my-control-label">用&nbsp;户&nbsp;名&nbsp;</label>
-																<div class=" my-control">
-																	<input type="text" id="inputUsername"
-																		name="a_user.UName">
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-																<div class=" my-control">
-																	<input type="text" id="inputPassword"
-																		name="a_user.UPwd">
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
-																<div class="swicth my-control">
-																	<input type="radio" name="a_user.UGender" id="inputSex" />
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">联系电话</label>
-																<div class=" my-control">
-																	<input id="inputPhoneNumber" type="text" size="13"
-																		name="a_user.UTele" maxlength="13"
-																		onKeyUp="checkNum(this);" />
+
+															<div class="my-container accordion-gap"
+																style="margin-top:60px;">
+																<table class="table table-hover">
+																	<tr>
+																		<td></td>
+																		<td>
+																			<div class="bootstrap-switch my-control">
+																				<input type="radio" name="UserType"
+																					id="inputUserType" />
+																			</div>
+																		</td>
+																		<td></td>
+																		<td><input id="UAccount" name="user.UAccount"
+																			style="width:200px;height:30px; margin-left:60px;"
+																			type="text" value="test" placeholder="请输入用户账号" />
+																			<button id="btn_um_query" type="submit"
+																				class="btn btn-primary"
+																				onclick="changeToUserUpdate()">查询</button>
+																			<button type="submit" class="btn btn-primary"
+																				onclick="changeToUserAdd()">退出修改</button></td>
+																	</tr>
+																	<tr>
+																		<td></td>
+																		<td></td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">用户账号</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputUAccount"
+																					name="a_user.UAccount">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">用户邮箱</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputEmail"
+																					name="a_user.UEmail">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">用户名</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputUsername"
+																					name="a_user.UName">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">密码</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputPassword"
+																					name="a_user.UPwd">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">性别</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<div class="btn-group">
+																					<button id="btn_userGender" type="button" value="男"
+																						class="btn btn-primary dropdown-toggle"
+																						data-toggle="dropdown" style="width:125px;">
+																						男
+																					</button>
+																					<ul class="dropdown-menu" role="menu">
+																						<li><a id="userGender_Male"
+																							href='javascript:'
+																							onclick='selectUserGender(this)'>男</a></li>
+																						<li class="divider"></li>
+																						<li><a id="userGender_Female" href='javascript:'
+																							onclick='selectUserGender(this)'>女</a></li>
+																					</ul>
+																					
+																				</div>
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">联系电话</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input id="inputPhoneNumber" type="text" size="13"
+																					name="a_user.UTele" maxlength="13"
+																					onKeyUp="checkNum(this);" />
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">信用等级</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<select class="selectpicker my-control my-select"
+																					id="credit-select" name="a_user.UCredit">
+																					<option value="1">一星</option>
+																					<option value="2">二星</option>
+																					<option value="3">三星</option>
+																					<option value="4">四星</option>
+																					<option value="5">五星</option>
+																				</select>
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																</table>
+
+																<div class="my-center-block" style="margin-top:50px;">
+																	<input type="submit" class="btn btn-large btn-primary "
+																		style="width:180px;" value="添加用户" id="add_user_submit">
 																</div>
 															</div>
 														</div>
 													</div>
-													
-													
-													
 												</div>
-												<div class="accordion-group accordion-group-gap">
-													<br />
-													<div class="accordion-heading">
-														<a class="accordion-toggle my-accordion"
-															data-toggle="collapse" data-parent="#accordion-423793"
-															href="#accordion-element-power">权限信息</a>
-													</div>
-													<div id="accordion-element-power" class="accordion-body in">
-														<div class="accordion-inner accordion-gap ">
-															<div class="my-container">
-																<label class="my-control-label">信用等级</label> <select
-																	class="selectpicker my-control my-select"
-																	id="credit-select" name="a_user.UCredit">
-																	<option value="1">一星</option>
-																	<option value="2">二星</option>
-																	<option value="3">三星</option>
-																	<option value="4">四星</option>
-																	<option value="5">五星</option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<br />
-											<div class="my-center-block" style="margin-bottom:100px;">
-												<input type="submit" class="btn btn-large btn-primary "
-													style="width:100px;" value="添加用户" id="add_user_submit">
 											</div>
 										</div>
 									</div>
