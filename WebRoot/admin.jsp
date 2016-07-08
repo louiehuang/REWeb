@@ -67,13 +67,14 @@
 	function changeToAdUpdate() {
 		document.getElementById("add_ad_submit").value = "保存修改";
 		document.getElementById("adManMode").innerHTML = "您现在是修改模式";
-		document.getElementById("adManMode").style.color="red";
+		document.getElementById("adManMode").style.color = "red";
 	}
 
 	function changeToAdAdd() {
 		document.getElementById("add_ad_submit").value = "添加广告";
 		document.getElementById("adManMode").innerHTML = "您现在是添加模式";
-		document.getElementById("adManMode").style.color="green";1
+		document.getElementById("adManMode").style.color = "green";
+		1
 	}
 
 	function checkNum(obj) {
@@ -965,34 +966,97 @@
 		});
 	}
 
-	
-	
-	//加载单个用户信息到控件
+	//加载单个广告信息到控件
 	function loadAdInfo(ad) {
 		$("#inputAdUserID").attr("value", ad.UId);
+		
+		var str="企业用户";
+		if(ad.UType == 1){
+			str="企业用户";
+		}else{
+			str="个人用户";
+		}
+		
+		$("#btn_adPublishMode").text(str);
 		$("#inputAdUserType").attr("value", ad.UType);
+		
+		
 		$("#inputAdStartDate").attr("value", ad.startDate);
 		$("#inputAdEndDate").attr("value", ad.endDate);
 		$("#inputAdMoney").attr("value", ad.adCost);
 		$("#inputAdContent").attr("value", ad.adContent);
 	}
+
 	
+	/*设置广告用户类型，企业用户为1，个人用户为0*/
+	function selectAdPublishMode(self) {
+		var str = $("#inputAdUserType").val();
+		var val = 1;
+		switch (self.id) {
+		case "adPublish_Enterprise":
+			str = "企业用户"; val = 1;
+			break;
+		case "adPublish_User":
+			str = "个人用户"; val = 0;
+			break;
+		}
+
+		$("#inputAdUserType").attr("value", val);
+		$("#btn_adPublishMode").text(str);
+	}
+	
+
+	//根据用户ID删除房屋，并更新管理员界面房屋表的显示
+	function deleteAd(self) {
+		//btn_am_delete_1, btn_am_delete_12
+		var AId = (self.id).substr(14);
+		
+		layer.confirm('确定删除此记录？', {
+			btn : [ '确定', '取消' ]
+		//按钮
+		}, function() {
+			/*局部刷新页面，输出获得的数据*/
+			$.ajax({
+				url : 'json_deleteAd.action',
+				type : 'post',
+				dataType : "json",
+				data : {
+					"AId" : AId,
+				}, 
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					createAllAdTable(data);
+				}
+			});
+			layer.msg('删除成功', {
+				icon : 1
+			});
+		}, function() {
+			layer.msg('取消删除', {
+				time : 2000, //2s后自动关闭
+				btn : [ '好' ]
+			});
+		});
+
+	};
 	
 	$(document).ready(function() {
-		
+
 		//根据广告ID查询单个广告的信息
 		$("#btn_querySingleAd").click(function() {
 			var AId = $("#AId").val();
-			if(AId == ""){
+			if (AId == "") {
 				AId = 1;
-			}	
+			}
 			$.ajax({
 				url : 'json_querySingleAd.action',
 				type : 'post',
 				dataType : "json",
 				data : {
 					"AId" : AId
-				}, 
+				},
 				error : function() {
 					alert('error');
 				},
@@ -1001,8 +1065,51 @@
 				}
 			});
 		});
+
 		
-		
+		//保存添加或修改的广告信息
+		$("#add_ad_submit").click(function() {
+			var type = $("#add_ad_submit").attr("value");
+			var url = "";
+			if (type == "添加广告") {
+				url = 'json_saveAd.action';
+			} else if (type == "保存修改") {
+				url = 'json_updateAd.action';
+			}
+
+			var flag = false;
+			if ($("#inputAdUserID").val() != "") {
+				flag = true;
+			}
+
+			if (flag == false) {
+				alert("请先填写信息");
+			} else {
+				$.ajax({
+					url : url,
+					type : 'post',
+					dataType : "json",
+					data : {
+						"ad.id" : $("#AId").val(),
+						"ad.UId" : $("#inputAdUserID").val(),
+						"ad.UType" : $("#inputAdUserType").val(),
+						"ad.adContent" : $("#inputAdContent").val(),
+						"ad.adCost" : $("#inputAdMoney").val(),
+						"ad.startDate" : $("#inputAdStartDate").val(),
+						"ad.endDate" : $("#inputAdEndDate").val(),
+					},
+					async : false, //默认为true 异步   
+					error : function() {
+						alert('error' + ", " + $("#AId").val());
+					},
+					success : function(data) {
+						alert("广告" + $("#AId").val() + "信息修改成功");
+					}
+				});
+			}
+
+		});
+
 		//查询广告信息，生成分页表
 		$("#btn_am_queryAd_all").click(function() {
 			ad_pageSize = $("#curAdPageSize").attr("value");
@@ -1029,7 +1136,7 @@
 			});
 
 		});
-
+		
 	});
 </script>
 
@@ -1131,6 +1238,7 @@
 							<h1>投诉信息</h1>
 							<p class="subtitle">处理用户对房产信息的投诉并修改相应信息</p>
 						</div>
+
 						<div class="container">
 							<table class="table table-hover complainTable">
 								<thead>
@@ -1212,6 +1320,8 @@
 															data-toggle="collapse" data-parent="#accordion-423793"
 															href="#accordion-element-basic">基本信息</a>
 													</div>
+													
+													
 													<div id="accordion-element-basic" class="accordion-body ">
 														<div class="accordion-inner ">
 
@@ -1261,6 +1371,9 @@
 															</div>
 														</div>
 													</div>
+													
+													
+													
 												</div>
 												<div class="accordion-group accordion-group-gap">
 													<br />
@@ -1437,20 +1550,16 @@
 												<table class="table table-hover">
 													<tr>
 														<td></td>
-														<td>
-															<label id="adManMode" class=" my-control" 
-															style="color:green">您现在是添加模式</label>
-														</td>
+														<td><label id="adManMode" class=" my-control"
+															style="color:green">您现在是添加模式</label></td>
 														<td>
 															<div class=" my-control">
-															<input id="AId"
-															type="text" placeholder="请输入广告ID..." />
+																<input id="AId" type="text" placeholder="请输入广告ID..." />
 															</div>
 														</td>
-														<td><button id="btn_querySingleAd"
-																type="submit" class="btn btn-primary"
-																onclick="changeToAdUpdate()">查询</button>
-														<button type="submit" class="btn btn-primary"
+														<td><button id="btn_querySingleAd" type="submit"
+																class="btn btn-primary" onclick="changeToAdUpdate()">查询</button>
+															<button type="submit" class="btn btn-primary"
 																onclick="changeToAdAdd()">退出修改</button></td>
 													</tr>
 
@@ -1461,60 +1570,84 @@
 																<input type="text" id="inputAdUserID">
 															</div>
 														</td>
-														<td></td> <td></td>
+														<td></td>
+														<td></td>
 													</tr>
 													<tr>
 														<td><label class="my-control-label">用户类型</label></td>
 														<td>
 															<div class=" my-control">
-																<input type="radio" name="UserType" id="inputAdUserType">
+																<div class="btn-group" style="margin-right:30px;">
+																	<button id="btn_adPublishMode" type="button"
+																		class="btn btn-primary dropdown-toggle"
+																		data-toggle="dropdown">
+																		企业用户
+																		<!-- <span class="caret"></span> -->
+
+																	</button>
+																	<ul class="dropdown-menu" role="menu">
+																		<li><a id="adPublish_Enterprise"
+																			href='javascript:'
+																			onclick='selectAdPublishMode(this)'>企业用户</a></li>
+																		<li class="divider"></li>
+																		<li><a id="adPublish_User" href='javascript:'
+																			onclick='selectAdPublishMode(this)'>个人用户</a></li>
+																</div>
+
+																<input type="hidden" id="inputAdUserType" value="1">
 															</div>
 														</td>
-														<td></td> <td></td>
+														<td></td>
+														<td></td>
 													</tr>
 													<tr>
 														<td><label class="my-control-label">起始时间</label></td>
 														<td>
 															<div class=" my-control">
-																<input type="text" id="inputAdStartDate">
+																<input type="text" value="" id="inputAdStartDate">
 															</div>
 														</td>
-														<td></td> <td></td>
+														<td></td>
+														<td></td>
 													</tr>
 													<tr>
 														<td><label class="my-control-label">结束时间</label></td>
 														<td>
 															<div class=" my-control">
-																<input type="text" id="inputAdEndDate">
+																<input type="text" value="" id="inputAdEndDate">
 															</div>
 														</td>
-														<td></td> <td></td>
+														<td></td>
+														<td></td>
 													</tr>
 													<tr>
 														<td><label class="my-control-label">花销</label></td>
 														<td>
 															<div class=" my-control">
-																<input type="text" id="inputAdMoney"> 元/天
+																<input type="text" value="" id="inputAdMoney">
+																元/天
 															</div>
 														</td>
-														<td></td> <td></td>
+														<td></td>
+														<td></td>
 													</tr>
 													<tr>
 														<td><label class="my-control-label">内容</label></td>
 														<td>
 															<div class=" my-control">
-																<textarea id="inputAdContent" type="text"
+																<textarea id="inputAdContent" type="text" value=""
 																	style="width:300px;height:80px;"></textarea>
 															</div>
 														</td>
-														<td></td> <td></td>
+														<td></td>
+														<td></td>
 													</tr>
 												</table>
 
 												<div class="my-center-block" style="margin-top:50px;">
 													<input type="button" class="btn btn-large btn-primary "
-														style="width:180px;"
-														value="添加广告" id="add_ad_submit" name="bt">
+														style="width:180px;" value="添加广告" id="add_ad_submit"
+														name="bt">
 												</div>
 											</div>
 										</div>

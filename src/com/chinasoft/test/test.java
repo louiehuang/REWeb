@@ -69,6 +69,32 @@ public class test {
 //			e.printStackTrace();
 //		}
 		
+		
+		UsersDAO userDao = (UsersDAO) context.getBean("UsersDAO");	
+		CollectDAO collectDAO = (CollectDAO) context.getBean("CollectDAO");		
+
+		try {
+			Users user = userDao.findById(2);
+			System.out.println(user.getUAccount() + "," + user.getUId());
+			
+			List<Collect> collectList = collectDAO.findAll();
+			
+			for(int i = 0; i < collectList.size(); i++){
+				Collect tmp = collectList.get(i);
+				System.out.println("tmpUid, " + tmp.getUsers().getUId() + ", " + tmp.getHId());
+				if(tmp.getUsers().getUId().equals(user.getUId()) && tmp.getHId() == 1){
+					System.out.println("delete");
+					collectDAO.delete(tmp);
+				}
+				
+			}
+			
+			//userDao.delete(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 
 //		HouseSellRentService houseSellRentService = (HouseSellRentService) context.getBean("HouseSellRentService");
 //		try{

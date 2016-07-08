@@ -33,5 +33,9 @@ public class AdvertisementService {
 		return advertisementDAO.findById(id);
 	}
 	
+	public void save(Advertisement ad){
+		advertisementDAO.save(ad);
+	}
+	
 
 }
