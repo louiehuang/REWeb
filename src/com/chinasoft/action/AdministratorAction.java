@@ -7,15 +7,18 @@ import java.util.Map;
 
 import org.apache.commons.validator.Var;
 
+import com.chinasoft.pojo.Advertisement;
 import com.chinasoft.pojo.HouseSellEnterprise;
 import com.chinasoft.pojo.HouseSellRent;
 import com.chinasoft.pojo.HouseSellSecondhand;
 import com.chinasoft.pojo.Users;
 import com.chinasoft.pojo.Verification;
+import com.chinasoft.service.AdvertisementService;
 import com.chinasoft.service.HouseSellEnterpriseService;
 import com.chinasoft.service.HouseSellRentService;
 import com.chinasoft.service.HouseSellSecondhandService;
 import com.chinasoft.service.VerificationService;
+import com.chinasoft.util.PageMan;
 
 public class AdministratorAction {
 	/* 查询房屋 */
@@ -41,6 +44,20 @@ public class AdministratorAction {
 	private Verification veri; // 验证对象
 	private String processRes; // 处理结果
 
+	/* 广告管理 */
+	private AdvertisementService advertisementService;
+	private Map<String, Object> dataMap_Ad;
+	private int ad_pageIndex = 1;
+	private int ad_pageSize = 10; // 默认分页大小
+	private int ad_pageCount = 0;
+	private String AId; // 验证的id
+	private Advertisement ad; // 验证对象
+
+	/**
+	 * 删除房屋信息，并更新列表
+	 * 
+	 * @return
+	 */
 	public String json_deleteHouse() {
 		System.out.println("json_deleteHouse执行, 删除 " + HId);
 
@@ -73,6 +90,11 @@ public class AdministratorAction {
 		return "deleteHouse_success";
 	}
 
+	/**
+	 * 查询所有房屋信息，并分页
+	 * 
+	 * @return
+	 */
 	public String json_queryAllHouse() {
 		System.out.println("json_queryAllHouse执行, 查询:" + house_queryMode);
 		/* 判断查询类型 */
@@ -83,24 +105,37 @@ public class AdministratorAction {
 			if (house_queryMode.equals("HouseSellEnterprise")) {
 				List<HouseSellEnterprise> enterList = houseSellEnterpriseService
 						.findAll();
-				enterList = cutPage(enterList, house_pageIndex, house_pageSize); // 分页
-				dataMap_AllHouse.put("enterList", enterList);
+
+				/* 分页，接收分页后list和分页页数 */
+				Map<String, Object> tmp = PageMan.cutHousePage(enterList,
+						house_pageIndex, house_pageSize);
+				dataMap_AllHouse.put("enterList", tmp.get("newList"));
+				dataMap_AllHouse.put("house_pageCount", tmp.get("pageCount"));
+
 			} else if (house_queryMode.equals("HouseSellSecondhand")) {
 				List<HouseSellSecondhand> secondList = houseSellSecondhandService
 						.findAll();
-				secondList = cutPage(secondList, house_pageIndex,
-						house_pageSize); // 分页
-				dataMap_AllHouse.put("secondList", secondList);
+
+				/* 分页，接收分页后list和分页页数 */
+				Map<String, Object> tmp = PageMan.cutHousePage(secondList,
+						house_pageIndex, house_pageSize);
+
+				dataMap_AllHouse.put("secondList", tmp.get("newList"));
+				dataMap_AllHouse.put("house_pageCount", tmp.get("pageCount"));
+
 			} else if (house_queryMode.equals("HouseSellRent")) {
 				List<HouseSellRent> rentList = houseSellRentService.findAll();
-				rentList = cutPage(rentList, house_pageIndex, house_pageSize); // 分页
-				dataMap_AllHouse.put("rentList", rentList);
+
+				/* 分页，接收分页后list和分页页数 */
+				Map<String, Object> tmp = PageMan.cutHousePage(rentList,
+						house_pageIndex, house_pageSize);
+				dataMap_AllHouse.put("rentList", tmp.get("newList"));
+				dataMap_AllHouse.put("house_pageCount", tmp.get("pageCount"));
 
 			}
 
 			dataMap_AllHouse.put("house_pageIndex", house_pageIndex);
 			dataMap_AllHouse.put("house_pageSize", house_pageSize);
-			dataMap_AllHouse.put("house_pageCount", house_pageCount);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,40 +145,11 @@ public class AdministratorAction {
 		return "findAllHouse_success";
 	}
 
-	
-	
 	/**
-	 * 根据当前所在页 和 每页大小进行分页
+	 * 查询所有验证申请并分页
 	 * 
-	 * @param list
-	 * @param pageIndex
-	 * @param pageSize
 	 * @return
 	 */
-	public List cutPage(List list, int pageIndex, int pageSize) {
-		List newList = new ArrayList();
-
-		if (list != null) {
-			if (list.size() % pageSize == 0) {
-				house_pageCount = list.size() / pageSize;
-			} else {
-				house_pageCount = list.size() / pageSize + 1;
-			}
-
-			int start = (pageIndex - 1) * pageSize;
-			int end = pageIndex * pageSize;
-			if (end > list.size()) {
-				end = list.size();
-			}
-
-			for (int i = start; i < end; i++) {
-				newList.add(list.get(i));
-			}
-		}
-
-		return newList;
-	}
-
 	public String json_queryVeri() {
 		System.out.println("json_queryVeri执行, 查询:" + veri_queryMode);
 		/* 判断查询类型 */
@@ -152,24 +158,33 @@ public class AdministratorAction {
 			dataMap_Veri = new HashMap<String, Object>();
 
 			if (veri_queryMode.equals("queryVerificaton")) {
-				int status = 0; //查询未处理的
+				int status = 0; // 查询未处理的
 				List<Verification> unprocessedList = verificationService
 						.findByVstatus(status);
-				unprocessedList = cutVeriPage(unprocessedList, veri_pageIndex,
-						veri_pageSize); // 分页
-				dataMap_Veri.put("unprocessedList", unprocessedList);
+
+				/* 分页，接收分页后list和分页页数 */
+				Map<String, Object> tmp = PageMan.cutVeriPage(unprocessedList,
+						veri_pageIndex, veri_pageSize);
+
+				dataMap_Veri.put("unprocessedList", tmp.get("newList"));
+				dataMap_Veri.put("veri_pageCount", tmp.get("pageCount"));
+
 			} else if (veri_queryMode.equals("queryVerificaton_processed")) {
 				int status = 1;
 				List<Verification> processedList = verificationService
 						.findByVstatus(status);
-				processedList = cutVeriPage(processedList, veri_pageIndex,
-						veri_pageSize); // 分页
-				dataMap_Veri.put("processedList", processedList);
+
+				/* 分页，接收分页后list和分页页数 */
+				Map<String, Object> tmp = PageMan.cutVeriPage(processedList,
+						veri_pageIndex, veri_pageSize);
+
+				dataMap_Veri.put("processedList", tmp.get("newList"));
+				dataMap_Veri.put("veri_pageCount", tmp.get("pageCount"));
+
 			}
 
 			dataMap_Veri.put("veri_pageIndex", veri_pageIndex);
 			dataMap_Veri.put("veri_pageSize", veri_pageSize);
-			dataMap_Veri.put("veri_pageCount", veri_pageCount);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,32 +194,9 @@ public class AdministratorAction {
 		return "findVeri_success";
 	}
 
-	public List cutVeriPage(List list, int pageIndex, int pageSize) {
-		List newList = new ArrayList();
-
-		if (list != null) {
-			if (list.size() % pageSize == 0) {
-				veri_pageCount = list.size() / pageSize;
-			} else {
-				veri_pageCount = list.size() / pageSize + 1;
-			}
-
-			int start = (pageIndex - 1) * pageSize;
-			int end = pageIndex * pageSize;
-			if (end > list.size()) {
-				end = list.size();
-			}
-
-			for (int i = start; i < end; i++) {
-				newList.add(list.get(i));
-			}
-		}
-
-		return newList;
-	}
-
 	/**
 	 * 更新验证处理结果，并更新相应状态（结果设为未处理时状态置为未处理0）
+	 * 
 	 * @return
 	 */
 	public String json_updateVeri() {
@@ -214,25 +206,125 @@ public class AdministratorAction {
 					.parseInt(VId));
 
 			System.out.println(processRes);
-			
-			if(processRes.equals("未处理")){
+
+			if (processRes.equals("未处理")) {
 				veri.setVres(0);
-				veri.setVstatus(0); //处理状态置为未处理
-			}else if(processRes.equals("已通过")){
+				veri.setVstatus(0); // 处理状态置为未处理
+			} else if (processRes.equals("已通过")) {
 				veri.setVres(1);
-				veri.setVstatus(1); //处理状态置为处理
-			}else if(processRes.equals("不通过")){
+				veri.setVstatus(1); // 处理状态置为处理
+			} else if (processRes.equals("不通过")) {
 				veri.setVres(2);
-				veri.setVstatus(1); //处理状态置为处理
+				veri.setVstatus(1); // 处理状态置为处理
 			}
 
 			verificationService.update(veri);
 			String update = json_queryVeri(); // 调用json_queryVeri更新显示
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "updateVeri_success";
+	}
+
+	/* 广告管理 */
+	/**
+	 * 根据id查询单个广告
+	 * 
+	 * @return
+	 */
+	public String json_querySingleAd() {
+		System.out.println("json_querySingleAd执行: " + AId);
+
+		try {
+			dataMap_Ad = new HashMap<String, Object>();
+			// List list = usersService.findByUAccount(uAccount);
+			Advertisement res = advertisementService.findById(Integer
+					.parseInt(AId));
+			dataMap_Ad.put("ad", res);
+			dataMap_Ad.put("success_queryUser", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 返回结果
+		return "findSignleAd_success";
+	}
+
+	/**
+	 * 查询所有广告并分页
+	 * 
+	 * @return
+	 */
+	public String json_queryAllAd() {
+		System.out.println("json_queryAllAd执行...");
+		/* 判断查询类型 */
+
+		try {
+			dataMap_Ad = new HashMap<String, Object>();
+			List<Advertisement> adList = advertisementService.findAll();
+
+			/* 分页，接收分页后list和分页页数 */
+			Map<String, Object> tmp = PageMan.cutAdPage(adList, ad_pageIndex,
+					ad_pageSize);
+
+			dataMap_Ad.put("adList", tmp.get("newList"));
+			dataMap_Ad.put("ad_pageCount", tmp.get("pageCount"));
+
+			dataMap_Ad.put("ad_pageIndex", ad_pageIndex);
+			dataMap_Ad.put("ad_pageSize", ad_pageSize);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 返回结果
+		return "findAllAd_success";
+	}
+
+	/**
+	 * 更新对广告信息的修改
+	 * 
+	 * @return
+	 */
+	public String json_updateAd() {
+		System.out.println("json_updateAd执行: " + ad.getId() + ","
+				+ ad.getAdContent() + "," + ad.getStartDate());
+
+		try {
+			advertisementService.update(ad);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
+
+	/**
+	 * 新增广告
+	 */
+	public String json_saveAd() {
+		System.out.println("json_saveAd执行...");
+		try {
+			advertisementService.save(ad);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
+
+	/**
+	 * 删除广告
+	 */
+	public String json_deleteAd() {
+		System.out.println("json_deleteAd执行...");
+		try {
+			Advertisement tmp = advertisementService.findById(Integer
+					.parseInt(AId));
+			advertisementService.delete(tmp);
+			String call = json_queryAllAd();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
 	}
 
 	public HouseSellRentService getHouseSellRentService() {
@@ -381,6 +473,64 @@ public class AdministratorAction {
 
 	public void setProcessRes(String processRes) {
 		this.processRes = processRes;
+	}
+
+	/* 广告管理 */
+	public AdvertisementService getAdvertisementService() {
+		return advertisementService;
+	}
+
+	public void setAdvertisementService(
+			AdvertisementService advertisementService) {
+		this.advertisementService = advertisementService;
+	}
+
+	public Map<String, Object> getDataMap_Ad() {
+		return dataMap_Ad;
+	}
+
+	public void setDataMap_Ad(Map<String, Object> dataMap_Ad) {
+		this.dataMap_Ad = dataMap_Ad;
+	}
+
+	public int getAd_pageIndex() {
+		return ad_pageIndex;
+	}
+
+	public void setAd_pageIndex(int ad_pageIndex) {
+		this.ad_pageIndex = ad_pageIndex;
+	}
+
+	public int getAd_pageSize() {
+		return ad_pageSize;
+	}
+
+	public void setAd_pageSize(int ad_pageSize) {
+		this.ad_pageSize = ad_pageSize;
+	}
+
+	public int getAd_pageCount() {
+		return ad_pageCount;
+	}
+
+	public void setAd_pageCount(int ad_pageCount) {
+		this.ad_pageCount = ad_pageCount;
+	}
+
+	public String getAId() {
+		return AId;
+	}
+
+	public void setAId(String aId) {
+		AId = aId;
+	}
+
+	public Advertisement getAd() {
+		return ad;
+	}
+
+	public void setAd(Advertisement ad) {
+		this.ad = ad;
 	}
 
 }

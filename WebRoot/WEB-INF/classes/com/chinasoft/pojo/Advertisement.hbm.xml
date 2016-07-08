@@ -20,10 +20,13 @@
             <column name="Ad_content" not-null="true" />
         </property>
         <property name="adCost" type="java.lang.Integer">
-            <column name="Ad_cost" not-null="true" />
+            <column name="Ad_cost" />
         </property>
-        <property name="adDate" type="java.lang.String">
-            <column name="Ad_date" length="20" />
+        <property name="startDate" type="java.lang.String">
+            <column name="startDate" length="20" />
+        </property>
+        <property name="endDate" type="java.lang.String">
+            <column name="endDate" length="20" />
         </property>
     </class>
 </hibernate-mapping>

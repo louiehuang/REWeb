@@ -56,75 +56,29 @@
 	})
 </script>
 <script>
-	function promptinfo() {
-		var s1 = document.getElementById('province-select');
-		var s2 = document.getElementById('city-select');
-		var s3 = document.getElementById('county-select');
-	}
-
 	function changeToUserUpdate() {
 		document.getElementById("add_user_submit").value = "保存修改";
 	}
 
 	function changeToUserAdd() {
-		document.getElementById("add_user_submit").value = "提交";
+		document.getElementById("add_user_submit").value = "添加用户";
 	}
 
 	function changeToAdUpdate() {
 		document.getElementById("add_ad_submit").value = "保存修改";
+		document.getElementById("adManMode").innerHTML = "您现在是修改模式";
+		document.getElementById("adManMode").style.color = "red";
 	}
 
 	function changeToAdAdd() {
-		document.getElementById("add_ad_submit").value = "提交";
+		document.getElementById("add_ad_submit").value = "添加广告";
+		document.getElementById("adManMode").innerHTML = "您现在是添加模式";
+		document.getElementById("adManMode").style.color = "green";
+		1
 	}
 
-	$(function() {
-		function initTableCheckbox() {
-			var $thr = $('table thead tr');
-			var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /></th>');
-			$thr.prepend($checkAllTh);
-			var $checkAll = $thr.find('input');
-			$checkAll
-					.click(function(event) {
-						$tbr.find('input').prop('checked',
-								$(this).prop('checked'));
-						if ($(this).prop('checked')) {
-							$tbr.find('input').parent().parent().addClass(
-									'warning');
-						} else {
-							$tbr.find('input').parent().parent().removeClass(
-									'warning');
-						}
-						event.stopPropagation();
-					});
-			/*点击全选框所在单元格时也触发全选框的点击操作*/
-			$checkAllTh.click(function() {
-				$(this).find('input').click();
-			});
-			var $tbr = $('table tbody tr');
-			var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');
-			$tbr.prepend($checkItemTd);
-			$tbr
-					.find('input')
-					.click(
-							function(event) {
-								$(this).parent().parent()
-										.toggleClass('warning');
-								$checkAll
-										.prop(
-												'checked',
-												$tbr.find('input:checked').length == $tbr.length ? true
-														: false);
-								event.stopPropagation();
-							});
-			$tbr.click(function() {
-				$(this).find('input').click();
-			});
-		}
-		initTableCheckbox();
-	});
 	function checkNum(obj) {
-		obj.value = obj.value.replace(/\D/gi, "")
+		obj.value = obj.value.replace(/\D/gi, "");
 	}
 </script>
 
@@ -294,15 +248,34 @@
 			});
 		}, function() {
 			layer.msg('取消删除', {
-				time : 2000, //20s后自动关闭
+				time : 2000, //2s后自动关闭
 				btn : [ '好' ]
 			});
 		});
 	}
+	
+	function selectUserGender(self){
+		var str = $("#btn_userGender").val();
+		var genderBtn = document.getElementById('btn_userGender');
+		switch (self.id) {
+		case "userGender_Male":
+			str = "男"; 
+			genderBtn.setAttribute("class", "btn btn-primary dropdown-toggle"); 
+			break;
+		case "userGender_Female":
+			str = "女";
+			genderBtn.setAttribute("class", "btn btn-danger dropdown-toggle"); 
+			break;
+		}
+
+		$("#btn_userGender").text(str);
+		
+	}
 
 	//加载单个用户信息到控件
 	function loadUserInfo(jsonList) {
-		creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
+		var creditSelect = document.getElementById("credit-select"); //信用登陆下拉框
+		var genderBtn = document.getElementById('btn_userGender');
 
 		$("#inputUId").attr("value", jsonList[0].UId);
 		$("#inputUAccount").attr("value", jsonList[0].UAccount);
@@ -311,16 +284,14 @@
 		$("#inputUsername").attr("value", jsonList[0].UName);
 		$("#inputPassword").attr("value", jsonList[0].UPwd);
 		$("#inputPhoneNumber").attr("value", jsonList[0].UTele);
-
-		// 				$("#inputSex").prop("checked", true);
-		// 				$("#inputSex").prop("checked", "checked");
-		// 				if (jsonList[0][k] == "男") {
-		// 					$("#inputSex").bootstrapSwitch("toggleState");
-		// 					$("#inputSex").bootstrapSwitch("setState", true);
-		// 				} else {
-		// 					$("#inputSex").bootstrapSwitch("toggleState");
-		// 					$("#inputSex").bootstrapSwitch("setState", flase);
-		// 				}
+		
+		var gender = jsonList[0].UGender;
+		$("#btn_userGender").text(gender);
+		if(gender == "男"){
+			genderBtn.setAttribute("class", "btn btn-primary dropdown-toggle"); 
+		}else{
+			genderBtn.setAttribute("class", "btn btn-danger dropdown-toggle"); 
+		}
 
 	}
 
@@ -381,6 +352,9 @@
 			设置同步，在执行完success后对控件curPageIndex和curPageCount进行赋值显示，若异步则可能赋值在回调前执行，此时值为空
 			 */
 			pageSize = $("#pageSize").attr("value");
+			if (pageSize == "") {
+				pageSize = 10;
+			}
 
 			$.ajax({
 				url : 'json_queryAllUser.action',
@@ -426,13 +400,10 @@
 		}
 
 		/*设置新的页数*/
-		house_pageIndex = data.house_pageIndex;
-		house_pageSize = data.house_pageSize;
-		house_pageCount = data.house_pageCount;
-		$("#house_pageIndex").attr("value", house_pageIndex);
-		$("#house_pageSize").attr("value", house_pageSize);
-		$("#house_pageCount").attr("value", house_pageCount);
-		//alert($("#house_pageIndex").attr("value") + ", " + $("#house_pageCount").attr("value"));
+		$("#curHousePageIndex").attr("value", data.house_pageIndex);
+		$("#curHousePageSize").attr("value", data.house_pageSize);
+		$("#curHousePageCount").attr("value", data.house_pageCount);
+		//alert($("#curHousePageIndex").attr("value") + ", " + $("#curHousePageCount").attr("value"));
 
 		var htmls = [ '<table class=\"table table-hover\" id=\"HouseTable\">' ];
 
@@ -478,8 +449,9 @@
 	//切换页面，判断上一页或下一页对下次应显示的当前页pageIndex进行更新，并从后台获取数据
 	function changeCurHousePage(self) {
 		/*从隐藏域获取当前页和总页数*/
-		var house_pageIndex = $("#house_pageIndex").val();
-		var house_pageCount = $("#house_pageCount").val();
+		var house_pageIndex = $("#curHousePageIndex").val();
+		var house_pageSize = $("#curHousePageSize").val();
+		var house_pageCount = $("#curHousePageCount").val();
 		//alert(self.id + "," + house_pageIndex + ", " + house_pageCount);
 
 		/*设置下一次的当前页*/
@@ -498,10 +470,6 @@
 				house_pageIndex++;
 			}
 		}
-
-		/*更新隐藏域以便下一次执行函数进行获取*/
-		$("#curHousePageIndex").attr("value", house_pageIndex);
-		$("#curHousePageCount").attr("value", house_pageCount);
 
 		/*局部刷新页面，输出获得的数据*/
 		$.ajax({
@@ -587,13 +555,6 @@
 				//查询房屋信息，生成分页表
 				$("#btn_hm_queryHouse_all").click(
 						function() {
-							/*
-							初次查询默认传入pageIndex=1,pageSize=10给后台JsonAction，用户可在初次查询更改pageSize值
-							查询后返回一个大小为pageSize的列表(data.list)和查询后计算出的pageCount,并返回pageIndex和pageSize
-							回调success中，调用createAllUserTable函数中根据data.list生成查询结果
-							设置同步，在执行完success后对控件curPageIndex和curPageCount进行赋值显示，
-							若异步则可能赋值在回调前执行，此时值为空
-							 */
 							var house_queryMode = "HouseSellEnterprise"; //默认查询企业房屋
 							var tmp = $("#btn_queryHouseMode").text(); //获取查询方式选择值并更新查询方式
 							switch (tmp) {
@@ -608,8 +569,11 @@
 								break;
 							}
 
-							var house_pageSize = $("#house_pageSize").attr(
+							var house_pageSize = $("#curHousePageSize").attr(
 									"value");
+							if (house_pageSize == "") {
+								house_pageSize = 10;
+							}
 
 							$.ajax({
 								url : 'json_queryAllHouse.action',
@@ -634,16 +598,7 @@
 								}
 							});
 
-							//前面设置async为false, 即同步，执行完回调函数success后设置了pageIndex和pageCount控件值后，这里再进行获取和赋值
-							var house_pageIndex = $("#house_pageIndex").val();
-							var house_pageCount = $("#house_pageCount").val();
-							$("#curHousePageIndex").attr("value",
-									house_pageIndex);
-							$("#curHousePageCount").attr("value",
-									house_pageCount);
-
 						});
-
 			});
 </script>
 
@@ -663,14 +618,11 @@
 		}
 
 		/*设置新的页数*/
-		veri_pageIndex = data.veri_pageIndex;
-		veri_pageSize = data.veri_pageSize;
-		veri_pageCount = data.veri_pageCount;
-		$("#veri_pageIndex").attr("value", veri_pageIndex);
-		$("#veri_pageSize").attr("value", veri_pageSize);
-		$("#veri_pageCount").attr("value", veri_pageCount);
+		$("#curVeriPageIndex").attr("value", data.veri_pageIndex);
+		$("#curVeriPageSize").attr("value", data.veri_pageSize);
+		$("#curVeriPageCount").attr("value", data.veri_pageCount);
 
-		//alert($("#veri_pageIndex").attr("value") + ", " + $("#veri_pageCount").attr("value"));
+		//alert($("#curVeriPageIndex").attr("value") + ", " + $("#curVeriPageCount").attr("value"));
 
 		var htmls = [ '<table class=\"table table-hover\" id=\"VeriTable\">' ];
 
@@ -708,20 +660,28 @@
 					+ '</td>');
 
 			var res = "";
-			switch(json[i].vres){
-			case 0: res = "未处理"; break;
-			case 1: res = "已通过"; break;
-			case 2: res = "不通过"; break;
+			switch (json[i].vres) {
+			case 0:
+				res = "未处理";
+				break;
+			case 1:
+				res = "已通过";
+				break;
+			case 2:
+				res = "不通过";
+				break;
 			}
-			
+
 			//处理结果
 			htmls
 					.push('<td>'
 							+ '<div class=\"btn-group\">'
 							+ '<button id=\"btn_veriRes_' + 
 							json[i].id + '\" type=\"button\" class=\"btn btn-info dropdown-toggle\"' + 
-							'data-toggle=\"dropdown\">' + res + '</button>'
-							
+							'data-toggle=\"dropdown\">'
+							+ res
+							+ '</button>'
+
 							+ '<ul class=\"dropdown-menu\" role=\"menu\">'
 							+ '<li><a id=\"veriUnhandle?'
 							+ json[i].id
@@ -772,22 +732,25 @@
 
 		switch (res) {
 		case "veriUnhandle":
-			res = "1"; display = "未处理";
+			res = "1";
+			display = "未处理";
 			break;
 		case "veriPassed":
-			res = "2"; display = "已通过";
+			res = "2";
+			display = "已通过";
 			break;
 		case "veriFailed":
-			res = "3"; display = "不通过";
+			res = "3";
+			display = "不通过";
 			break;
 		}
-		
+
 		$("#btn_veriRes_" + id).text(display); //更新选择显示
 
 	}
-	
+
 	/*保存验证处理结果*/
-	function updateVeri(self){
+	function updateVeri(self) {
 		var id = (self.id).substr(12);
 		var res = $("#btn_veriRes_" + id).text(); //处理结果 ， "未处理"、"已通过"、"不通过"
 
@@ -813,7 +776,7 @@
 					createVeriTable(data);
 				}
 			});
-			
+
 			layer.msg('修改成功', {
 				icon : 1
 			});
@@ -823,14 +786,14 @@
 				btn : [ '好' ]
 			});
 		});
-		
+
 	}
 
 	//切换页面，判断上一页或下一页对下次应显示的当前页pageIndex进行更新，并从后台获取数据
 	function changeCurVeriPage(self) {
 		/*从隐藏域获取当前页和总页数*/
-		var veri_pageIndex = $("#veri_pageIndex").val();
-		var veri_pageCount = $("#veri_pageCount").val();
+		var veri_pageIndex = $("#curVeriPageIndex").val();
+		var veri_pageCount = $("#curVeriPageCount").val();
 		//alert(self.id + "," + veri_pageIndex + ", " + veri_pageCount);
 
 		/*设置下一次的当前页*/
@@ -850,10 +813,6 @@
 			}
 		}
 
-		/*更新隐藏域以便下一次执行函数进行获取*/
-		$("#curVeriPageIndex").attr("value", veri_pageIndex);
-		$("#curVeriPageCount").attr("value", veri_pageCount);
-
 		//alert(self.id + "," + veri_pageIndex + ", " + veri_pageCount);
 
 		/*局部刷新页面，输出获得的数据*/
@@ -863,7 +822,6 @@
 			dataType : "json",
 			data : {
 				"veri_pageIndex" : veri_pageIndex,
-				"veri_pageSize" : veri_pageSize,
 				"veri_pageCount" : veri_pageCount,
 			},
 			async : false, //同步 
@@ -905,7 +863,10 @@
 				break;
 			}
 
-			var veri_pageSize = $("#veri_pageSize").attr("value");
+			var veri_pageSize = $("#curVeriPageSize").attr("value");
+			if (veri_pageSize == "") {
+				veri_pageSize = 10;
+			}
 
 			$.ajax({
 				url : 'json_queryVeri.action',
@@ -926,13 +887,6 @@
 
 				}
 			});
-
-			//前面设置async为false, 即同步，执行完回调函数success后设置了pageIndex和pageCount控件值后，这里再进行获取和赋值
-			var veri_pageIndex = $("#veri_pageIndex").val();
-			var veri_pageCount = $("#veri_pageCount").val();
-			$("#curVeriPageIndex").attr("value", veri_pageIndex);
-			$("#curVeriPageCount").attr("value", veri_pageCount);
-
 		});
 
 	});
@@ -942,31 +896,277 @@
 
 
 
+<!-- 广告管理 控制-->
+<script type="text/javascript">
+	//创建查询房屋表格
+	function createAllAdTable(data) {
+		json = data.adList;
+		/*设置新的页数*/
+		$("#curAdPageIndex").attr("value", data.ad_pageIndex);
+		$("#curAdPageSize").attr("value", data.ad_pageSize);
+		$("#curAdPageCount").attr("value", data.ad_pageCount);
+
+		var htmls = [ '<table class=\"table table-hover\" id=\"AdTable\">' ];
+
+		htmls.push('<thead><tr>');
+		var arrHeader = new Array("广告ID", "用户ID", "用户类型", "内容", "花费(元/天)",
+				"起始日期", "结束日期");
+		for (var i = 0; i < arrHeader.length; i++) {
+			htmls.push('<td>' + arrHeader[i] + '</td>');
+		}
+		htmls.push('</tr></thead>');
+
+		htmls.push('<tbody>');
+		for (var i = 0, L = json.length; i < L; i++) {
+			htmls.push('<tr>');
+
+			htmls.push('<td>' + json[i].id + '</td>');
+			htmls.push('<td>' + json[i].UId + '</td>');
+			htmls.push('<td>' + json[i].UType + '</td>');
+			htmls.push('<td>' + json[i].adContent + '</td>');
+			htmls.push('<td>' + json[i].adCost + '</td>');
+			htmls.push('<td>' + json[i].startDate + '</td>');
+			htmls.push('<td>' + json[i].endDate + '</td>');
+
+			/*删除按钮*/
+			htmls.push('<td>' + '<input id=\"btn_am_delete_' + json[i].id
+					+ '\" class=\"btn btn-danger\"'
+					+ 'onclick=\"deleteAd(this)\" type=\"button\"'
+					+ 'style=\"width:65px;\" value=\"删除\" />' + '</td>');
+			htmls.push('</tr>');
+		}
+
+		htmls.push('</tbody></table>');
+
+		$('#tableDivAllAd').html(htmls.join(''));
+	}
+
+	//切换页面，判断上一页或下一页对下次应显示的当前页pageIndex进行更新，并从后台获取数据
+	function changeCurAdPage(self) {
+		/*从隐藏域获取当前页和总页数*/
+		var ad_pageIndex = $("#curAdPageIndex").val();
+		var ad_pageCount = $("#curAdPageCount").val();
+
+		/*设置下一次的当前页*/
+		if (self.id == "btn_am_lastpage") { //上一页
+			//alert("btn_hm_lastpage");
+			if (ad_pageIndex <= 1) {
+				ad_pageIndex = 1;
+			} else {
+				ad_pageIndex--;
+			}
+		} else if (self.id == "btn_am_nextpage") { //下一页
+			//alert("btn_um_nextpage");
+			if (ad_pageIndex >= ad_pageCount) {
+				ad_pageIndex = ad_pageCount;
+			} else {
+				ad_pageIndex++;
+			}
+		}
+
+		/*局部刷新页面，输出获得的数据*/
+		$.ajax({
+			url : 'json_queryAllAd.action',
+			type : 'post',
+			dataType : "json",
+			data : {
+				"ad_pageIndex" : ad_pageIndex,
+				"ad_pageCount" : ad_pageCount,
+			},
+			async : false, //同步 
+			error : function() {
+				alert('error');
+			},
+			success : function(data) {
+				createAllAdTable(data);
+			}
+		});
+	}
+
+	//加载单个广告信息到控件
+	function loadAdInfo(ad) {
+		$("#inputAdUserID").attr("value", ad.UId);
+
+		var str = "企业用户";
+		if (ad.UType == 1) {
+			str = "企业用户";
+		} else {
+			str = "个人用户";
+		}
+
+		$("#btn_adPublishMode").text(str);
+		$("#inputAdUserType").attr("value", ad.UType);
+
+		$("#inputAdStartDate").attr("value", ad.startDate);
+		$("#inputAdEndDate").attr("value", ad.endDate);
+		$("#inputAdMoney").attr("value", ad.adCost);
+		$("#inputAdContent").attr("value", ad.adContent);
+	}
+
+	/*设置广告用户类型，企业用户为1，个人用户为0*/
+	function selectAdPublishMode(self) {
+		var str = $("#inputAdUserType").val();
+		var val = 1;
+		switch (self.id) {
+		case "adPublish_Enterprise":
+			str = "企业用户";
+			val = 1;
+			break;
+		case "adPublish_User":
+			str = "个人用户";
+			val = 0;
+			break;
+		}
+
+		$("#inputAdUserType").attr("value", val);
+		$("#btn_adPublishMode").text(str);
+	}
+
+	//根据用户ID删除房屋，并更新管理员界面房屋表的显示
+	function deleteAd(self) {
+		//btn_am_delete_1, btn_am_delete_12
+		var AId = (self.id).substr(14);
+
+		layer.confirm('确定删除此记录？', {
+			btn : [ '确定', '取消' ]
+		//按钮
+		}, function() {
+			/*局部刷新页面，输出获得的数据*/
+			$.ajax({
+				url : 'json_deleteAd.action',
+				type : 'post',
+				dataType : "json",
+				data : {
+					"AId" : AId,
+				},
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					createAllAdTable(data);
+				}
+			});
+			layer.msg('删除成功', {
+				icon : 1
+			});
+		}, function() {
+			layer.msg('取消删除', {
+				time : 2000, //2s后自动关闭
+				btn : [ '好' ]
+			});
+		});
+
+	};
+
+	$(document).ready(function() {
+
+		//根据广告ID查询单个广告的信息
+		$("#btn_querySingleAd").click(function() {
+			var AId = $("#AId").val();
+			if (AId == "") {
+				AId = 1;
+			}
+			$.ajax({
+				url : 'json_querySingleAd.action',
+				type : 'post',
+				dataType : "json",
+				data : {
+					"AId" : AId
+				},
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					loadAdInfo(data.ad); //加载信息到控件
+				}
+			});
+		});
+
+		//保存添加或修改的广告信息
+		$("#add_ad_submit").click(function() {
+			var type = $("#add_ad_submit").attr("value");
+			var url = "";
+			if (type == "添加广告") {
+				url = 'json_saveAd.action';
+			} else if (type == "保存修改") {
+				url = 'json_updateAd.action';
+			}
+
+			var flag = false;
+			if ($("#inputAdUserID").val() != "") {
+				flag = true;
+			}
+
+			if (flag == false) {
+				alert("请先填写信息");
+			} else {
+				$.ajax({
+					url : url,
+					type : 'post',
+					dataType : "json",
+					data : {
+						"ad.id" : $("#AId").val(),
+						"ad.UId" : $("#inputAdUserID").val(),
+						"ad.UType" : $("#inputAdUserType").val(),
+						"ad.adContent" : $("#inputAdContent").val(),
+						"ad.adCost" : $("#inputAdMoney").val(),
+						"ad.startDate" : $("#inputAdStartDate").val(),
+						"ad.endDate" : $("#inputAdEndDate").val(),
+					},
+					async : false, //默认为true 异步   
+					error : function() {
+						alert('error' + ", " + $("#AId").val());
+					},
+					success : function(data) {
+						alert("广告" + $("#AId").val() + "信息修改成功");
+					}
+				});
+			}
+
+		});
+
+		//查询广告信息，生成分页表
+		$("#btn_am_queryAd_all").click(function() {
+			ad_pageSize = $("#curAdPageSize").attr("value");
+			if (ad_pageSize == "") {
+				ad_pageSize = 10;
+			}
+
+			$.ajax({
+				url : 'json_queryAllAd.action',
+				type : 'post',
+				dataType : "json",
+				data : {
+					"ad_pageIndex" : 1,
+					"ad_pageSize" : ad_pageSize,
+				},
+				async : false, //同步 
+				error : function() {
+					alert('error');
+				},
+				success : function(data) {
+					//alert(JSON.stringify(data.adList));
+					createAllAdTable(data); //显示用户表
+				}
+			});
+
+		});
+
+	});
+</script>
+
+
 <!--[if lt IE 9]><link rel="stylesheet" type="text/css" href="css/ie.css" /><![endif]-->
 </head>
 
 
-<body onload="setup();preselect('湖北省');promptinfo();">
+<body>
 	<iframe id="header_nav" src="nav_model/header_nav_admin.jsp"
 		width="100%" height="48px" style="border: 0px;" scrolling="no"></iframe>
 
-
-	<!-- 房屋分页隐藏域 -->
-	<input type="hidden" id="veri_pageIndex" value="1" />
-	<!-- <input type="hidden" id="veri_pageSize" value="10" /> -->
-	<input type="hidden" id="veri_pageCount" value="1" />
-
 	<!-- 用户分页隐藏域 -->
 	<input type="hidden" name="hiddenPageIndex" id="pageIndex" value="1" />
-	<!-- 	<input type="hidden" name="hiddenPageSize" id="pageSize" value="10" /> -->
 	<input type="hidden" name="hiddenPageCount" id="pageCount" value="1" />
-
-	<!-- 房屋分页隐藏域 -->
-	<input type="hidden" name="hiddenPageIndex" id="house_pageIndex"
-		value="1" />
-	<!-- 	<input type="hidden" name="hiddenPageSize" id="pageSize" value="10" /> -->
-	<input type="hidden" name="hiddenPageCount" id="house_pageCount"
-		value="1" />
 
 
 	<div id="wrapper">
@@ -1013,9 +1213,9 @@
 										</ul>
 									</div>
 									<span class="caret" style="margin-right:30px;"></span> <label
-										style="width:80px">分页大小：</label> <input id="veri_pageSize"
+										style="width:80px">分页大小：</label> <input id="curVeriPageSize"
 										style="width:120px;height:30px; margin-right:30px;"
-										type="text" value="10" />
+										type="text" value="10" placeholder="请输入分页大小" />
 									<button id="btn_vm_queryVeri" type="submit"
 										class="btn btn-primary" style="width:150px;">查询</button>
 								</div>
@@ -1030,14 +1230,15 @@
 
 									<div style="margin-bottom:150px;float:right;margin-right:65px;">
 										当前 <input type="text" style="width:20px" id="curVeriPageIndex"
-											readonly="readonly" /> / <input type="text"
-											style="width:20px" id="curVeriPageCount" readonly="readonly" />
-										页 <input id="btn_vm_lastpage" class="btn btn-primary"
-											onclick="changeCurVeriPage(this)" type="button"
-											style="width:80px;margin-left:30px;" value="上一页" /> <input
-											id="btn_vm_nextpage" class="btn btn-primary"
-											onclick="changeCurVeriPage(this)" type="button"
-											style="width:80px;margin-left:30px;" value="下一页" />
+											readonly="readonly" value="1" /> / <input type="text"
+											value="1" style="width:20px" id="curVeriPageCount"
+											readonly="readonly" /> 页 <input id="btn_vm_lastpage"
+											class="btn btn-primary" onclick="changeCurVeriPage(this)"
+											type="button" style="width:80px;margin-left:30px;"
+											value="上一页" /> <input id="btn_vm_nextpage"
+											class="btn btn-primary" onclick="changeCurVeriPage(this)"
+											type="button" style="width:80px;margin-left:30px;"
+											value="下一页" />
 									</div>
 
 								</div>
@@ -1052,6 +1253,7 @@
 							<h1>投诉信息</h1>
 							<p class="subtitle">处理用户对房产信息的投诉并修改相应信息</p>
 						</div>
+
 						<div class="container">
 							<table class="table table-hover complainTable">
 								<thead>
@@ -1106,111 +1308,156 @@
 						<!-- 修改用户信息 -->
 						<div class="tab-content">
 							<div class="tab-pane active" id="addUser">
-								<div class="container-fluid">
+								<div class="container-fluid" style="height:660px">
 									<div class="row-fluid">
 										<div class="container" style="padding-top:40px;">
-
-											<!-- 查询框 -->
-											<div class="my-query">
-												<label class="my-control-label">身&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;份</label>
-												<div class="bootstrap-switch my-control">
-													<input type="radio" name="UserType" id="inputUserType" />
-												</div>
-												<input id="UAccount" name="user.UAccount"
-													style="width:200px;height:30px; margin-left:60px;"
-													type="text" value="test" placeholder="请输入用户账号" />
-												<button id="btn_um_query" type="submit"
-													class="btn btn-primary" onclick="changeToUserUpdate()">查询</button>
-												<button type="submit" class="btn btn-primary"
-													onclick="changeToUserAdd()">退出修改</button>
-											</div>
 
 											<!-- 显示信息 -->
 											<div class="accordion" id="accordion-423793">
 												<div class="accordion-group accordion-group-gap">
-													<div class="accordion-heading ">
-														<a class="accordion-toggle my-accordion"
-															data-toggle="collapse" data-parent="#accordion-423793"
-															href="#accordion-element-basic">基本信息</a>
-													</div>
+
 													<div id="accordion-element-basic" class="accordion-body ">
 														<div class="accordion-inner ">
 
 															<!-- 隐藏域，存放用户ID，后台更新数据时需要UId来定位 -->
 															<input type="hidden" id="inputUId" />
 
-															<div class="my-container accordion-gap">
-																<label class="my-control-label">账&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</label>
-																<div class=" my-control">
-																	<input type="text" id="inputUAccount"
-																		name="a_user.UAccount">
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
-																<div class=" my-control">
-																	<input type="text" id="inputEmail" name="a_user.UEmail">
-																</div>
-															</div>
-															<div class="my-container ">
-																<label class="my-control-label">用&nbsp;户&nbsp;名&nbsp;</label>
-																<div class=" my-control">
-																	<input type="text" id="inputUsername"
-																		name="a_user.UName">
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
-																<div class=" my-control">
-																	<input type="text" id="inputPassword"
-																		name="a_user.UPwd">
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别</label>
-																<div class="swicth my-control">
-																	<input type="radio" name="a_user.UGender" id="inputSex" />
-																</div>
-															</div>
-															<div class="my-container">
-																<label class="my-control-label">联系电话</label>
-																<div class=" my-control">
-																	<input id="inputPhoneNumber" type="text" size="13"
-																		name="a_user.UTele" maxlength="13"
-																		onKeyUp="checkNum(this);" />
+
+															<div class="my-container accordion-gap"
+																style="margin-top:60px;">
+																<table class="table table-hover">
+																	<tr>
+																		<td></td>
+																		<td>
+																			<div class="bootstrap-switch my-control">
+																				<input type="radio" name="UserType"
+																					id="inputUserType" />
+																			</div>
+																		</td>
+																		<td></td>
+																		<td><input id="UAccount" name="user.UAccount"
+																			style="width:200px;height:30px; margin-left:60px;"
+																			type="text" value="test" placeholder="请输入用户账号" />
+																			<button id="btn_um_query" type="submit"
+																				class="btn btn-primary"
+																				onclick="changeToUserUpdate()">查询</button>
+																			<button type="submit" class="btn btn-primary"
+																				onclick="changeToUserAdd()">退出修改</button></td>
+																	</tr>
+																	<tr>
+																		<td></td>
+																		<td></td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">用户账号</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputUAccount"
+																					name="a_user.UAccount">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">用户邮箱</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputEmail"
+																					name="a_user.UEmail">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">用户名</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputUsername"
+																					name="a_user.UName">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">密码</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input type="text" id="inputPassword"
+																					name="a_user.UPwd">
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">性别</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<div class="btn-group">
+																					<button id="btn_userGender" type="button" value="男"
+																						class="btn btn-primary dropdown-toggle"
+																						data-toggle="dropdown" style="width:125px;">
+																						男
+																					</button>
+																					<ul class="dropdown-menu" role="menu">
+																						<li><a id="userGender_Male"
+																							href='javascript:'
+																							onclick='selectUserGender(this)'>男</a></li>
+																						<li class="divider"></li>
+																						<li><a id="userGender_Female" href='javascript:'
+																							onclick='selectUserGender(this)'>女</a></li>
+																					</ul>
+																					
+																				</div>
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">联系电话</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<input id="inputPhoneNumber" type="text" size="13"
+																					name="a_user.UTele" maxlength="13"
+																					onKeyUp="checkNum(this);" />
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																	<tr>
+																		<td><label class="my-control-label">信用等级</label></td>
+																		<td>
+																			<div class=" my-control">
+																				<select class="selectpicker my-control my-select"
+																					id="credit-select" name="a_user.UCredit">
+																					<option value="1">一星</option>
+																					<option value="2">二星</option>
+																					<option value="3">三星</option>
+																					<option value="4">四星</option>
+																					<option value="5">五星</option>
+																				</select>
+																			</div>
+																		</td>
+																		<td></td>
+																		<td></td>
+																	</tr>
+																</table>
+
+																<div class="my-center-block" style="margin-top:50px;">
+																	<input type="submit" class="btn btn-large btn-primary "
+																		style="width:180px;" value="添加用户" id="add_user_submit">
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-												<div class="accordion-group accordion-group-gap">
-													<br />
-													<div class="accordion-heading">
-														<a class="accordion-toggle my-accordion"
-															data-toggle="collapse" data-parent="#accordion-423793"
-															href="#accordion-element-power">权限信息</a>
-													</div>
-													<div id="accordion-element-power" class="accordion-body in">
-														<div class="accordion-inner accordion-gap ">
-															<div class="my-container">
-																<label class="my-control-label">信用等级</label> <select
-																	class="selectpicker my-control my-select"
-																	id="credit-select" name="a_user.UCredit">
-																	<option value="1">一星</option>
-																	<option value="2">二星</option>
-																	<option value="3">三星</option>
-																	<option value="4">四星</option>
-																	<option value="5">五星</option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<br />
-											<div class="my-center-block" style="margin-bottom:100px;">
-												<input type="submit" class="btn btn-large btn-primary "
-													style="width:100px;" value="提交" id="add_user_submit">
 											</div>
 										</div>
 									</div>
@@ -1224,7 +1471,7 @@
 								<div style="float:right; margin-right:100px;margin-top:30px;">
 									<label style="width:80px">分页大小：</label> <input id="pageSize"
 										style="width:120px;height:30px; margin-right:30px;"
-										type="text" value="10" />
+										type="text" value="10" placeholder="请输入分页大小" />
 									<button id="btn_um_query_all" type="submit"
 										class="btn btn-primary" style="width:150px;">查询</button>
 								</div>
@@ -1298,9 +1545,9 @@
 
 
 									<label style="width:80px">分页大小：</label> <input
-										id="house_pageSize"
+										id="curHousePageSize"
 										style="width:120px;height:30px; margin-right:30px;"
-										type="text" value="10" />
+										type="text" value="10" placeholder="请输入分页大小" />
 									<button id="btn_hm_queryHouse_all" type="submit"
 										class="btn btn-primary" style="width:150px;">查询</button>
 								</div>
@@ -1315,16 +1562,16 @@
 									<div style="clear:both;height:5px; margin-bottom:30px;"></div>
 
 									<div style="margin-bottom:150px;float:right;margin-right:65px;">
-										当前 <input type="text" style="width:20px"
+										当前 <input type="text" style="width:20px" value="1"
 											id="curHousePageIndex" readonly="readonly" /> / <input
 											type="text" style="width:20px" id="curHousePageCount"
-											readonly="readonly" /> 页 <input id="btn_hm_lastpage"
-											class="btn btn-primary" onclick="changeCurHousePage(this)"
-											type="button" style="width:80px;margin-left:30px;"
-											value="上一页" /> <input id="btn_hm_nextpage"
-											class="btn btn-primary" onclick="changeCurHousePage(this)"
-											type="button" style="width:80px;margin-left:30px;"
-											value="下一页" />
+											value="1" readonly="readonly" /> 页 <input
+											id="btn_hm_lastpage" class="btn btn-primary"
+											onclick="changeCurHousePage(this)" type="button"
+											style="width:80px;margin-left:30px;" value="上一页" /> <input
+											id="btn_hm_nextpage" class="btn btn-primary"
+											onclick="changeCurHousePage(this)" type="button"
+											style="width:80px;margin-left:30px;" value="下一页" />
 									</div>
 
 								</div>
@@ -1349,69 +1596,128 @@
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="addAd">
-								<div class="container-fluid">
+
+								<div class="container-fluid" style="height:660px">
 									<div class="row-fluid">
 										<div class="container">
-											<div class="my-query">
-												<input style="width:200px;height:30px;" type="text"
-													placeholder="请输入广告ID..." />
-												<button type="submit" class="btn btn-primary"
-													onclick="changeToAdUpdate()">查询</button>
-												<button type="submit" class="btn btn-primary"
-													onclick="changeToAdAdd()">退出修改</button>
-											</div>
-											<div class="my-container accordion-gap">
-												<label class="my-control-label">用&nbsp;户&nbsp;&nbsp;ID</label>
-												<div class=" my-control">
-													<input type="text" id="inputAdUserID">
-												</div>
-											</div>
-											<div class="my-container">
-												<label class="my-control-label">时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;间</label>
-												<div class=" my-control">
-													<input type="text" id="inputAdDate">
-												</div>
-											</div>
-											<div class="my-container">
-												<label class="my-control-label">用户类型</label>
-												<div class="switch my-control">
-													<input type="radio" name="UserType" id="inputAdUserType">
-												</div>
-											</div>
-											<div class="my-container">
-												<label class="my-control-label">花&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</label>
-												<div class=" my-control">
-													<input type="text" id="inputAdMoney"> 元/天
-												</div>
-											</div>
-											<div class="my-container">
-												<label class="my-control-label">内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容</label>
-												<div class=" my-control">
-													<textarea id="inputAdContent" type="text"
-														style="width:300px;height:80px;"></textarea>
+											<div class="my-container accordion-gap"
+												style="margin-top:60px;">
+												<table class="table table-hover">
+													<tr>
+														<td></td>
+														<td><label id="adManMode" class=" my-control"
+															style="color:green">您现在是添加模式</label></td>
+														<td>
+															<div class=" my-control">
+																<input id="AId" type="text" placeholder="请输入广告ID..." />
+															</div>
+														</td>
+														<td><button id="btn_querySingleAd" type="submit"
+																class="btn btn-primary" onclick="changeToAdUpdate()">查询</button>
+															<button type="submit" class="btn btn-primary"
+																onclick="changeToAdAdd()">退出修改</button></td>
+													</tr>
+
+													<tr>
+														<td><label class="my-control-label">用户ID</label></td>
+														<td>
+															<div class=" my-control">
+																<input type="text" id="inputAdUserID">
+															</div>
+														</td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr>
+														<td><label class="my-control-label">用户类型</label></td>
+														<td>
+															<div class=" my-control">
+																<div class="btn-group" style="margin-right:30px;">
+																	<button id="btn_adPublishMode" type="button"
+																		class="btn btn-primary dropdown-toggle"
+																		data-toggle="dropdown">
+																		企业用户
+																		<!-- <span class="caret"></span> -->
+
+																	</button>
+																	<ul class="dropdown-menu" role="menu">
+																		<li><a id="adPublish_Enterprise"
+																			href='javascript:'
+																			onclick='selectAdPublishMode(this)'>企业用户</a></li>
+																		<li class="divider"></li>
+																		<li><a id="adPublish_User" href='javascript:'
+																			onclick='selectAdPublishMode(this)'>个人用户</a></li>
+																</div>
+
+																<input type="hidden" id="inputAdUserType" value="1">
+															</div>
+														</td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr>
+														<td><label class="my-control-label">起始时间</label></td>
+														<td>
+															<div class=" my-control">
+																<input type="text" value="" id="inputAdStartDate">
+															</div>
+														</td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr>
+														<td><label class="my-control-label">结束时间</label></td>
+														<td>
+															<div class=" my-control">
+																<input type="text" value="" id="inputAdEndDate">
+															</div>
+														</td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr>
+														<td><label class="my-control-label">花销</label></td>
+														<td>
+															<div class=" my-control">
+																<input type="text" value="" id="inputAdMoney">
+																元/天
+															</div>
+														</td>
+														<td></td>
+														<td></td>
+													</tr>
+													<tr>
+														<td><label class="my-control-label">内容</label></td>
+														<td>
+															<div class=" my-control">
+																<textarea id="inputAdContent" type="text" value=""
+																	style="width:300px;height:80px;"></textarea>
+															</div>
+														</td>
+														<td></td>
+														<td></td>
+													</tr>
+												</table>
+
+												<div class="my-center-block" style="margin-top:50px;">
+													<input type="button" class="btn btn-large btn-primary "
+														style="width:180px;" value="添加广告" id="add_ad_submit"
+														name="bt">
 												</div>
 											</div>
 										</div>
 									</div>
-									<br />
-									<div class="my-center-block">
-										<input type="button" class="btn btn-large btn-primary "
-											value="提交" id="add_ad_submit" name="bt">
-									</div>
 								</div>
 							</div>
-							
-							
-							
+
 							<div class="tab-pane" id="delAd">
-								
 								<!--分页输入框 -->
 								<div style="float:right; margin-right:100px;margin-top:30px;">
 									<label style="width:80px">分页大小：</label> <input
-										id="ad_pageSize"
+										id="curAdPageSize"
 										style="width:120px;height:30px; margin-right:30px;"
-										type="text" value="10" />
-									<button id="btn_am_queryHouse_all" type="submit"
+										type="text" value="10" placeholder="请输入分页大小" />
+									<button id="btn_am_queryAd_all" type="submit"
 										class="btn btn-primary" style="width:150px;">查询</button>
 								</div>
 
@@ -1419,15 +1725,14 @@
 
 								<div class="container accordion-gap">
 
-									<div id="tableDivAllAd"
-										style="margin-left:3%; margin-right:3%"></div>
+									<div id="tableDivAllAd" style="margin-left:3%; margin-right:3%"></div>
 
 									<div style="clear:both;height:5px; margin-bottom:30px;"></div>
 
 									<div style="margin-bottom:150px;float:right;margin-right:65px;">
-										当前 <input type="text" style="width:20px"
-											id="curAdPageIndex" readonly="readonly" /> / <input
-											type="text" style="width:20px" id="curAdPageCount"
+										当前 <input type="text" style="width:20px" id="curAdPageIndex"
+											value="1" readonly="readonly" /> / <input type="text"
+											value="1" style="width:20px" id="curAdPageCount"
 											readonly="readonly" /> 页 <input id="btn_am_lastpage"
 											class="btn btn-primary" onclick="changeCurAdPage(this)"
 											type="button" style="width:80px;margin-left:30px;"
@@ -1437,14 +1742,14 @@
 											value="下一页" />
 									</div>
 								</div>
-
-
 							</div>
+						</div>
 						</article>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<aside id="sidebar"> <strong class="logo"><a href="#">lg</a></strong>
 		<ul class="tabset buttons">
 			<li class="active"><a href="#tab-1" class="ico1"><span>申请列表</span><em></em></a>
@@ -1463,7 +1768,6 @@
 		<span class="shadow"></span> </aside>
 	</div>
 
-	<!-- <iframe src = "footer_nav.html" width="100%" height="325px" style="border: 0px;" scrolling="no"></iframe>
- -->
+
 </body>
 </html>
