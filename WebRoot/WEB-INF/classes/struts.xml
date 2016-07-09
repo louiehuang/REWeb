@@ -15,6 +15,7 @@
 			<result name="success">index.jsp</result>
 			<result name="error">register.jsp</result>
 		</action>
+		
 		<action name="um" class="UsersAction">
 			<result name="logsuccess" type="chain">
 				<param name="actionName">im</param>
@@ -31,8 +32,8 @@
 			</result>
 
 			<result name="admin_update_success">admin.jsp</result>
-
 		</action>
+				
 	</package>
 
 
@@ -63,6 +64,12 @@
 
 		<action name="json_queryUser" class="JsonAction" method="json_findUser">
 			<result type="json" name="find_success">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+		
+		<action name="json_loginUser" class="JsonAction" method="json_loginUser">
+			<result type="json" name="u_login_success">
 				<param name="root">dataMap</param>
 			</result>
 		</action>

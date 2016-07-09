@@ -8,26 +8,26 @@ import org.hibernate.LockMode;
 import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import com.chinasoft.pojo.Verification;
+import com.chinasoft.pojo.Complain;
 
 /**
- 	* A data access object (DAO) providing persistence and search support for Verification entities.
+ 	* A data access object (DAO) providing persistence and search support for Complain entities.
  			* Transaction control of the save(), update() and delete() operations 
 		can directly support Spring container-managed transactions or they can be augmented	to handle user-managed Spring transactions. 
 		Each of these methods provides additional information for how to configure it for the desired type of transaction control. 	
-	 * @see com.chinasoft.pojo.Verification
+	 * @see com.chinasoft.pojo.Complain
   * @author MyEclipse Persistence Tools 
  */
-public class VerificationDAO extends HibernateDaoSupport  {
-		 private static final Log log = LogFactory.getLog(VerificationDAO.class);
+public class ComplainDAO extends HibernateDaoSupport  {
+		 private static final Log log = LogFactory.getLog(ComplainDAO.class);
 		//property constants
 	public static final String _HID = "HId";
 	public static final String HTYPE = "htype";
 	public static final String CONTENT = "content";
-	public static final String VDATE = "vdate";
+	public static final String CDATE = "cdate";
 	public static final String PDATE = "pdate";
-	public static final String VSTATUS = "vstatus";
-	public static final String VRES = "vres";
+	public static final String CSTATUS = "cstatus";
+	public static final String CRES = "cres";
 
 
 
@@ -35,8 +35,8 @@ public class VerificationDAO extends HibernateDaoSupport  {
 		//do nothing
 	}
     
-    public void save(Verification transientInstance) {
-        log.debug("saving Verification instance");
+    public void save(Complain transientInstance) {
+        log.debug("saving Complain instance");
         try {
             getHibernateTemplate().save(transientInstance);
             log.debug("save successful");
@@ -46,20 +46,8 @@ public class VerificationDAO extends HibernateDaoSupport  {
         }
     }
     
-
-	public void update(Verification transientInstance) {
-		log.debug("updating Verification instance");
-		try {
-			getHibernateTemplate().update(transientInstance);
-			log.debug("update successful");
-		} catch (RuntimeException re) {
-			log.error("update failed", re);
-			throw re;
-		}
-	}
-    
-	public void delete(Verification persistentInstance) {
-        log.debug("deleting Verification instance");
+	public void delete(Complain persistentInstance) {
+        log.debug("deleting Complain instance");
         try {
             getHibernateTemplate().delete(persistentInstance);
             log.debug("delete successful");
@@ -69,11 +57,11 @@ public class VerificationDAO extends HibernateDaoSupport  {
         }
     }
     
-    public Verification findById( java.lang.Integer id) {
-        log.debug("getting Verification instance with id: " + id);
+    public Complain findById( java.lang.Integer id) {
+        log.debug("getting Complain instance with id: " + id);
         try {
-            Verification instance = (Verification) getHibernateTemplate()
-                    .get("com.chinasoft.pojo.Verification", id);
+            Complain instance = (Complain) getHibernateTemplate()
+                    .get("com.chinasoft.pojo.Complain", id);
             return instance;
         } catch (RuntimeException re) {
             log.error("get failed", re);
@@ -82,8 +70,8 @@ public class VerificationDAO extends HibernateDaoSupport  {
     }
     
     
-    public List findByExample(Verification instance) {
-        log.debug("finding Verification instance by example");
+    public List findByExample(Complain instance) {
+        log.debug("finding Complain instance by example");
         try {
             List results = getHibernateTemplate().findByExample(instance);
             log.debug("find by example successful, result size: " + results.size());
@@ -95,10 +83,10 @@ public class VerificationDAO extends HibernateDaoSupport  {
     }    
     
     public List findByProperty(String propertyName, Object value) {
-      log.debug("finding Verification instance with property: " + propertyName
+      log.debug("finding Complain instance with property: " + propertyName
             + ", value: " + value);
       try {
-         String queryString = "from Verification as model where model." 
+         String queryString = "from Complain as model where model." 
          						+ propertyName + "= ?";
 		 return getHibernateTemplate().find(queryString, value);
       } catch (RuntimeException re) {
@@ -125,9 +113,9 @@ public class VerificationDAO extends HibernateDaoSupport  {
 		);
 	}
 	
-	public List findByVdate(Object vdate
+	public List findByCdate(Object cdate
 	) {
-		return findByProperty(VDATE, vdate
+		return findByProperty(CDATE, cdate
 		);
 	}
 	
@@ -137,23 +125,23 @@ public class VerificationDAO extends HibernateDaoSupport  {
 		);
 	}
 	
-	public List findByVstatus(Object vstatus
+	public List findByCstatus(Object cstatus
 	) {
-		return findByProperty(VSTATUS, vstatus
+		return findByProperty(CSTATUS, cstatus
 		);
 	}
 	
-	public List findByVres(Object vres
+	public List findByCres(Object cres
 	) {
-		return findByProperty(VRES, vres
+		return findByProperty(CRES, cres
 		);
 	}
 	
 
 	public List findAll() {
-		log.debug("finding all Verification instances");
+		log.debug("finding all Complain instances");
 		try {
-			String queryString = "from Verification";
+			String queryString = "from Complain";
 		 	return getHibernateTemplate().find(queryString);
 		} catch (RuntimeException re) {
 			log.error("find all failed", re);
@@ -161,10 +149,10 @@ public class VerificationDAO extends HibernateDaoSupport  {
 		}
 	}
 	
-    public Verification merge(Verification detachedInstance) {
-        log.debug("merging Verification instance");
+    public Complain merge(Complain detachedInstance) {
+        log.debug("merging Complain instance");
         try {
-            Verification result = (Verification) getHibernateTemplate()
+            Complain result = (Complain) getHibernateTemplate()
                     .merge(detachedInstance);
             log.debug("merge successful");
             return result;
@@ -174,8 +162,8 @@ public class VerificationDAO extends HibernateDaoSupport  {
         }
     }
 
-    public void attachDirty(Verification instance) {
-        log.debug("attaching dirty Verification instance");
+    public void attachDirty(Complain instance) {
+        log.debug("attaching dirty Complain instance");
         try {
             getHibernateTemplate().saveOrUpdate(instance);
             log.debug("attach successful");
@@ -185,8 +173,8 @@ public class VerificationDAO extends HibernateDaoSupport  {
         }
     }
     
-    public void attachClean(Verification instance) {
-        log.debug("attaching clean Verification instance");
+    public void attachClean(Complain instance) {
+        log.debug("attaching clean Complain instance");
         try {
                       	getHibernateTemplate().lock(instance, LockMode.NONE);
                         log.debug("attach successful");
@@ -196,7 +184,7 @@ public class VerificationDAO extends HibernateDaoSupport  {
         }
     }
 
-	public static VerificationDAO getFromApplicationContext(ApplicationContext ctx) {
-    	return (VerificationDAO) ctx.getBean("VerificationDAO");
+	public static ComplainDAO getFromApplicationContext(ApplicationContext ctx) {
+    	return (ComplainDAO) ctx.getBean("ComplainDAO");
 	}
 }

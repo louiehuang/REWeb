@@ -32,9 +32,9 @@
 
 
 	<aop:config>
-		<aop:pointcut id="allDaoMethod"
-			expression="execution(* com.chinasoft.service.*.*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="allDaoMethod" />
+ 		<aop:pointcut id="allDaoMethod" 
+			expression="execution(* com.chinasoft.service.*.*(..))" /> 
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allDaoMethod" /> 
 	</aop:config>
 
 
@@ -88,7 +88,7 @@
 				</value>
 				<value>com/chinasoft/pojo/Advertisement.hbm.xml</value>
 				<value>com/chinasoft/pojo/Verification.hbm.xml</value>
-			</list>
+				<value>com/chinasoft/pojo/Complain.hbm.xml</value></list>
 		</property>
 	</bean>
 
@@ -298,4 +298,8 @@
 	
 
 
-</beans>
+	<bean id="ComplainDAO" class="com.chinasoft.dao.ComplainDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean></beans>

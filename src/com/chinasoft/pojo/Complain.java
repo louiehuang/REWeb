@@ -3,48 +3,42 @@ package com.chinasoft.pojo;
 
 
 /**
- * Verification entity. @author MyEclipse Persistence Tools
+ * Complain entity. @author MyEclipse Persistence Tools
  */
 
-public class Verification  implements java.io.Serializable {
+public class Complain  implements java.io.Serializable {
 
 
     // Fields    
 
      private Integer id;
-     private Region region;
      private Users users;
      private Integer HId;
      private Integer htype;
      private String content;
-     private String vdate;
+     private String cdate;
      private String pdate;
-     private Integer vstatus;
-     private Integer vres;
+     private Integer cstatus;
+     private Integer cres;
 
 
     // Constructors
 
     /** default constructor */
-    public Verification() {
+    public Complain() {
     }
 
-	/** minimal constructor */
-    public Verification(Region region) {
-        this.region = region;
-    }
     
     /** full constructor */
-    public Verification(Region region, Users users, Integer HId, Integer htype, String content, String vdate, String pdate, Integer vstatus, Integer vres) {
-        this.region = region;
+    public Complain(Users users, Integer HId, Integer htype, String content, String cdate, String pdate, Integer cstatus, Integer cres) {
         this.users = users;
         this.HId = HId;
         this.htype = htype;
         this.content = content;
-        this.vdate = vdate;
+        this.cdate = cdate;
         this.pdate = pdate;
-        this.vstatus = vstatus;
-        this.vres = vres;
+        this.cstatus = cstatus;
+        this.cres = cres;
     }
 
    
@@ -56,14 +50,6 @@ public class Verification  implements java.io.Serializable {
     
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Region getRegion() {
-        return this.region;
-    }
-    
-    public void setRegion(Region region) {
-        this.region = region;
     }
 
     public Users getUsers() {
@@ -98,12 +84,12 @@ public class Verification  implements java.io.Serializable {
         this.content = content;
     }
 
-    public String getVdate() {
-        return this.vdate;
+    public String getCdate() {
+        return this.cdate;
     }
     
-    public void setVdate(String vdate) {
-        this.vdate = vdate;
+    public void setCdate(String cdate) {
+        this.cdate = cdate;
     }
 
     public String getPdate() {
@@ -114,20 +100,20 @@ public class Verification  implements java.io.Serializable {
         this.pdate = pdate;
     }
 
-    public Integer getVstatus() {
-        return this.vstatus;
+    public Integer getCstatus() {
+        return this.cstatus;
     }
     
-    public void setVstatus(Integer vstatus) {
-        this.vstatus = vstatus;
+    public void setCstatus(Integer cstatus) {
+        this.cstatus = cstatus;
     }
 
-    public Integer getVres() {
-        return this.vres;
+    public Integer getCres() {
+        return this.cres;
     }
     
-    public void setVres(Integer vres) {
-        this.vres = vres;
+    public void setCres(Integer cres) {
+        this.cres = cres;
     }
    
 
