@@ -41,6 +41,16 @@ public class HouseSellEnterpriseService {
 		return houseSellEnterpriseDAO.findById(id);
 	}
 	
+	/**
+	 * öÎÉñ´úÂë
+	 * @param HId
+	 * @return
+	 */
+	public HouseSellEnterprise getById(Integer HId)
+	{
+		return houseSellEnterpriseDAO.findById(HId);
+	}
+	
 	public void delete(HouseSellEnterprise house){
 		houseSellEnterpriseDAO.delete(house);
 	}

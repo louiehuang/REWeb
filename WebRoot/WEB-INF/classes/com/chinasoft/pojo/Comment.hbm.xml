@@ -10,7 +10,7 @@
             <column name="id" />
             <generator class="native" />
         </id>
-        <many-to-one name="users" class="com.chinasoft.pojo.Users" fetch="select">
+        <many-to-one name="users" class="com.chinasoft.pojo.Users" fetch="select"  cascade="all">
             <column name="U_id" not-null="true" />
         </many-to-one>
         <property name="HId" type="java.lang.Integer">

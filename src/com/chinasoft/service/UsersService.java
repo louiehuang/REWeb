@@ -56,6 +56,18 @@ public class UsersService {
 		return usersDAO.findByUAccount(UAccount);
 	}
 	
+	/**
+	 * öÎÉñ´úÂë
+	 * @param UId
+	 * @return
+	 */
+	public Users getUsers(int UId)
+	{
+		Users users = usersDAO.findById(UId);
+		return users;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<Users> findByExample(Users user) {
 		return usersDAO.findByExample(user);

@@ -16,6 +16,15 @@
 			<result name="success">index.jsp</result>
 			<result name="error">register.jsp</result>
 		</action>
+		
+		<!--鑫神配置开始-->
+		<action name="HouseAction" class="House">
+			<result name="new">details_enterprise.jsp</result>
+			<result name="Secondhand">details_second.jsp</result>
+			<result name="SellRent">details_rent.jsp</result>
+			<result name="error">index.jsp</result>
+		</action>
+		<!--鑫神配置解释-->
 
 		<!-- 个人用户 -->
 		<action name="um" class="UsersAction">

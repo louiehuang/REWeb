@@ -38,10 +38,21 @@ public class HouseSellRentService {
 		return houseSellRentDAO.findById(id);
 	}
 	
+	/**
+	 * öÎÉñ´úÂë
+	 * @param HId
+	 * @return
+	 */
+	public HouseSellRent getbyid(Integer HId)
+	{
+		return houseSellRentDAO.findById(HId);
+	}
+	
 	public void delete(HouseSellRent house){
 		houseSellRentDAO.delete(house);
 	}
 
+	
 	
 
 }

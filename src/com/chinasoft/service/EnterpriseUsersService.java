@@ -22,6 +22,10 @@ public class EnterpriseUsersService {
 		return enterpriseUsersDAO.findByExample(euser);
 	}
 	
+	public EnterpriseUsers findById(int UId)
+	{
+		return enterpriseUsersDAO.findById(UId);
+	}
 	
 	
 	

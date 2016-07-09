@@ -36,7 +36,9 @@ public class CommentDAO extends HibernateDaoSupport {
 	public void save(Comment transientInstance) {
 		log.debug("saving Comment instance");
 		try {
+			System.out.println("1");
 			getHibernateTemplate().save(transientInstance);
+			System.out.println("2");
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);

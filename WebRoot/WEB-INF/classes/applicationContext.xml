@@ -32,9 +32,9 @@
 
 
 	<aop:config>
- 		<aop:pointcut id="allDaoMethod" 
-			expression="execution(* com.chinasoft.service.*.*(..))" /> 
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="allDaoMethod" /> 
+		<aop:pointcut id="allDaoMethod"
+			expression="execution(* com.chinasoft.service.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allDaoMethod" />
 	</aop:config>
 
 
@@ -88,7 +88,8 @@
 				</value>
 				<value>com/chinasoft/pojo/Advertisement.hbm.xml</value>
 				<value>com/chinasoft/pojo/Verification.hbm.xml</value>
-				<value>com/chinasoft/pojo/Complain.hbm.xml</value></list>
+				<value>com/chinasoft/pojo/Complain.hbm.xml</value>
+			</list>
 		</property>
 	</bean>
 
@@ -151,8 +152,8 @@
 			<ref bean="EnterpriseUsersService" />
 		</property>
 	</bean>
-	
-	
+
+
 	<bean id="AdministratorDAO" class="com.chinasoft.dao.AdministratorDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -242,9 +243,21 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+	<bean id="CommentService" class="com.chinasoft.service.CommentService">
+		<property name="commentDAO">
+			<ref bean = "CommentDAO" />
+		</property>
+	</bean>
+	
+	
 	<bean id="CollectDAO" class="com.chinasoft.dao.CollectDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="CollectService" class="com.chinasoft.service.CollectService">
+		<property name="collectDAO">
+			<ref bean = "CollectDAO" />
 		</property>
 	</bean>
 
@@ -290,8 +303,8 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	
-	
+
+
 	<bean id="AdvertisementDAO" class="com.chinasoft.dao.AdvertisementDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -302,8 +315,8 @@
 			<ref bean="AdvertisementDAO" />
 		</property>
 	</bean>
-	
-	
+
+
 	<bean id="VerificationDAO" class="com.chinasoft.dao.VerificationDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
@@ -314,7 +327,7 @@
 			<ref bean="VerificationDAO" />
 		</property>
 	</bean>
-	
+
 
 
 	<bean id="ComplainDAO" class="com.chinasoft.dao.ComplainDAO">
@@ -322,5 +335,34 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	
+
+
+
+	<!--鑫神配置开始 -->
+	<bean id="House" class="com.chinasoft.action.HouseAction">
+		<property name="collectService">
+			<ref bean="CollectService" />
+		</property>
+		<property name="commentService">
+			<ref bean="CommentService" />
+		</property>
+		<property name="usersService">
+			<ref bean="UsersService" />
+		</property>
+		<property name="houseSellSecondhandService">
+			<ref bean="HouseSellSecondhandService" />
+		</property>
+		<property name="houseSellEnterpriseService">
+			<ref bean="HouseSellEnterpriseService" />
+		</property>
+		<property name="houseSellRentService">
+			<ref bean="HouseSellRentService" />
+		</property>
+		<property name="enterpriseUsersService">
+			<ref bean="EnterpriseUsersService" />
+		</property>
+	</bean>
+	<!-- 鑫神配置结束 -->
+
+
 </beans>

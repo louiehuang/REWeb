@@ -24,6 +24,8 @@
 <link href="css/jquery.mmenu.all.css" type="text/css" rel="stylesheet" />
 <link href="css/house_style.css" type="text/css" rel="stylesheet" />
 
+<script src="layer/layer.js"></script>
+
 <script src="js/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="js/jquery.mmenu.js"></script>
 <script type="text/javascript">
@@ -64,7 +66,6 @@
 </head>
 
 <body>
-	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
 	<%
 		if (session.getAttribute("users") != null) {
 			System.out.println("普通用户导航");
@@ -102,7 +103,7 @@
 					<ul class="ei-slider-large">
 						<li><img src="images/slider-image1.jpg" alt="image06" />
 							<div class="ei-title">
-								<h3 class="btn">2300/month</h3>
+								<h3 class="btn">3000元/月</h3>
 								<h2>
 									骏景湾豪庭[北新区] <br> 2016 collections
 								</h2>
@@ -120,12 +121,12 @@
 							</div></li>
 						<li><img src="images/slider-image2.jpg" alt="image01" />
 							<div class="ei-title">
-								<h3 class="btn">19999</h3>
+								<h3 class="btn">2800元/月</h3>
 								<h2>
-									骏景湾豪庭[北新区] <br> 2016 collections
+									文景阁公寓[华景新城] <br> 2016 collections
 								</h2>
 								<h3 class="active">
-									地处繁华地段，周边设施完善，邻近汇悦城、<br /> 万达广场银行、超市分布四周，享受优质生活
+									电梯楼，出入方便、户型方正，使用率高、<br /> 交通便利，附近有BRT，方便出行
 								</h3>
 								<h3>
 									<a class="ei_icons" href="details.jsp"><img
@@ -138,12 +139,12 @@
 							</div></li>
 						<li><img src="images/slider-image3.jpg" alt="image02" />
 							<div class="ei-title">
-								<h3 class="btn">19999</h3>
+								<h3 class="btn">300万</h3>
 								<h2>
-									骏景湾豪庭[北新区] <br> 2016 collections
+									珠江帝景苑倚泓轩[赤岗] <br> 2016 collections
 								</h2>
 								<h3 class="active">
-									地处繁华地段，周边设施完善，邻近汇悦城、<br /> 万达广场银行、超市分布四周，享受优质生活
+									通风采光好。朝向北，房子十分通风透气、<br /> 安静舒适。位于小区中心，安静无嘈杂，非常适合居住
 								</h3>
 								<h3>
 									<a class="ei_icons" href="details.jsp"><img
@@ -156,13 +157,12 @@
 							</div></li>
 						<li><img src="images/slider-image4.jpg" alt="image03" />
 							<div class="ei-title">
-								<h3 class="btn">19999</h3>
+								<h3 class="btn">290万</h3>
 								<h2>
-									骏景湾豪庭[北新区] <br> 2016 collections
+									侨林苑[天河北] <br> 2016 collections
 								</h2>
 								<h3 class="active">
-									It is a long established fact that a reader<br> Lorem
-									Ipsum is that it has a more-or-less
+									位于天河北CBD中心地段，周边设施齐全，交通便利、<br> 装修质量好，干净整洁，楼层适中，通风采光好
 								</h3>
 								<h3>
 									<a class="ei_icons" href="details.jsp"><img
@@ -175,13 +175,12 @@
 							</div></li>
 						<li><img src="images/slider-image1.jpg" alt="image04" />
 							<div class="ei-title">
-								<h3 class="btn">19999</h3>
+								<h3 class="btn">3500元/月</h3>
 								<h2>
-									骏景湾豪庭[北新区] <br> 2016 collections
+									广园东东方名都[广园东] <br> 2016 collections
 								</h2>
 								<h3 class="active">
-									It is a long established fact that a reader<br> Lorem
-									Ipsum is that it has a more-or-less
+									客厅宽敞，格局好，明亮通风、<br> 楼层好，安静适宜居住 ，阳台宽阔，视野广
 								</h3>
 								<h3>
 									<a class="ei_icons" href="details.jsp"><img
@@ -194,13 +193,12 @@
 							</div></li>
 						<li><img src="images/slider-image3.jpg" alt="image05" />
 							<div class="ei-title">
-								<h3 class="btn">19999</h3>
+								<h3 class="btn">420万</h3>
 								<h2>
-									骏景湾豪庭[北新区] <br> 2016 collections
+									英豪花园[南洲] <br> 2016 collections
 								</h2>
 								<h3 class="active">
-									It is a long established fact that a reader<br> Lorem
-									Ipsum is that it has a more-or-less
+									小区拥有专业物业管理，时刻维护好业主生活、<br> 出小区正门不远处就有公交站和地铁站，上班族福音
 								</h3>
 								<h3>
 									<a class="ei_icons" href="details.jsp"><img
@@ -215,26 +213,19 @@
 					<!-- ei-slider-large -->
 					<ul class="ei-slider-thumbs">
 						<li class="ei-slider-element">Current</li>
-						<li><a href="#"> <span class="active">骏景湾豪庭<br />
-									[北新区]
-							</span>
-								<p>现价2300/月</p>
+						<li><a href="#"> <span class="active">骏景湾豪庭 </span>
+								<p>[北新区]</p>
 						</a> <img src="images/thumbs/1.jpg" alt="thumb01" /></li>
-						<li class="hide"><a href="#"><span>骏景豪庭</span>
-								<p>limited edition</p> </a><img src="images/thumbs/2.jpg"
-							alt="thumb01" /></li>
-						<li class="hide1"><a href="#"><span>景湾豪庭</span>
-								<p>summer is coming</p></a><img src="images/thumbs/3.jpg"
-							alt="thumb02" /></li>
-						<li class="hide1"><a href="#"><span>骏湾豪庭</span>
-								<p>all colors available</p> </a><img src="images/thumbs/4.jpg"
-							alt="thumb03" /></li>
-						<li><a href="#"><span>骏景湾庭</span>
-								<p>free delivery</p> </a><img src="images/thumbs/1.jpg"
-							alt="thumb04" /></li>
-						<li><a href="#"><span>骏景湾豪</span>
-								<p>limited edition</p> </a><img src="images/thumbs/5.jpg"
-							alt="thumb05" /></li>
+						<li class="hide"><a href="#"><span>文景阁公寓</span>
+								<p>[华景新城]</p> </a><img src="images/thumbs/2.jpg" alt="thumb01" /></li>
+						<li class="hide1"><a href="#"><span>帝景苑倚泓轩</span>
+								<p>[赤岗]</p></a><img src="images/thumbs/3.jpg" alt="thumb02" /></li>
+						<li class="hide1"><a href="#"><span>侨林苑</span>
+								<p>[天河北]</p> </a><img src="images/thumbs/4.jpg" alt="thumb03" /></li>
+						<li><a href="#"><span>广园东东方名都<br /></span>
+								<p>[广园东]</p> </a><img src="images/thumbs/1.jpg" alt="thumb04" /></li>
+						<li><a href="#"><span>英豪花园<br /></span>
+								<p>[南洲]</p> </a><img src="images/thumbs/5.jpg" alt="thumb05" /></li>
 					</ul>
 					<!-- ei-slider-thumbs -->
 				</div>
@@ -262,8 +253,8 @@
 				<div class="grids_of_4">
 					<c:forEach var="house" items="${houseSellRentList}">
 						<div class="grid1_of_4">
-							<a href="<%=basePath %>details.jsp?${house.HId }"> <img
-								src=${house.pics } alt="" />
+							<a href="<%=basePath %>HouseAction!Info?HId=${house.HId }&&CType=3"> <img
+								src=${house.pics.split(";")[0] } alt="" />
 								<div style="height: 30px; padding-left: 2%; text-align: left;">
 									<h3>${house.community }</h3>
 								</div>
@@ -275,7 +266,7 @@
 
 							<div style="height: 40px;">
 								<span class="grid1_of_4_priceCell">${house.price }元/月</span> <span
-									class="grid1_of_4_commentCell">房评3条</span>
+									class="grid1_of_4_commentCell">房评0条</span>
 							</div>
 						</div>
 					</c:forEach>
@@ -294,8 +285,8 @@
 				<div class="grids_of_4">
 					<c:forEach var="house" items="${houseSellEnterpriseList}">
 						<div class="grid1_of_4">
-							<a href="<%=basePath %>details.jsp?${house.HId }"> <img
-								src=${house.pics } alt="" />
+							<a href="HouseAction!Info?HId=${house.HId }&&CType=1"> <img
+								src=${house.pics.split(";")[0] } alt="" />
 								<div style="height: 30px; padding-left: 2%; text-align: left;">
 									<h3>${house.title }</h3>
 								</div>
@@ -308,7 +299,7 @@
 							<div style="height: 40px;">
 								<!--split切分，取第一个价格 -->
 								<span class="grid1_of_4_priceCell">${fn:split(house.price,";")[0] }元/㎡</span>
-								<span class="grid1_of_4_commentCell">房评3条</span>
+								<span class="grid1_of_4_commentCell">房评0条</span>
 							</div>
 						</div>
 					</c:forEach>
@@ -327,8 +318,8 @@
 				<div class="grids_of_4">
 					<c:forEach var="house" items="${houseSellSecondhandList}">
 						<div class="grid1_of_4">
-							<a href="<%=basePath %>details.jsp?${house.HId }"> <img
-								src=${house.pics } alt="" />
+							<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=2"> <img
+								src=${house.pics.split(";")[0] } alt="" />
 								<div style="height: 30px; padding-left: 2%; text-align: left;">
 									<h3>${house.title }</h3>
 								</div>
@@ -340,7 +331,7 @@
 
 							<div style="height: 40px;">
 								<span class="grid1_of_4_priceCell">${house.price }万</span> <span
-									class="grid1_of_4_commentCell">房评3条</span>
+									class="grid1_of_4_commentCell">房评0条</span>
 							</div>
 						</div>
 					</c:forEach>

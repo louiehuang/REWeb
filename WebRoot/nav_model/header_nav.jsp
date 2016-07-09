@@ -1,7 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!DOCTYPE html>
 <html>
@@ -39,13 +41,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}, 1200);
 		});
 	});
+
+	function mobileClick() {
+		alert("1");
+	}
 </script>
 </head>
 
 <body>
 
 	<!-- start header -->
-	<div class="top_bg" >
+	<div class="top_bg">
 		<div class="wrap">
 			<div class="header">
 				<!--<div class="logo">
@@ -53,9 +59,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>-->
 				<div class="log_reg">
 					<ul>
-						<li><a id="header_a_log" href="../admin.jsp" target="_parent">登陆</a></li>
+						<li><a id="header_a_log" href="../register.jsp" target="_parent">登陆</a></li>
 						<span class="log"> </span>
-						<li><a id="header_a_reg" href="../register.jsp"" target="_parent">注册</a></li>
+						<li><a id="header_a_reg" href="../register.jsp"
+							" target="_parent">注册</a></li>
 						<div class="clear"></div>
 					</ul>
 				</div>
@@ -90,10 +97,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			<div class="header_right">
 				<ul>
-					<!--<li><a href="#"><i  class="art"></i><span class="color1">30</span></a></li>
-						<li><a href="#"><i  class="cart"></i><span>0</span></a></li>-->
-					<li><a href="#"><i class="art"></i><span
-							style="padding: 10px">假装我们有移动版</span></a></li>
+					<li>
+						<a href="#">
+						<i class="art"></i>
+						<span style="padding: 10px">假装我们有移动版</span>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>

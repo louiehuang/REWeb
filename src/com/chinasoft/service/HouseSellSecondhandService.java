@@ -40,4 +40,15 @@ public class HouseSellSecondhandService {
 		houseSellSecondhandDAO.delete(house);
 	}
 
+	/**
+	 * öÎÉñ´úÂë
+	 * @param HId
+	 * @return
+	 */
+	public HouseSellSecondhand getbyId(Integer HId)
+	{
+		return houseSellSecondhandDAO.findById(HId);
+	}
+	
+	
 }
