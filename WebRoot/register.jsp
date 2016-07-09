@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
@@ -64,7 +64,7 @@
 							if (data.userAccount == "1") {
 								document.getElementById("UserAccountCheckSpan").innerHTML = "<font color='red'>"
 										+ UAccount + "已被注册</font>";
-								document.getElementById("register-submit").disabled = true;
+								//document.getElementById("register-submit").disabled = true;
 
 							} else if (data.userAccount == "0") {
 								document.getElementById("UserAccountCheckSpan").innerHTML = "<font color='green'>"
@@ -145,7 +145,6 @@
 							if (data.userLoginFlag == "1") {
 								document.getElementById("UserLoginResSpan").innerHTML = "<font color='red'>"
 										+ UAccount + "账号或密码错误</font>";
-								document.getElementById("register-submit").disabled = true;
 
 							} else if (data.userLoginFlag == "0") {
 								window.location.href = 'im!LoadInfo';
@@ -381,6 +380,7 @@
 								<div>
 									<input type="submit" style="width: 200px" value="登陆"
 										id="login-submit" onclick="UserLogin()">
+
 								</div>
 
 								<div class="forget">
@@ -390,6 +390,19 @@
 						</div>
 					</div>
 					<!-- end registration -->
+
+					<div>
+						<span style="float:left;"> 
+							<a style="font-size:14px; color:#43CD80;"
+							href="login_admin.jsp">管理员登陆</a>
+						</span> 
+						<span style="float:right;"> 
+							<img src="images/enterprise1.jpg" align="middle"> 
+								<a style="font-size:14px; color:#43CD80;"
+								href="register_enterprise.jsp">企业用户登陆</a>
+						</span>
+
+					</div>
 				</div>
 
 				<div class="clear"></div>

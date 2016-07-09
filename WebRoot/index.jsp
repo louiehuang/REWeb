@@ -6,11 +6,11 @@
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
+	+ request.getServerName() + ":" + request.getServerPort()
+	+ path + "/";
 %>
 
-<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <title>主页</title>
@@ -65,17 +65,33 @@
 
 <body>
 	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<% if (session.getAttribute("users") == null) { 
-	%>
-	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
-		height="120px" style="border: 0px;" scrolling="no"></iframe>
-	<% } else { 
-		Users u = (Users) session.getAttribute("users");
-		System.out.println(u.getUAccount());
+	<%
+		if (session.getAttribute("users") != null) {
+			System.out.println("普通用户导航");
+			Users u = (Users) session.getAttribute("users");
 	%>
 	<iframe id="header_nav" src="nav_model/header_nav_after.jsp"
 		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else if (session.getAttribute("enterpriseUsers") != null){
+			System.out.println("企业用户导航");
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav_enterprise.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else if (session.getAttribute("adminUsers") != null){
+			System.out.println("管理员导航");
+			%>
+	<iframe id="header_nav" src="nav_model/header_nav_admin.jsp"
+		width="100%" height="45px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else{
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
+		height="120px" style="border: 0px;" scrolling="no"></iframe>
 	<% }%>
+
+
 
 	<!-- start slider -->
 	<div class="slider">
@@ -278,7 +294,8 @@
 				<div class="grids_of_4">
 					<c:forEach var="house" items="${houseSellEnterpriseList}">
 						<div class="grid1_of_4">
-							<a href="<%=basePath %>details.jsp?${house.HId }"> <img src=${house.pics } alt="" />
+							<a href="<%=basePath %>details.jsp?${house.HId }"> <img
+								src=${house.pics } alt="" />
 								<div style="height: 30px; padding-left: 2%; text-align: left;">
 									<h3>${house.title }</h3>
 								</div>

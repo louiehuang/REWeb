@@ -115,6 +115,9 @@
 
 	<!--管理员配置，查询房屋 -->
 	<bean id="AdministratorAction" class="com.chinasoft.action.AdministratorAction">
+		<property name="administratorService">
+			<ref bean="AdministratorService" />
+		</property>
 		<property name="houseSellRentService">
 			<ref bean="HouseSellRentService" />
 		</property>
@@ -127,7 +130,6 @@
 		<property name="verificationService">
 			<ref bean="VerificationService" />
 		</property>
-		
 		<property name="advertisementService">
 			<ref bean="AdvertisementService" />
 		</property>
@@ -139,9 +141,26 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
+	<bean id="EnterpriseUsersService" class="com.chinasoft.service.EnterpriseUsersService">
+		<property name="enterpriseUsersDAO">
+			<ref bean="EnterpriseUsersDAO" />
+		</property>
+	</bean>
+	<bean id="EnterpriseUsersAction" class="com.chinasoft.action.EnterpriseUsersAction">
+		<property name="enterpriseUsersService">
+			<ref bean="EnterpriseUsersService" />
+		</property>
+	</bean>
+	
+	
 	<bean id="AdministratorDAO" class="com.chinasoft.dao.AdministratorDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="AdministratorService" class="com.chinasoft.service.AdministratorService">
+		<property name="administratorDAO">
+			<ref bean="AdministratorDAO" />
 		</property>
 	</bean>
 
@@ -302,4 +321,6 @@
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
-	</bean></beans>
+	</bean>
+	
+</beans>

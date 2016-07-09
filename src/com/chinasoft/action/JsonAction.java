@@ -77,7 +77,7 @@ public class JsonAction {
 			dataMap = new HashMap<String, Object>();
 			List<Users> list = usersService.findByExample(user);
 
-			// 登陆标志，userLoginFlag为1表示失败
+			// 登陆标志，userLoginFlag为1表示登陆失败，没有对应账户
 			if (list.size() == 0) {
 
 				dataMap.put("userLoginFlag", "1");
@@ -134,7 +134,6 @@ public class JsonAction {
 
 	/**
 	 * 添加用户信息
-	 * 
 	 * @return
 	 */
 	public String json_saveUser() {

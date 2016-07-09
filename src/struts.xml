@@ -11,11 +11,13 @@
 	<!-- </package> -->
 
 	<package name="usersManage" namespace="/" extends="struts-default">
+		<!-- 首页信息 -->
 		<action name="im" class="IndexAction">
 			<result name="success">index.jsp</result>
 			<result name="error">register.jsp</result>
 		</action>
-		
+
+		<!-- 个人用户 -->
 		<action name="um" class="UsersAction">
 			<result name="logsuccess" type="chain">
 				<param name="actionName">im</param>
@@ -33,7 +35,25 @@
 
 			<result name="admin_update_success">admin.jsp</result>
 		</action>
-				
+		
+		
+		<!--企业用户 -->
+		<action name="em" class="EnterpriseUsersAction">
+			<result name="signout" type="chain">
+				<param name="actionName">im</param>
+				<param name="method">LoadInfo</param>
+			</result>
+		</action>
+		
+		<!--管理员 -->
+		<action name="am" class="AdministratorAction">
+			<result name="signout" type="chain">
+				<param name="actionName">im</param>
+				<param name="method">LoadInfo</param>
+			</result>
+		</action>
+	
+
 	</package>
 
 
@@ -55,8 +75,24 @@
 
 
 
-	<package name="adminManage" namespace="/"
-		extends="struts-default, json-default">
+	<package name="enterUserManage" namespace="/" extends="struts-default, json-default">
+		<action name="json_loginEnterUser" class="EnterpriseUsersAction" method="json_loginEnterUser">
+			<result type="json" name="eu_login_success">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+	</package>
+
+
+	<package name="adminManage" namespace="/" extends="struts-default, json-default">
+		
+		<action name="json_loginAdminUser" class="AdministratorAction" method="json_loginAdminUser">
+			<result type="json" name="admin_login_success">
+				<param name="root">dataMap_Admin</param>
+			</result>
+		</action>
+	
+	
 		<action name="admin_um" class="HouseSellRentAction">
 			<result name="success">index.jsp</result>
 			<result name="error">testOutput.jsp</result>
@@ -67,7 +103,7 @@
 				<param name="root">dataMap</param>
 			</result>
 		</action>
-		
+
 		<action name="json_loginUser" class="JsonAction" method="json_loginUser">
 			<result type="json" name="u_login_success">
 				<param name="root">dataMap</param>
@@ -108,37 +144,43 @@
 			</result>
 		</action>
 
-		<action name="json_deleteHouse" class="AdministratorAction" method="json_deleteHouse">
+		<action name="json_deleteHouse" class="AdministratorAction"
+			method="json_deleteHouse">
 			<result type="json" name="deleteHouse_success">
 				<param name="root">dataMap_AllHouse</param>
 			</result>
 		</action>
-		
+
 		<!-- 验证管理 -->
-		<action name="json_queryVeri" class="AdministratorAction" method="json_queryVeri">
+		<action name="json_queryVeri" class="AdministratorAction"
+			method="json_queryVeri">
 			<result type="json" name="findVeri_success">
 				<param name="root">dataMap_Veri</param>
 			</result>
 		</action>
-		<action name="json_updateVeri" class="AdministratorAction" method="json_updateVeri">
+		<action name="json_updateVeri" class="AdministratorAction"
+			method="json_updateVeri">
 			<result type="json" name="updateVeri_success">
 				<param name="root">dataMap_Veri</param>
 			</result>
 		</action>
-		
-		
+
+
 		<!--广告管理 -->
-		<action name="json_queryAllAd" class="AdministratorAction" method="json_queryAllAd">
+		<action name="json_queryAllAd" class="AdministratorAction"
+			method="json_queryAllAd">
 			<result type="json" name="findAllAd_success">
 				<param name="root">dataMap_Ad</param>
 			</result>
 		</action>
-		<action name="json_querySingleAd" class="AdministratorAction" method="json_querySingleAd">
+		<action name="json_querySingleAd" class="AdministratorAction"
+			method="json_querySingleAd">
 			<result type="json" name="findSignleAd_success">
 				<param name="root">dataMap_Ad</param>
 			</result>
 		</action>
-		<action name="json_updateAd" class="AdministratorAction" method="json_updateAd">
+		<action name="json_updateAd" class="AdministratorAction"
+			method="json_updateAd">
 			<result type="json">
 				<param name="root">dataMap_Ad</param>
 			</result>
@@ -148,7 +190,8 @@
 				<param name="root">dataMap_Ad</param>
 			</result>
 		</action>
-		<action name="json_deleteAd" class="AdministratorAction" method="json_deleteAd">
+		<action name="json_deleteAd" class="AdministratorAction"
+			method="json_deleteAd">
 			<result type="json">
 				<param name="root">dataMap_Ad</param>
 			</result>
