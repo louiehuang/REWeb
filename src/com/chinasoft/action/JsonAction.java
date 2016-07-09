@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.chinasoft.pojo.HouseSellEnterprise;
-import com.chinasoft.pojo.HouseSellRent;
-import com.chinasoft.pojo.HouseSellSecondhand;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
 import com.chinasoft.pojo.Users;
-import com.chinasoft.service.HouseSellEnterpriseService;
-import com.chinasoft.service.HouseSellRentService;
-import com.chinasoft.service.HouseSellSecondhandService;
 import com.chinasoft.service.UsersService;
+import com.chinasoft.util.Encryption;
+import com.chinasoft.util.PageMan;
 
 public class JsonAction {
 	private UsersService usersService;
@@ -20,6 +20,9 @@ public class JsonAction {
 	private Map<String, Object> dataMap_AllUser; // 查询全部用户
 	private Users user;
 	private Users a_user;
+
+	private String UserPassword; // 用户密码，用来对比管理员是否对用户密码进行了修改(和a_user.UPwd比较)
+
 	private boolean saveUserFlag; // 新增标志
 	private boolean updateUserFlag; // 更新标志
 	private boolean deleteUserFlag; // 删除标志
@@ -28,8 +31,10 @@ public class JsonAction {
 	private int pageSize = 10; // 默认分页大小
 	private int pageCount = 0;
 
+	private HttpSession session;
+
 	/**
-	 * 根据用户账号查询用户信息
+	 * 根据用户账号查询用户信息 用户注册时检测账号是否被注册 管理员查询单个用户信息
 	 * 
 	 * @return
 	 */
@@ -37,15 +42,18 @@ public class JsonAction {
 		String uAccount = user.getUAccount();
 		System.out.println("json_findUser执行: " + uAccount);
 
-		// ServletRequest request = ServletActionContext.getRequest();
-		// uAccount = request.getParameter("uAccount");
-
 		try {
 			dataMap = new HashMap<String, Object>();
-			// List list = usersService.findByUAccount(uAccount);
-			List<Users> list = usersService.findByExample(user);
-			dataMap.put("list", list);
-			dataMap.put("success_queryUser", true);
+			List<Users> list = usersService.findByUAccount(uAccount);
+
+			// 可以注册置0，不可以置1
+			if (list.size() == 0) {
+				dataMap.put("userAccount", "0");
+			} else {
+				dataMap.put("list", list); // 管理员查询用户时使用
+				dataMap.put("userAccount", "1");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,15 +62,61 @@ public class JsonAction {
 	}
 
 	/**
+	 * 根据用户账号尝试登陆
+	 * 
+	 * @return
+	 */
+	public String json_loginUser() {
+		String uAccount = user.getUAccount();
+		String pwd = Encryption.getMD5(user.getUPwd()); // 加密
+		user.setUPwd(pwd);
+
+		System.out.println("json_loginUser执行: " + uAccount + ", " + pwd);
+
+		try {
+			dataMap = new HashMap<String, Object>();
+			List<Users> list = usersService.findByExample(user);
+
+			// 登陆标志，userLoginFlag为1表示登陆失败，没有对应账户
+			if (list.size() == 0) {
+
+				dataMap.put("userLoginFlag", "1");
+			} else {
+				// users存入session
+				session = ServletActionContext.getRequest().getSession();
+				session.setAttribute("users", list.get(0));
+
+				dataMap.put("userLoginFlag", "0");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 返回结果
+		return "u_login_success";
+	}
+
+	/**
 	 * 更新对用户信息的修改
 	 * 
 	 * @return
 	 */
 	public String json_updateUser() {
+		System.out.println("json_updateUser执行...");
+
 		try {
-			a_user.setUGender((a_user.getUGender().equals("on") ? "男" : "女"));
-			//性别，nchar(1)
-			
+			// 若管理员修改了密码，则对新密进行加密
+			String pwd = a_user.getUPwd();
+			System.out.println(UserPassword + ", " + pwd);
+
+			if (pwd.equals(UserPassword)) {
+				//不处理
+			} else {
+				//对新密码进行加密
+				pwd = Encryption.getMD5(pwd); // 加密
+				a_user.setUPwd(pwd);
+			}
+
 			System.out.println("json_updateUser执行: " + a_user.getUId() + ","
 					+ a_user.getUAccount() + "," + a_user.getUPwd() + ","
 					+ a_user.getUName() + "," + a_user.getUGender() + ","
@@ -80,12 +134,14 @@ public class JsonAction {
 
 	/**
 	 * 添加用户信息
-	 * 
 	 * @return
 	 */
 	public String json_saveUser() {
 		String uAccount = a_user.getUAccount();
 		System.out.println("json_findUser执行: " + uAccount);
+		// 密码进行加密
+		String pwd = Encryption.getMD5(a_user.getUPwd()); // 加密
+		a_user.setUPwd(pwd);
 
 		try {
 			saveUserFlag = true;
@@ -108,12 +164,17 @@ public class JsonAction {
 			dataMap_AllUser = new HashMap<String, Object>();
 			List<Users> list = new ArrayList<Users>();
 			list = usersService.findAll();
-			list = cutPage(list, pageIndex, pageSize); // 分页
+			// list = cutPage(list, pageIndex, pageSize); // 分页
 
-			dataMap_AllUser.put("list", list);
+			/* 分页，接收分页后list和分页页数 */
+			Map<String, Object> tmp = PageMan.cutUserPage(list, pageIndex,
+					pageSize);
+
+			dataMap_AllUser.put("list", tmp.get("newList"));
+			dataMap_AllUser.put("pageCount", tmp.get("pageCount"));
+
 			dataMap_AllUser.put("pageIndex", pageIndex);
 			dataMap_AllUser.put("pageSize", pageSize);
-			dataMap_AllUser.put("pageCount", pageCount);
 
 			// dataMap_AllUser.put("success_queryAllUser", true);
 		} catch (Exception e) {
@@ -121,37 +182,6 @@ public class JsonAction {
 		}
 		// 返回结果
 		return "findAllUser_success";
-	}
-
-	/**
-	 * 根据当前所在页 和 每页大小进行分页
-	 * @param list
-	 * @param pageIndex
-	 * @param pageSize
-	 * @return
-	 */
-	public List cutPage(List list, int pageIndex, int pageSize) {
-		List newList = new ArrayList();
-		
-		if (list != null) {
-			if (list.size() % pageSize == 0) {
-				pageCount = list.size() / pageSize;
-			} else {
-				pageCount = list.size() / pageSize + 1;
-			}
-
-			int start = (pageIndex - 1) * pageSize;
-			int end = pageIndex * pageSize;
-			if (end > list.size()) {
-				end = list.size();
-			}
-
-			for (int i = start; i < end; i++) {
-				newList.add(list.get(i));
-			}
-		}
-		
-		return newList;
 	}
 
 	/**
@@ -179,7 +209,6 @@ public class JsonAction {
 		return "deleteUser_success";
 	}
 
-	
 	public int getPageIndex() {
 		return pageIndex;
 	}
@@ -276,18 +305,12 @@ public class JsonAction {
 		this.dataMap = dataMap;
 	}
 
+	public String getUserPassword() {
+		return UserPassword;
+	}
 
-	// public Map<String, Object> json_Test() {
-	// try {
-	// dataMap = new HashMap<String, Object>();
-	// List list = usersService.findByUAccount("test");
-	// dataMap.put("list", list);
-	// dataMap.put("success", true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// // 返回结果
-	// return dataMap;
-	// }
+	public void setUserPassword(String userPassword) {
+		UserPassword = userPassword;
+	}
 
 }

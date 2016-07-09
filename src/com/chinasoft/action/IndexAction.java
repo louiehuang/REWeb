@@ -109,6 +109,7 @@ public class IndexAction {
 	 */
 	public String LoadInfo() {
 		try {
+			System.out.println("LoadInfo执行...");
 			// 房屋出租信息
 			houseSellRentList = houseSellRentService.getRentInfo();
 

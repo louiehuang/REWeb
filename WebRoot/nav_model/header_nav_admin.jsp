@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<li><a id="header_a_log" href="../falseIndex.jsp"
 							target="_parent">首页</a></li>
 						<span class="log"> </span>
-						<li><a id="header_a_reg" href="<%=basePath %>um!signOut"
+						<li><a id="header_a_reg" href="<%=basePath %>am!signOut"
 							" target="_parent">退出登陆</a></li>
 						<div class="clear"></div>
 					</ul>

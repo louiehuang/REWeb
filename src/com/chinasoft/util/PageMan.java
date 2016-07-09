@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.chinasoft.pojo.Advertisement;
+import com.chinasoft.pojo.Users;
 import com.chinasoft.pojo.Verification;
 
 public class PageMan {
@@ -45,6 +46,44 @@ public class PageMan {
 		dataMap.put("newList", newList);
 		dataMap.put("pageCount", pageCount);
 		
+		return dataMap;
+	}
+	
+	
+
+	/**
+	 * 用户查询列表分页
+	 * @param list
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
+	static public Map<String, Object> cutUserPage(List<Users> list, int pageIndex, int pageSize) {
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		List<Users> newList = new ArrayList<Users>();
+		int pageCount = 1;
+		
+		if (list != null) {
+			if (list.size() % pageSize == 0) {
+				pageCount = list.size() / pageSize;
+			} else {
+				pageCount = list.size() / pageSize + 1;
+			}
+
+			int start = (pageIndex - 1) * pageSize;
+			int end = pageIndex * pageSize;
+			if (end > list.size()) {
+				end = list.size();
+			}
+
+			for (int i = start; i < end; i++) {
+				newList.add(list.get(i));
+			}
+		}
+
+		dataMap.put("newList", newList);
+		dataMap.put("pageCount", pageCount);
+
 		return dataMap;
 	}
 	

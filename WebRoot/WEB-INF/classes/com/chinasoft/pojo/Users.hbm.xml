@@ -34,13 +34,25 @@
         <property name="UEmail" type="java.lang.String">
             <column name="U_Email" />
         </property>
-        <set name="collects" inverse="true" lazy="false" cascade="all">
+        <set name="complains" inverse="true" cascade="all">
+            <key>
+                <column name="U_id" />
+            </key>
+            <one-to-many class="com.chinasoft.pojo.Complain" />
+        </set>
+        <set name="collects" inverse="true" cascade="all">
             <key>
                 <column name="U_id" not-null="true" />
             </key>
             <one-to-many class="com.chinasoft.pojo.Collect" />
         </set>
-        <set name="comments" inverse="true" lazy="false" cascade="all">
+        <set name="verifications" inverse="true" cascade="all">
+            <key>
+                <column name="U_id" />
+            </key>
+            <one-to-many class="com.chinasoft.pojo.Verification" />
+        </set>
+        <set name="comments" inverse="true" cascade="all">
             <key>
                 <column name="U_id" not-null="true" />
             </key>

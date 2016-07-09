@@ -1,26 +1,36 @@
 package com.chinasoft.action;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.validator.Var;
+import javax.servlet.http.HttpSession;
 
+import org.apache.struts2.ServletActionContext;
+
+import com.chinasoft.pojo.Administrator;
 import com.chinasoft.pojo.Advertisement;
+import com.chinasoft.pojo.EnterpriseUsers;
 import com.chinasoft.pojo.HouseSellEnterprise;
 import com.chinasoft.pojo.HouseSellRent;
 import com.chinasoft.pojo.HouseSellSecondhand;
-import com.chinasoft.pojo.Users;
 import com.chinasoft.pojo.Verification;
+import com.chinasoft.service.AdministratorService;
 import com.chinasoft.service.AdvertisementService;
 import com.chinasoft.service.HouseSellEnterpriseService;
 import com.chinasoft.service.HouseSellRentService;
 import com.chinasoft.service.HouseSellSecondhandService;
 import com.chinasoft.service.VerificationService;
+import com.chinasoft.util.Encryption;
 import com.chinasoft.util.PageMan;
 
 public class AdministratorAction {
+	/*管理员*/
+	private Map<String, Object> dataMap_Admin;
+	private AdministratorService administratorService;
+	private Administrator administrator;
+	private HttpSession session;
+	
 	/* 查询房屋 */
 	private HouseSellEnterpriseService houseSellEnterpriseService;
 	private HouseSellSecondhandService houseSellSecondhandService;
@@ -53,6 +63,62 @@ public class AdministratorAction {
 	private String AId; // 验证的id
 	private Advertisement ad; // 验证对象
 
+	
+	/**
+	 * 管理员登录判断
+	 * @return
+	 */
+	public String json_loginAdminUser(){
+		String uAccount = administrator.getAccount();
+		String pwd = Encryption.getMD5(administrator.getPwd()); // 加密
+		administrator.setPwd(pwd);
+
+		System.out.println("json_loginEnterUser执行: " + uAccount + ", " + pwd);
+
+		try {
+			dataMap_Admin = new HashMap<String, Object>();
+			List<Administrator> list = administratorService.findByExample(administrator);
+
+			// 登陆标志，userLoginFlag为1表示登陆失败，没有对应账户
+			if (list.size() == 0) {
+				System.out.println("登陆失败");
+				dataMap_Admin.put("adminLoginFlag", "1");
+			} else {
+				// users存入session
+				System.out.println("登陆成功");
+				session = ServletActionContext.getRequest().getSession();
+				session.setAttribute("adminUsers", list.get(0));
+
+				dataMap_Admin.put("adminLoginFlag", "0");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 返回结果
+		return "admin_login_success";
+		
+	}
+	
+	/**
+	 * 退出登陆 移出session中的管理员户adminUsers
+	 * @return
+	 */
+	public String signOut() {
+		System.out.println("signOut管理员用户执行...");
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		
+		if (session.getAttribute("adminUsers") != null) {
+			session.removeAttribute("adminUsers");
+		}else{
+			System.out.println("signOut: 没有登陆管理员用户");
+		}
+		
+		return "signout";
+	}
+	
+	
+	
 	/**
 	 * 删除房屋信息，并更新列表
 	 * 
@@ -326,6 +392,10 @@ public class AdministratorAction {
 		}
 		return "success";
 	}
+	
+
+	
+	
 
 	public HouseSellRentService getHouseSellRentService() {
 		return houseSellRentService;
@@ -533,4 +603,30 @@ public class AdministratorAction {
 		this.ad = ad;
 	}
 
+	public Map<String, Object> getDataMap_Admin() {
+		return dataMap_Admin;
+	}
+
+	public void setDataMap_Admin(Map<String, Object> dataMap_Admin) {
+		this.dataMap_Admin = dataMap_Admin;
+	}
+
+	public Administrator getAdministrator() {
+		return administrator;
+	}
+
+	public void setAdministrator(Administrator administrator) {
+		this.administrator = administrator;
+	}
+
+	public AdministratorService getAdministratorService() {
+		return administratorService;
+	}
+
+	public void setAdministratorService(AdministratorService administratorService) {
+		this.administratorService = administratorService;
+	}
+
+	
+	
 }
