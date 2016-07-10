@@ -1,7 +1,6 @@
 package com.chinasoft.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.chinasoft.pojo.EnterpriseUsers;
-
 /**
  * A data access object (DAO) providing persistence and search support for
  * EnterpriseUsers entities. Transaction control of the save(), update() and
@@ -49,7 +47,19 @@ public class EnterpriseUsersDAO extends HibernateDaoSupport {
 			throw re;
 		}
 	}
-
+	
+	
+	public void update(EnterpriseUsers transientInstance) {
+		log.debug("updating EnterpriseUsers instance");
+		try {
+			getHibernateTemplate().update(transientInstance);
+			log.debug("update successful");
+		} catch (RuntimeException re) {
+			log.error("update failed", re);
+			throw re;
+		}
+	}
+	
 	public void delete(EnterpriseUsers persistentInstance) {
 		log.debug("deleting EnterpriseUsers instance");
 		try {

@@ -1188,10 +1188,9 @@
 				<div class="controls">
 					<div class="profile-box">
 						<span class="profile"> <a href="#" class="section"> <img
-								class="image" src=" images/admin/img1.png"
+								class="image" src=" images/admin/img2.jpg"
 								alt="image description" width="26" height="26" /> <span
-								class="text-box"> Welcome <strong class="name">Asif
-										Aleem</strong>
+								class="text-box"> Welcome <strong class="name">幸平创真</strong>
 							</span>
 						</a> <a href="#" class="opener">opener</a>
 						</span> <a href="#" class="btn-on">On</a>

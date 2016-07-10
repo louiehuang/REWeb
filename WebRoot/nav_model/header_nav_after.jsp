@@ -55,11 +55,10 @@
 					</div>-->
 				<div class="log_reg">
 					<ul>
-						<li><a id="header_a_log" href="../center_p_mine.jsp"
+						<li><a id="header_a_log" href="../cc!LoadInfo"
 							target="_parent">个人中心</a></li>
 						<span class="log"> </span>
-						<li><a id="header_a_reg" href="<%=basePath %>um!signOut"
-							" target="_parent">退出登陆</a></li>
+						<li><a id="header_a_reg" href="<%=basePath %>um!signOut" target="_parent">退出登陆</a></li>
 						<div class="clear"></div>
 					</ul>
 				</div>

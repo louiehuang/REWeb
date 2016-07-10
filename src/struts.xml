@@ -16,15 +16,15 @@
 			<result name="success">index.jsp</result>
 			<result name="error">register.jsp</result>
 		</action>
-		
-		<!--鑫神配置开始-->
+
+		<!--鑫神配置开始 -->
 		<action name="HouseAction" class="House">
 			<result name="new">details_enterprise.jsp</result>
 			<result name="Secondhand">details_second.jsp</result>
 			<result name="SellRent">details_rent.jsp</result>
 			<result name="error">index.jsp</result>
 		</action>
-		<!--鑫神配置解释-->
+		<!--鑫神配置解释 -->
 
 		<!-- 个人用户 -->
 		<action name="um" class="UsersAction">
@@ -44,8 +44,8 @@
 
 			<result name="admin_update_success">admin.jsp</result>
 		</action>
-		
-		
+
+
 		<!--企业用户 -->
 		<action name="em" class="EnterpriseUsersAction">
 			<result name="signout" type="chain">
@@ -53,7 +53,7 @@
 				<param name="method">LoadInfo</param>
 			</result>
 		</action>
-		
+
 		<!--管理员 -->
 		<action name="am" class="AdministratorAction">
 			<result name="signout" type="chain">
@@ -61,7 +61,7 @@
 				<param name="method">LoadInfo</param>
 			</result>
 		</action>
-	
+
 
 	</package>
 
@@ -84,8 +84,10 @@
 
 
 
-	<package name="enterUserManage" namespace="/" extends="struts-default, json-default">
-		<action name="json_loginEnterUser" class="EnterpriseUsersAction" method="json_loginEnterUser">
+	<package name="enterUserManage" namespace="/"
+		extends="struts-default, json-default">
+		<action name="json_loginEnterUser" class="EnterpriseUsersAction"
+			method="json_loginEnterUser">
 			<result type="json" name="eu_login_success">
 				<param name="root">dataMap</param>
 			</result>
@@ -93,15 +95,17 @@
 	</package>
 
 
-	<package name="adminManage" namespace="/" extends="struts-default, json-default">
-		
-		<action name="json_loginAdminUser" class="AdministratorAction" method="json_loginAdminUser">
+	<package name="adminManage" namespace="/"
+		extends="struts-default, json-default">
+
+		<action name="json_loginAdminUser" class="AdministratorAction"
+			method="json_loginAdminUser">
 			<result type="json" name="admin_login_success">
 				<param name="root">dataMap_Admin</param>
 			</result>
 		</action>
-	
-	
+
+
 		<action name="admin_um" class="HouseSellRentAction">
 			<result name="success">index.jsp</result>
 			<result name="error">testOutput.jsp</result>
@@ -209,4 +213,52 @@
 	</package>
 
 
+
+
+	<!--雯神配置开始 -->
+	<package name="centerPManage" namespace="/"
+		extends="struts-default, json-default">
+		<action name="cc" class="CenterIndexAction">
+			<result name="success">center_p_mine.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+		<action name="cf" class="CenterIndexAction">
+			<result name="success">center_p_follow.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+		<action name="ch" class="PersonHouseStateAction">
+			<result name="success">center_p_houseState.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+		<action name="cb" class="PersonBillAction">
+			<result name="success">center_p_bill.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+		<action name="checkPwd" class="CenterIndexAction" method="checkPwd">
+			<result type="json" name="find_success">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+	</package>
+
+	<package name="centerEnterpriseManage" namespace="/"
+		extends="struts-default, json-default">
+		<action name="ec" class="CenterEnterpriseIndexAction">
+			<result name="success">center_e_mine.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+		<action name="eh" class="CenterEnterpriseIndexAction">
+			<result name="success">center_e_houseState.jsp</result>
+			<result name="error">testOutput.jsp</result>
+		</action>
+		<action name="checkEnterprisePwd" class="CenterEnterpriseIndexAction"
+			method="checkEnterprisePwd">
+			<result type="json" name="find_success">
+				<param name="root">dataMap</param>
+			</result>
+		</action>
+	</package>
+	<!-- 雯神配置结束 -->
+	
+	
 </struts>    

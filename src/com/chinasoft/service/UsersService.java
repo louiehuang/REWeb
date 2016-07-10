@@ -2,6 +2,8 @@ package com.chinasoft.service;
 
 import java.util.List;
 
+import org.apache.struts2.ServletActionContext;
+
 import com.chinasoft.dao.UsersDAO;
 import com.chinasoft.pojo.Users;
 
@@ -22,6 +24,7 @@ public class UsersService {
 	// 此层也可以传参数
 	/**
 	 * 用户登录
+	 * 
 	 * @param users
 	 * @return
 	 */
@@ -37,6 +40,7 @@ public class UsersService {
 
 	/**
 	 * 用户注册
+	 * 
 	 * @param users
 	 * @return
 	 */
@@ -50,68 +54,110 @@ public class UsersService {
 		}
 		return flag;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Users> findByUAccount(Object UAccount) {
 		return usersDAO.findByUAccount(UAccount);
 	}
-	
+
 	/**
 	 * 鑫神代码
+	 * 
 	 * @param UId
 	 * @return
 	 */
-	public Users getUsers(int UId)
-	{
+	public Users getUsers(int UId) {
 		Users users = usersDAO.findById(UId);
 		return users;
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Users> findByExample(Users user) {
 		return usersDAO.findByExample(user);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<Users> findAll(){
+	public List<Users> findAll() {
 		return usersDAO.findAll();
-	} 
-	
+	}
+
 	/**
 	 * 新增用户
+	 * 
 	 * @param user
 	 */
-	public void save(Users user){
+	public void save(Users user) {
 		usersDAO.save(user);
 	}
-	
-	
+
 	/**
 	 * 更新用户信息
+	 * 
 	 * @param user
 	 */
 	public void update(Users user) {
 		usersDAO.update(user);
 	}
-	
+
 	/**
 	 * 根据用户ID查询用户
+	 * 
 	 * @param id
 	 * @return
 	 */
 	public Users findById(Integer id) {
 		return usersDAO.findById(id);
 	}
-	
+
 	/**
 	 * 删除用户
+	 * 
 	 * @param user
 	 */
 	public void delete(Users user) {
 		usersDAO.delete(user);
 	}
 	
+	
+	
+	
 
+	/* 雯神代码开始 */
+	// 修改个人信息
+	public void changePInfo(Users users, String changeEmail, String changeName,
+			String changeGender, String changeTele) {
+		Users u = usersDAO.findById(users.getUId());
+		if (!"".equals(changeEmail)) {
+			u.setUEmail(changeEmail);
+		}
+		if (!"".equals(changeTele)) {
+			u.setUTele(changeTele);
+		}
+		if (!"".equals(changeName)) {
+			u.setUName(changeName);
+		}
+		if (!"".equals(changeGender)) {
+			u.setUGender(changeGender);
+		}
+		usersDAO.update(u);
+		ServletActionContext.getRequest().getSession().setAttribute("users", u);
+	}
+
+	// 修改个人用户密码
+	public void changePPwd(Users users, String changePwd) {
+		Users u = usersDAO.findById(users.getUId());
+		if (!"".equals(changePwd)) {
+			u.setUPwd(changePwd);
+		}
+		usersDAO.update(u);
+		ServletActionContext.getRequest().getSession().setAttribute("users", u);
+	}
+
+	// 根据用户id获得用户信息
+	public Users getUsersInfo(int UId) {
+		return usersDAO.findById(UId);
+	}
+
+	/* 雯神代码结束 */
 
 }

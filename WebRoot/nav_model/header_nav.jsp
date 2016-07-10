@@ -19,8 +19,8 @@
 <link href="../css/jquery.mmenu.all.css" type="text/css"
 	rel="stylesheet" />
 
-<script src="js/jquery.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/jquery.mmenu.js"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/jquery.mmenu.js"></script>
 <script type="text/javascript">
 	//	The menu on the left
 	$(function() {
@@ -29,8 +29,9 @@
 </script>
 
 <!-- start top_js_button -->
-<script type="text/javascript" src="js/easing.js"></script>
-<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="../js/easing.js"></script>
+<script type="text/javascript" src="../js/move-top.js"></script>
+<script type="text/javascript" src="../layer/layer.js"></script>
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
@@ -43,7 +44,19 @@
 	});
 
 	function mobileClick() {
-		alert("1");
+		//捕获页
+		layer.open({
+		  type: 1,
+		  shade: false,
+		  title: false, //不显示标题
+		  content: $('.layer_notice'), //捕获的元素
+		  cancel: function(index){
+		    layer.close(index);
+		    this.content.show();
+		    layer.msg('暂无移动版', {time: 5000, icon:6});
+		  }
+		});
+			
 	}
 </script>
 </head>
@@ -59,7 +72,8 @@
 					</div>-->
 				<div class="log_reg">
 					<ul>
-						<li><a id="header_a_log" href="../register.jsp" target="_parent">登陆</a></li>
+						<li><a id="header_a_log" href="../register.jsp"
+							target="_parent">登陆</a></li>
 						<span class="log"> </span>
 						<li><a id="header_a_reg" href="../register.jsp"
 							" target="_parent">注册</a></li>
@@ -97,12 +111,9 @@
 
 			<div class="header_right">
 				<ul>
-					<li>
-						<a href="#">
-						<i class="art"></i>
-						<span style="padding: 10px">假装我们有移动版</span>
-						</a>
-					</li>
+					<li><a href="#"> <i class="art"></i>
+							<span style="padding: 10px">假装我们有移动版</span>
+					</a></li>
 				</ul>
 			</div>
 		</div>

@@ -108,7 +108,7 @@ public class HouseAction {
 			if(i!=index)
 				msg+="<input type=\"submit\" value=\""+(i+1)+"\" onclick=\"cli("+i+")\" />";
 			else{
-				//msg+=(i+1); //ÐÞ¸Ä
+				msg+=(i+1); //ÐÞ¸Ä
 			}
 		}
 		

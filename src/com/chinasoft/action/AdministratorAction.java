@@ -213,7 +213,6 @@ public class AdministratorAction {
 
 	/**
 	 * 查询所有验证申请并分页
-	 * 
 	 * @return
 	 */
 	public String json_queryVeri() {

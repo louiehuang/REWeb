@@ -111,12 +111,15 @@ public class IndexAction {
 		try {
 			System.out.println("LoadInfo执行...");
 			// 房屋出租信息
+			//System.out.println("获取房屋出租信息...");
 			houseSellRentList = houseSellRentService.getRentInfo();
 
 			// 新房出售信息
+			//System.out.println("获取新房出售信息...");
 			houseSellEnterpriseList = houseSellEnterpriseService.getSellNewInfo();
 
 			// 二手房出售信息
+			//System.out.println("获取二手房出售信息...");
 			houseSellSecondhandList = houseSellSecondhandService.getSellOldInfo();
 
 			// System.out.println("第" + i + "次完成加载信息");

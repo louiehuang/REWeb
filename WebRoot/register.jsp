@@ -372,7 +372,6 @@
 									</label>
 								</div>
 
-
 								<p>
 									<span id="UserLoginResSpan"></span>
 								</p>
@@ -397,7 +396,7 @@
 							href="login_admin.jsp">管理员登陆</a>
 						</span> 
 						<span style="float:right;"> 
-							<img src="images/enterprise1.jpg" align="middle"> 
+<!-- 							<img src="images/enterprise1.jpg" align="middle">  -->
 								<a style="font-size:14px; color:#43CD80;"
 								href="register_enterprise.jsp">企业用户登陆</a>
 						</span>

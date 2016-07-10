@@ -55,7 +55,7 @@
 					</div>-->
 				<div class="log_reg">
 					<ul>
-						<li><a id="header_a_log" href="../center_e_mine.jsp"
+						<li><a id="header_a_log" href="../ec!LoadEnterpirseInfo"
 							target="_parent">个人中心</a></li>
 						<span class="log"> </span>
 						<li><a id="header_a_reg" href="<%=basePath %>em!signOut"

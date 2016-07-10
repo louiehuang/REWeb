@@ -1,129 +1,194 @@
+<%@page import="com.chinasoft.pojo.Users"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-	
-<!DOCTYPE html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
 <meta charset="utf-8">
+<script type="text/javascript" src="js/common/jquery-2.0.0.min.js"></script>
 <link href="css/bootstrap-combined.min.css" rel="stylesheet"
 	media="screen">
-
-<script type="text/javascript" src="js/common/jquery-2.0.0.min.js"></script>
-<!-- <script type="text/javascript" src="js/common/jquery-ui"></script> -->
 <script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-	function checkData1() {
-		var result = false;
-		var pwd1 = document.getElementById("User_pwd1");
-		var rightpwd = "bb";
-		if (pwd1.value != rightpwd) {
-			alert("密码错误!");
+
+	function UserPwdCheck1() {
+		var UPwd = $("#User_pwd1").val();
+		
+		//alert(UPwd);
+		
+		if (UPwd == "") {
+			document.getElementById("UserPwdCheck1Span").innerHTML = "";
+			document.getElementById("changeInfo-submit").disabled = true;
 		} else {
-			result = true;
-			alert("更新成功！");
+			$
+					.ajax({
+						url : 'checkPwd.action',
+						type : 'post',
+						dataType : "json",
+						data : {
+							"User_pwd" : UPwd
+						},
+						//async : false, //默认为true 异步   
+						error : function() {
+							alert('error');
+						},
+						success : function(data) {
+							if (data.userPwd == "1") {
+								document.getElementById("UserPwdCheck1Span").innerHTML = "<font color='red'>密码错误</font>";
+								//document.getElementById("register-submit").disabled = true;
+							} else if (data.userPwd == "0") {
+								document.getElementById("UserPwdCheck1Span").innerHTML = "<font color='green'>密码正确</font>";
+								document.getElementById("changeInfo-submit").disabled = false;
+							}
+						}
+					});
 		}
-		return result;
 	}
 
-	function checkData2() {
-		var result = false;
-		var pwd2 = document.getElementById("User_pwd2");
-		var pwdn1 = document.getElementById("User_pwd_new");
-		var pwdn2 = document.getElementById("Check_pwd_new")
-		var rightpwd = "bb";
-		if (pwd2.value != rightpwd) {
-			alert("原密码输入错误!");
-		} else if (pwdn1.value != pwdn2.value) {
-			alert("两次新密码输入不匹配！");
+	function UserPwdCheck2() {
+		//var UPwd = $("#User_pwd2").val();
+		var UPwd = $("#User_pwd2").attr("value");
+		
+		//alert(UPwd);
+		
+		
+		if (UPwd == "") {
+			document.getElementById("UserPwdCheck2Span").innerHTML = "";
+			document.getElementById("changePwd-submit").disabled = true;
 		} else {
-			result = true;
-			alert("修改成功！");
+			$
+					.ajax({
+						url : 'checkPwd.action',
+						type : 'post',
+						dataType : "json",
+						data : {
+							"User_pwd" : UPwd
+						},
+						//async : false, //默认为true 异步   
+						error : function() {
+							alert("error");
+						},
+						success : function(data) {
+							if (data.userPwd == "1") {
+								document.getElementById("UserPwdCheck2Span").innerHTML = "<font color='red'>密码错误</font>";
+								//document.getElementById("register-submit").disabled = true;
+							} else if (data.userPwd == "0") {
+								document.getElementById("UserPwdCheck2Span").innerHTML = "<font color='green'>密码正确</font>";
+								document.getElementById("changePwd-submit").disabled = false;
+							}
+						}
+					});
 		}
-		return result;
+	}
+
+	function UserPwdMakeSure() {
+		var pwd1 = document.getElementById("User_pwd_new").value;
+		var pwd2 = document.getElementById("Check_pwd_new").value;
+		if (pwd1 == pwd2) {
+			document.getElementById("PwdCheckSpan").innerHTML = "<font color='green'>两次密码一致</font>";
+			document.getElementById("changePwd-submit").disabled = false;
+		} else {
+			document.getElementById("PwdCheckSpan").innerHTML = "<font color='red'>两次密码输入不一致</font>";
+			document.getElementById("changePwd-submit").disabled = true;
+		}
 	}
 </script>
 </head>
 
 <body style="background-color:#F8F8F8">
-	<iframe src="nav_model/header_nav.jsp" width="100%" height="123px"
-		style="border: 0px;" scrolling="no"></iframe>
+
+	<!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
+	<%
+		if (session.getAttribute("users") == null) {
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
+		height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else {
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav_after.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		}
+	%>
 
 	<div class="container-fluid"
 		style="margin-top:20px; margin-bottom: 50px;">
 		<div class="row-fluid">
 			<div class="span3">
 				<div align="center">
-					<img alt="100x100" src="images/header/tx.jpg" class="img-circle"
+					<img alt="100x100" src=${session.users.UHeader } class="img-circle"
 						style="width: 100px;height: 100px" />
 					<p class="dl-horizontal" style="margin-top:20px">
-						<span><strong>用户名</strong></span>
+						<span><strong> <c:out
+									value="${session.users.UName } "></c:out>
+						</strong></span>
 					</p>
 				</div>
 				<div class="list-group" style="margin-top:40px">
-					<a class="list-group-item active" href="center_p_mine.jsp">个人中心</a>
+					<a class="list-group-item active" href="cc!LoadInfo">个人中心</a>
 					<div class="list-group-item">
-						<a href="center_p_mine.jsp">首页</a>
+						<a href="cc!LoadInfo">首页</a>
 					</div>
 					<div class="list-group-item">
-						<a href="center_p_mine.jsp">账户设置</a>
+						<a href="cc!LoadInfo">账户设置</a>
 					</div>
 					<div class="list-group-item">
-						<a href="center_p_mine.jsp">消息</a>
-					</div>
-				</div>
-				<div class="list-group">
-					<a class="list-group-item active" href="center_p_bill.jsp">交易中心</a>
-					<div class="list-group-item">
-						<a hhref="center_p_bill.jsp">我买入的房屋/楼盘</a>
-					</div>
-					<div class="list-group-item">
-						<a href="center_p_bill.jsp">我卖出的房屋/楼盘</a>
-					</div>
-					<div class="list-group-item">
-						<a href="center_p_bill.jsp">我租过的房屋/楼盘</a>
-					</div>
-					<div class="list-group-item">
-						<a href="center_p_bill.jsp">我租出的房屋/楼盘</a>
+						<a href="cc!LoadInfo">消息</a>
 					</div>
 				</div>
 				<div class="list-group">
-					<a class="list-group-item active" href="center_p_follow.jsp">关注中心</a>
+					<a class="list-group-item active" href="cb!LoadBillInfo">交易中心</a>
 					<div class="list-group-item">
-						<a href="center_p_follow.jsp">我关注的房屋/楼盘</a>
+						<a href="cb!LoadBillInfo">我买入的新房</a>
+					</div>
+					<div class="list-group-item">
+						<a href="cb!LoadBillInfo">我买入的二手房</a>
+					</div>
+					<div class="list-group-item">
+						<a href="cb!LoadBillInfo">我租到的房屋</a>
+					</div>
+					<div class="list-group-item">
+						<a href="cb!LoadBillInfo">我卖出的二手房</a>
+					</div>
+					<div class="list-group-item">
+						<a href="cb!LoadBillInfo">我租出的房屋</a>
 					</div>
 				</div>
 				<div class="list-group">
-					<a class="list-group-item active" href="center_p_houseState.jsp">我的房屋/楼盘</a>
+					<a class="list-group-item active" href="cf!LoadFollowInfo">关注中心</a>
 					<div class="list-group-item">
-						<a href="center_p_houseState.jsp">已认证</a>
+						<a href="cf!LoadFollowInfo">我关注的新楼盘</a>
 					</div>
 					<div class="list-group-item">
-						<a href="center_p_houseState.jsp">待认证</a>
+						<a href="cf!LoadFollowInfo">我关注的二手房</a>
 					</div>
 					<div class="list-group-item">
-						<a href="center_p_houseState.jsp">未认证</a>
+						<a href="cf!LoadFollowInfo">我关注的出租房</a>
+					</div>
+				</div>
+				<div class="list-group">
+					<a class="list-group-item active" href="ch!LoadHouseStateInfo">我发布的房屋</a>
+					<div class="list-group-item">
+						<a href="ch!LoadHouseStateInfo">二手房</a>
 					</div>
 					<div class="list-group-item">
-						<a href="center_p_houseState.jsp">不合格</a>
+						<a href="ch!LoadHouseStateInfo">出租房</a>
 					</div>
 				</div>
 			</div>
 			<div class="span9">
-				<div align="right">
-					<form class="form-search">
-						<input class="input-medium search-query" type="text" />
-						<button type="submit" class="btn">搜索</button>
-					</form>
-				</div>
 				<div class="tabbable" id="tabs-711867">
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#panel-655240" data-toggle="tab">首页</a>
@@ -133,62 +198,71 @@
 					</ul>
 					<div class="tab-content">
 						<div class="tab-pane  active" id="panel-655240">
-							<span class="label">我最近关注的房屋</span>
-							<ul class="thumbnails" style="margin-top:20px">
-								<li class="span4">
-									<div class="thumbnail">
-										<img alt="300x200" src="images/house/gbx.jpg"
-											style="width: 300px;height: 200px" />
-										<div class="caption">
-											<h3>狗逼鑫的房子</h3>
-											<p>真丑啊！</p>
-											<p>
-												<a class="btn btn-primary" href="#">查看详情</a> <a class="btn"
-													href="#">删除</a>
-											</p>
-										</div>
-									</div>
-								</li>
-								<li class="span4">
-									<div class="thumbnail">
-										<img alt="300x200" src="images/house/gbf.jpg"
-											style="width: 300px;height: 200px" />
-										<div class="caption">
-											<h3>狗逼肥的房子</h3>
-											<p>真好看</p>
-											<p>
-												<a class="btn btn-primary" href="#">查看详情</a> <a class="btn"
-													href="#">删除</a>
-											</p>
-										</div>
-									</div>
-								</li>
-								<li class="span4">
-									<div class="thumbnail">
-										<img alt="300x200" src="images/house/lf.jpg"
-											style="width: 300px;height: 200px" />
-										<div class="caption">
-											<h3>连番的房子</h3>
-											<p>都是初音！</p>
-											<p>
-												<a class="btn btn-primary" href="#">查看详情</a> <a class="btn"
-													href="#">删除</a>
-											</p>
-										</div>
-									</div>
-								</li>
-								<div class="pagination" align="right">
-									<ul>
-										<li><a href="#">上一页</a></li>
-										<li><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><a href="#">5</a></li>
-										<li><a href="#">下一页</a></li>
-									</ul>
+							<span class="label" style="margin-top:10px">我最近关注的新楼盘</span>
+							<ul class="thumbnails" style="margin-top:10px">
+								<div class="row-fluid">
+									<c:forEach var="house"
+										items="${collectHouseSellEnterpriseList}" begin="0" end="2">
+										<li class="span4">
+											<div class="thumbnail">
+												<a href="HouseAction!Info?HId=${house.HId }&&CType=1">
+												<img
+													alt="300x200" src="${house.getPics().split(';')[0] }"
+													style="width: 300px;height: 200px" />
+												</a>
+												<div class="caption">
+													<a href="HouseAction!Info?HId=${house.HId }&&CType=1">
+														<h4>${house.getTitle() }</h4>
+													</a>
+												</div>
+											</div>
+										</li>
+									</c:forEach>
 								</div>
-							</ul>
+								<span class="label" style="margin-top:20px">我最近关注的二手房</span>
+								<ul class="thumbnails" style="margin-top:10px">
+									<div class="row-fluid">
+										<c:forEach var="house"
+											items="${collectHouseSellSecondhandList}" begin="0" end="2">
+											<li class="span4">
+												<div class="thumbnail">
+													<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=2">
+													<img
+														alt="300x200" src="${house.getPics().split(';')[0] }"
+														style="width: 300px;height: 200px" />
+													</a>
+													<div class="caption">
+														<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=2">
+															<h4>${house.getTitle() }</h4>
+														</a>
+													</div>
+												</div>
+											</li>
+										</c:forEach>
+									</div>
+								</ul>
+								<span class="label" style="margin-top:20px">我最近关注的出租房</span>
+								<ul class="thumbnails" style="margin-top:10px">
+									<div class="row-fluid">
+										<c:forEach var="house" items="${collectHouseSellRentList}"
+											begin="0" end="2">
+											<li class="span4">
+												<div class="thumbnail">
+													<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=3">
+													<img
+														alt="300x200" src="${house.getPics().split(';')[0] }"
+														style="width: 300px;height: 200px" />
+													</a>
+													<div class="caption">
+														<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=3">
+															<h4>${house.getTitle() }</h4>
+														</a>
+													</div>
+												</div>
+											</li>
+										</c:forEach>
+									</div>
+								</ul>
 						</div>
 						<div class="tab-pane" id="panel-392567">
 							<div class="accordion" id="accordion-126037">
@@ -201,72 +275,85 @@
 									<div id="accordion-element-297071"
 										class="accordion-body collapse">
 										<div class="accordion-inner">
-											<form class="form-horizontal" method="get"
-												action="center_p_mine.jsp">
+											<form class="form-horizontal" method="post"
+												action="cc!changePersonInfo">
+												<%-- <input type="hidden"  id="User_pwd" value="${session.users.getUPwd() }"/> --%>
 												<div class="control-group">
-													<label class="control-label" for="User_id">帐号</label>
+													<label class="control-label" for="User_account">帐号</label>
 													<div class="controls">
-														<input id="User_id" placeholder="User_id" type="text"
-															readonly="readonly">
+														<input id="User_account"
+															placeholder="${session.users.UAccount }" type="text"
+															readonly="readonly" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="User_credit">信用等级</label>
 													<div class="controls">
-														<input id="User_credit" placeholder="信用等级" type="text"
-															readonly="readonly">
+														<input id="User_credit"
+															placeholder="${session.users.UCredit }" type="text"
+															readonly="readonly" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="User_type">用户身份</label>
 													<div class="controls">
-														<input id="User_type" placeholder="用户身份" type="text"
-															readonly="readonly">
+														<input id="User_type" placeholder="个人用户" type="text"
+															readonly="readonly" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="User_name">用户名</label>
 													<div class="controls">
-														<input id="User_name" placeholder="请输入新用户名" type="text"
-															value="原用户名">
+														<input name="changeName" id="User_name"
+															placeholder="请输入新用户名" type="text"
+															value="${session.users.UName }" />
 													</div>
 												</div>
 												<div class="control-group">
-													<label class="control-label" for="User_nender">性别</label>
+													<label class="control-label" for="User_gender">性别</label>
 													<div class="controls">
-														<input type="radio" name="User_nender" checked=""
-															value="male">男 <input type="radio"
-															name="User_nender" value="female">女
+														<select name="changeGender" id="User_gender">
+															<c:choose>
+																<c:when test="${session.users.UGender=='女' }">
+																	<option value="男">男</option>
+																	<option value="女" selected="selected">女</option>
+																</c:when>
+																<c:otherwise>
+																	<option value="男" selected="selected">男</option>
+																	<option value="女">女</option>
+																</c:otherwise>
+															</c:choose>
+														</select>
 													</div>
 												</div>
 												<div class="control-group">
-													<label class="control-label" for="User_Email">邮箱</label>
+													<label class="control-label" for="User_email">邮箱</label>
 													<div class="controls">
-														<input id="User_Email" placeholder="请输入新邮箱" type="text"
-															value="原邮箱">
+														<input name="changeEmail" id="User_email"
+															placeholder="请输入新邮箱" type="text"
+															value="${session.users.UEmail }" />
 													</div>
 												</div>
 												<div class="control-group">
-													<label class="control-label" for="User_Tele">电话</label>
+													<label class="control-label" for="User_tele">电话</label>
 													<div class="controls">
-														<input id="User_Tele" placeholder="请输入新电话" type="text"
-															value="原电话">
+														<input name="changeTele" id="User_tele"
+															placeholder="请输入新电话" type="text"
+															value="${session.users.UTele }" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="User_pwd1">密码</label>
 													<div class="controls">
 														<input id="User_pwd1" name="User_pwd1" placeholder="请输入密码"
-															type="password">
+															onBlur="UserPwdCheck1()" type="password" />
+														<span id="UserPwdCheck1Span"></span>
 													</div>
 												</div>
 												<div class="control-group">
 													<div class="controls">
-														<!-- <label class="checkbox" >
-													<input type="checkbox">
-													确认修改个人信息 </label> -->
 														<input type="submit" class="btn btn-primary"
-															onclick="return checkData1()" value="提交修改" />
+															id="changeInfo-submit" value="提交修改" />
 													</div>
 												</div>
 											</form>
@@ -282,34 +369,37 @@
 									<div id="accordion-element-197773"
 										class="accordion-body collapse">
 										<div class="accordion-inner">
-											<form class="form-horizontal" action="center_p_mine.jsp">
+											<form class="form-horizontal" action="cc!changePersonPwd"
+												method="post">
+												<%-- <input type="hidden"  id="User_old_pwd" value="${session.users.getUPwd() }"/> --%>
 												<div class="control-group">
 													<label class="control-label" for="User_pwd2">原密码</label>
 													<div class="controls">
-														<input id="User_pwd2" placeholder="请输入旧密码" type="password">
+														<input id="User_pwd2" name="User_pwd2"
+															placeholder="请输入旧密码" type="password"
+															onBlur="UserPwdCheck2()" />
+														<span id="UserPwdCheck2Span"></span>
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="User_pwd_new">新密码</label>
 													<div class="controls">
-														<input id="User_pwd_new" placeholder="请输入新密码"
-															type="password">
+														<input id="User_pwd_new" name="changePwd"
+															placeholder="请输入新密码" type="password" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="Check_pwd_new">确认新密码</label>
 													<div class="controls">
 														<input id="Check_pwd_new" placeholder="请确认新密码"
-															type="password">
+															type="password" onkeyup="UserPwdMakeSure()" />
+														<span id="PwdCheckSpan"></span>
 													</div>
 												</div>
 												<div class="control-group">
 													<div class="controls">
-														<!-- <label class="checkbox" >
-													<input type="checkbox">
-													确认修改密码 </label> -->
 														<input type="submit" class="btn btn-primary"
-															onclick="return checkData2()" value="提交" />
+															id="changePwd-submit" value="提交" />
 													</div>
 												</div>
 											</form>
