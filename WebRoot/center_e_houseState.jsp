@@ -10,7 +10,7 @@
 			+ path + "/";
 %>
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
@@ -38,7 +38,7 @@
 
 <body style="background-color:#F8F8F8">
 	 <!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<% if (session.getAttribute("users") == null) { %>
+	<% if (session.getAttribute("enterpriseUsers") == null) { %>
 	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
 		height="120px" style="border: 0px;" scrolling="no"></iframe>
 	<% } else { %>
@@ -76,9 +76,9 @@
 					</div>
 				</div> -->
 				<div class="list-group">
-					<a class="list-group-item active" href="eh!deleteHouseSellEnterprise">我的楼盘</a>
+					<a class="list-group-item active" href="eh!LoadEnterpirseInfo">我的楼盘</a>
 					<div class="list-group-item">
-						<a href="eh!deleteHouseSellEnterprise">已发布的楼盘</a>
+						<a href="eh!LoadEnterpirseInfo">已发布的楼盘</a>
 					</div>
 				</div>
 			</div>
@@ -93,10 +93,10 @@
 							<c:forEach var="house" items="${houseSellEnterpriseList}" >
 								<div class="row-fluid" style="background-color: #ECF5FF">
 									<div class="span3">
-										<img alt="225*150" src="${house.getPics() }"
+										<img alt="225*150" src="${house.getPics().split(';')[0] }"
 											style="width: 225px;height: 150px" />
 									</div>
-									<div class="span6">
+									<div class="span7">
 										<strong>${house.getTitle() }</strong><br /> 类型：新楼盘<br /> 
 										认证状态：
 										<c:choose>
@@ -109,14 +109,14 @@
 										管理费：${house.getManaFee() }元/平方米<br />
 										绿化率：${house.getGreeningRate()*100 }%<br />
 									</div>
-									<div class="span3">
+									<div class="span2">
 										<div class="row-fluid">
-											<div class="span6">
+											<div class="span12">
 												<a class="btn"
-													href="<%=basePath %>details.jsp?${house.HId }"
+													href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=1"
 													style="color: #0072E3">查看详情</a>
 											</div>
-											<div class="span6">
+											<%-- <div class="span6">
 												<input type="button" value="取消发布" class="btn"
 													style="color: #0072E3" onclick="getLayer7()" />
 												<form action="eh!deleteHouseSellEnterprise" method="post">
@@ -124,7 +124,7 @@
 														name="delMyHouseSellEnterprise" value="${house.getHId() }" />
 												</form>
 
-											</div>
+											</div> --%>
 										</div>
 									</div>
 								</div>
@@ -150,7 +150,7 @@
 		</div>
 	</div>
 	<!--底部导航-->
-	 <iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	 <iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 </body>
 

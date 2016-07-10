@@ -10,7 +10,7 @@
 			+ path + "/";
 %>
 	
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
 <head>
@@ -18,7 +18,6 @@
 <script type="text/javascript" src="js/common/jquery-2.0.0.min.js"></script>
 <link href="css/bootstrap-combined.min.css" rel="stylesheet"
 	media="screen">
-
 <script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 
 <script type="text/javascript">
@@ -116,8 +115,8 @@
 		style="margin-top:20px; margin-bottom: 50px;">
 		<div class="row-fluid">
 			<div class="span3">
-				<div align="center">
-					<img alt="100x100" src=${session.enterpriseUsers.UHeader } class="img-circle"
+				<div align="center"><!-- {session.enterpriseUsers.getUHeader() } -->
+					<img alt="100x100" src="images/header/tx.jpg" class="img-circle"
 						style="width: 100px;height: 100px" />
 					<p class="dl-horizontal" style="margin-top:20px">
 						<span><strong>
@@ -144,9 +143,9 @@
 					</div>
 				</div> -->
 				<div class="list-group">
-					<a class="list-group-item active" href="eh!deleteHouseSellEnterprise">我的楼盘</a>
+					<a class="list-group-item active" href="eh!LoadEnterpirseInfo">我的楼盘</a>
 					<div class="list-group-item">
-						<a href="eh!deleteHouseSellEnterprise">已发布的楼盘</a>
+						<a href="eh!LoadEnterpirseInfo">已发布的楼盘</a>
 					</div>
 				</div>
 			</div>
@@ -166,13 +165,13 @@
 									<c:forEach var="house" items="${houseSellEnterpriseList}" begin="0" end="2">
 										<li class="span4">
 											<div class="thumbnail">
-												<a href="<%=basePath %>details.jsp?${house.HId }">
+												<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=1">
 													<img alt="300x200"
-														src="${house.getPics() }"
+														src="${house.getPics().split(';')[0] }"
 														style="width: 300px;height: 200px" />
 												</a>
 												<div class="caption">
-													<a href="<%=basePath %>details.jsp?${house.HId }">
+													<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=1">
 														<h4>${house.getTitle() }</h4>
 													</a>
 												</div>
@@ -243,7 +242,7 @@
 													<label class="control-label" for="EnterPriseUser_email">企业邮箱</label>
 													<div class="controls">
 														<input name="changeEnterPriseEmail" id="EnterPriseUser_email" placeholder="请输入新邮箱" type="text"
-															value="${session.enterpriseUsers.Umail }" />
+															value="${session.enterpriseUsers.UEmail }" />
 													</div>
 												</div>
 												<div class="control-group">
@@ -946,7 +945,7 @@
 	</div>
 
 	<!--底部导航-->
-	 <iframe src="nav_model/footer_nav.html" width="100%" height="325px"
+	 <iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 </body>
 

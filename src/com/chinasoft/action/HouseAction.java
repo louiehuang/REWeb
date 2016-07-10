@@ -117,18 +117,21 @@ public class HouseAction {
 		
 		System.out.println(index);
 		System.out.println(msg);
-
 		HttpSession session = ServletActionContext.getRequest().getSession();
 		comment.setUsers((Users) session.getAttribute("users"));
-		iscolletion = 0;
-		System.out.println(iscolletion);
-		if(collectService.getCollect(comment.getUsers(), comment.getHId(), comment.getCType()) == "true")
+		if(comment.getUsers()!=null)
 		{
-			iscolletion = 1;
+			iscolletion = 0;
+			System.out.println(iscolletion);
+			if(collectService.getCollect(comment.getUsers(), comment.getHId(), comment.getCType()) == "true")
+			{
+				iscolletion = 1;
+			}
+			else 
+				iscolletion = 2;
+			
 		}
-		else 
-			iscolletion = 2;
-		
+		else iscolletion = 1;
 		System.out.println(iscolletion);
 		
 		if(comment.getCType().equals(1))
