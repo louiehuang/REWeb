@@ -22,11 +22,19 @@ public class HouseBuyRent implements java.io.Serializable {
 	private String remark;
 	private Integer havailability;
 	private Integer hauthenticity;
-
+    private String address;
 	// Constructors
 
 	/** default constructor */
 	public HouseBuyRent() {
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/** minimal constructor */
@@ -47,7 +55,7 @@ public class HouseBuyRent implements java.io.Serializable {
 	public HouseBuyRent(Region region, HouseType houseType, Integer UId,
 			String title, String HDate, Double pirce, Double size,
 			Integer houseFloor, Integer decoration, Integer orientation,
-			String remark, Integer havailability, Integer hauthenticity) {
+			String remark, Integer havailability, Integer hauthenticity,String address) {
 		this.region = region;
 		this.houseType = houseType;
 		this.UId = UId;
@@ -61,6 +69,7 @@ public class HouseBuyRent implements java.io.Serializable {
 		this.remark = remark;
 		this.havailability = havailability;
 		this.hauthenticity = hauthenticity;
+		this.address = address;
 	}
 
 	// Property accessors

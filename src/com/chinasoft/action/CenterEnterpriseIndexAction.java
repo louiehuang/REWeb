@@ -151,7 +151,8 @@ public class CenterEnterpriseIndexAction {
 	public String changeEnterprisePwd(){
 		try {
 			HttpSession session1 = ServletActionContext.getRequest().getSession();
-			enterpriseUsersService.changeEnterprisePwd((EnterpriseUsers)session1.getAttribute("enterpriseUsers"),changeEnterPrisePwd);
+			String cEpd = Encryption.getMD5(changeEnterPrisePwd);
+			enterpriseUsersService.changeEnterprisePwd((EnterpriseUsers)session1.getAttribute("enterpriseUsers"),cEpd);
 		} catch (Exception e) {
 			System.out.println(e);
 			return "error";

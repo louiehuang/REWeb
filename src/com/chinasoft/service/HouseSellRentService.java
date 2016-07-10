@@ -36,6 +36,12 @@ public class HouseSellRentService {
 		return list;
 	}
 
+	public String save(HouseSellRent houseSellRent){
+		return houseSellRentDAO.save(houseSellRent);
+		
+	}
+
+	
 	public HouseSellRent findById(Integer id) {
 		return houseSellRentDAO.findById(id);
 	}

@@ -17,6 +17,12 @@ public class HouseSellSecondhandService {
 			HouseSellSecondhandDAO houseSellSecondhandDAO) {
 		this.houseSellSecondhandDAO = houseSellSecondhandDAO;
 	}
+	
+	public String save(HouseSellSecondhand houseSellSecondhand){
+		houseSellSecondhandDAO.save(houseSellSecondhand);
+		return "postSuccess";
+	}
+
 
 	/**
 	 * 获取二手房的首页显示信息，4条

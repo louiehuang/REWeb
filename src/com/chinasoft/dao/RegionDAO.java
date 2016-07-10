@@ -54,6 +54,18 @@ public class RegionDAO extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	
+	public Region findByRegion(Object province,Object city,Object county){
+		String queryString = "from Region where province = '"+province+"'" +" and city = '"+city+"'"
+				+" and county = '"+county+"'";
+		@SuppressWarnings("unchecked")
+		List<Region> list = (List<Region>) getHibernateTemplate().find(queryString);
+		if(list!=null)
+		    return (Region)list.get(0);
+		else 
+			return null;	
+	}
+
 
 	public Region findById(java.lang.Integer id) {
 		log.debug("getting Region instance with id: " + id);
@@ -154,4 +166,13 @@ public class RegionDAO extends HibernateDaoSupport {
 	public static RegionDAO getFromApplicationContext(ApplicationContext ctx) {
 		return (RegionDAO) ctx.getBean("RegionDAO");
 	}
+	
+
+	@SuppressWarnings("unchecked")
+	public List<Region> findCounty(String province,String city){
+		String queryString ="from Region as model where Province ='"+province+"' and City='"+city+"'";
+		return getHibernateTemplate().find(queryString);
+	}
+	
+	
 }

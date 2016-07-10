@@ -9,7 +9,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-	
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -21,7 +21,6 @@
 <script type="text/javascript" src="js/common/bootstrap.min.js"></script>
 
 <script type="text/javascript">
-
 	function EnterpriseUserPwdCheck1() {
 		//var UPwd = $("#User_pwd1").val();
 		//var UPwd = document.getElementById("User_pwd1").value;
@@ -44,11 +43,14 @@
 						},
 						success : function(data) {
 							if (data.userEnterprisePwd == "1") {
-								document.getElementById("EnterpriseUserPwdCheck1Span").innerHTML = "<font color='red'>密码错误</font>";
+								document
+										.getElementById("EnterpriseUserPwdCheck1Span").innerHTML = "<font color='red'>密码错误</font>";
 								//document.getElementById("register-submit").disabled = true;
 							} else if (data.userEnterprisePwd == "0") {
-								document.getElementById("EnterpriseUserPwdCheck1Span").innerHTML = "<font color='green'>密码正确</font>";
-								document.getElementById("changeEnterpriseInfo-submit").disabled = false;
+								document
+										.getElementById("EnterpriseUserPwdCheck1Span").innerHTML = "<font color='green'>密码正确</font>";
+								document
+										.getElementById("changeEnterpriseInfo-submit").disabled = false;
 							}
 						}
 					});
@@ -75,11 +77,14 @@
 						},
 						success : function(data) {
 							if (data.userPwd == "1") {
-								document.getElementById("EnterpriseUserPwdCheck2Span").innerHTML = "<font color='red'>密码错误</font>";
+								document
+										.getElementById("EnterpriseUserPwdCheck2Span").innerHTML = "<font color='red'>密码错误</font>";
 								//document.getElementById("register-submit").disabled = true;
 							} else if (data.userPwd == "0") {
-								document.getElementById("EnterpriseUserPwdCheck2Span").innerHTML = "<font color='green'>密码正确</font>";
-								document.getElementById("changeEnterprisePwd-submit").disabled = false;
+								document
+										.getElementById("EnterpriseUserPwdCheck2Span").innerHTML = "<font color='green'>密码正确</font>";
+								document
+										.getElementById("changeEnterprisePwd-submit").disabled = false;
 							}
 						}
 					});
@@ -101,26 +106,44 @@
 </head>
 
 <body style="background-color:#F8F8F8">
-	 
-	 <!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<% if (session.getAttribute("enterpriseUsers") == null) { %>
+
+		<%
+		if (session.getAttribute("users") != null) {
+			System.out.println("普通用户导航");
+			Users u = (Users) session.getAttribute("users");
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav_after.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else if (session.getAttribute("enterpriseUsers") != null){
+			System.out.println("企业用户导航");
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav_enterprise.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else if (session.getAttribute("adminUsers") != null){
+			System.out.println("管理员导航");
+			%>
+	<iframe id="header_nav" src="nav_model/header_nav_admin.jsp"
+		width="100%" height="45px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else{
+	%>
 	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
 		height="120px" style="border: 0px;" scrolling="no"></iframe>
-	<% } else { %>
-	<iframe id="header_nav" src="nav_model/header_nav_after.jsp" width="100%"
-		height="120px" style="border: 0px;" scrolling="no"></iframe>
 	<% }%>
-	
+
 	<div class="container-fluid"
 		style="margin-top:20px; margin-bottom: 50px;">
 		<div class="row-fluid">
 			<div class="span3">
-				<div align="center"><!-- {session.enterpriseUsers.getUHeader() } -->
+				<div align="center">
+					<!-- {session.enterpriseUsers.getUHeader() } -->
 					<img alt="100x100" src="images/header/tx.jpg" class="img-circle"
 						style="width: 100px;height: 100px" />
 					<p class="dl-horizontal" style="margin-top:20px">
-						<span><strong>
-							 <c:out value="${session.enterpriseUsers.UName } " ></c:out> 
+						<span><strong> <c:out
+									value="${session.enterpriseUsers.UName } "></c:out>
 						</strong></span>
 					</p>
 				</div>
@@ -161,17 +184,19 @@
 						<div class="tab-pane  active" id="panel-755240">
 							<span class="label" style="margin-top:10px">我最近发布的新楼盘</span>
 							<ul class="thumbnails" style="margin-top:10px">
-								<div class="row-fluid" >
-									<c:forEach var="house" items="${houseSellEnterpriseList}" begin="0" end="2">
+								<div class="row-fluid">
+									<c:forEach var="house" items="${houseSellEnterpriseList}"
+										begin="0" end="2">
 										<li class="span4">
 											<div class="thumbnail">
-												<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=1">
-													<img alt="300x200"
-														src="${house.getPics().split(';')[0] }"
-														style="width: 300px;height: 200px" />
+												<a
+													href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=1">
+													<img alt="300x200" src="${house.getPics().split(';')[0] }"
+													style="width: 300px;height: 200px" />
 												</a>
 												<div class="caption">
-													<a href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=1">
+													<a
+														href="<%=basePath %>HouseAction!Info?HId=${house.HId}&&CType=1">
 														<h4>${house.getTitle() }</h4>
 													</a>
 												</div>
@@ -194,39 +219,43 @@
 										<div class="accordion-inner">
 											<form class="form-horizontal" method="post"
 												action="ec!LoadEnterpirseInfo">
-												<input type="hidden"  id="EnterpriseUser_pwd" value="${session.enterpriseUsers.getUPwd() }"/>
+												<input type="hidden" id="EnterpriseUser_pwd"
+													value="${session.enterpriseUsers.getUPwd() }" />
 												<div class="control-group">
 													<label class="control-label" for="User_account">帐号</label>
 													<div class="controls">
-														<input id="EnterpriseUser_account" placeholder="${session.enterpriseUsers.UAccount }" type="text"
-															readonly="readonly" />
+														<input id="EnterpriseUser_account"
+															placeholder="${session.enterpriseUsers.UAccount }"
+															type="text" readonly="readonly" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="EnterpriseUser_name">公司名称</label>
 													<div class="controls">
-														<input id="EnterpriseUser_name" placeholder="${session.enterpriseUsers.UName }" type="text"
-															readonly="readonly" />
+														<input id="EnterpriseUser_name"
+															placeholder="${session.enterpriseUsers.UName }"
+															type="text" readonly="readonly" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="EnterpriseUser_type">用户身份</label>
 													<div class="controls">
-														<input id="EnterpriseUser_type" placeholder="企业用户" type="text"
-															readonly="readonly" />
+														<input id="EnterpriseUser_type" placeholder="企业用户"
+															type="text" readonly="readonly" />
 													</div>
 												</div>
 												<div class="control-group">
-													<label class="control-label" for="EnterpriseUser_validation">验证状态</label>
+													<label class="control-label"
+														for="EnterpriseUser_validation">验证状态</label>
 													<div class="controls">
 														<c:choose>
 															<c:when test="${session.enterpriseUsers.UValidation==1 }">
-																<input id="EnterpriseUser_validation" placeholder="已验证" type="text"
-																	readonly="readonly" />
+																<input id="EnterpriseUser_validation" placeholder="已验证"
+																	type="text" readonly="readonly" />
 															</c:when>
 															<c:otherwise>
-																<input id="EnterpriseUser_validation" placeholder="未验证" type="text"
-																	readonly="readonly" />
+																<input id="EnterpriseUser_validation" placeholder="未验证"
+																	type="text" readonly="readonly" />
 															</c:otherwise>
 														</c:choose>
 													</div>
@@ -234,37 +263,42 @@
 												<div class="control-group">
 													<label class="control-label" for="EnterPriseUser_tele">企业电话</label>
 													<div class="controls">
-														<input name="changeEnterPriseTele" id="EnterPriseUser_tele" placeholder="请输入新电话" type="text"
+														<input name="changeEnterPriseTele"
+															id="EnterPriseUser_tele" placeholder="请输入新电话" type="text"
 															value="${session.enterpriseUsers.UTele }" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="EnterPriseUser_email">企业邮箱</label>
 													<div class="controls">
-														<input name="changeEnterPriseEmail" id="EnterPriseUser_email" placeholder="请输入新邮箱" type="text"
-															value="${session.enterpriseUsers.UEmail }" />
+														<input name="changeEnterPriseEmail"
+															id="EnterPriseUser_email" placeholder="请输入新邮箱"
+															type="text" value="${session.enterpriseUsers.UEmail }" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="EnterPriseUser_addr">地址</label>
 													<div class="controls">
-														<input name="changeEnterPriseAddr" id="EnterPriseUser_addr" placeholder="请输入新地址" type="text"
+														<input name="changeEnterPriseAddr"
+															id="EnterPriseUser_addr" placeholder="请输入新地址" type="text"
 															value="${session.enterpriseUsers.UAddr }" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="EnterPriseUser_info">简介</label>
 													<div class="controls">
-														<input name="changeEnterPriseInfo" id="EnterPriseUser_info" placeholder="请输入新简介" type="text"
+														<input name="changeEnterPriseInfo"
+															id="EnterPriseUser_info" placeholder="请输入新简介" type="text"
 															value="${session.enterpriseUsers.UInfo}" />
 													</div>
 												</div>
 												<div class="control-group">
 													<label class="control-label" for="EnterPriseUser_pwd1">密码</label>
 													<div class="controls">
-														<input id="EnterPriseUser_pwd1" name="EnterPriseUser_pwd1" placeholder="请输入密码"
-															onBlur="EnterpriseUserPwdCheck1()" type="password" />
-														<span id="EnterpriseUserPwdCheck1Span"></span>
+														<input id="EnterPriseUser_pwd1" name="EnterPriseUser_pwd1"
+															placeholder="请输入密码" onBlur="EnterpriseUserPwdCheck1()"
+															type="password" /> <span
+															id="EnterpriseUserPwdCheck1Span"></span>
 													</div>
 												</div>
 												<div class="control-group">
@@ -286,8 +320,10 @@
 									<div id="accordion-element-797773"
 										class="accordion-body collapse">
 										<div class="accordion-inner">
-											<form class="form-horizontal" action="ec!changeEnterprisePwd" method="post">
-												<input type="hidden"  id="EnterpriseUser_old_pwd" value="${session.enterpriseUsers.getUPwd() }"/>
+											<form class="form-horizontal" action="ec!changeEnterprisePwd"
+												method="post">
+												<input type="hidden" id="EnterpriseUser_old_pwd"
+													value="${session.enterpriseUsers.getUPwd() }" />
 												<div class="control-group">
 													<label class="control-label" for="EnterpriseUser_pwd2">原密码</label>
 													<div class="controls">
@@ -309,7 +345,7 @@
 													<label class="control-label" for="EnterpriseCheck_pwd_new">确认新密码</label>
 													<div class="controls">
 														<input id="EnterpriseCheck_pwd_new" placeholder="请确认新密码"
-															type="password"  onkeyup="EnterpriseUserPwdMakeSure()" />
+															type="password" onkeyup="EnterpriseUserPwdMakeSure()" />
 														<span id="EnterprisePwdCheckSpan"></span>
 													</div>
 												</div>
@@ -945,7 +981,7 @@
 	</div>
 
 	<!--底部导航-->
-	 <iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
+	<iframe src="nav_model/footer_nav.jsp" width="100%" height="325px"
 		style="border: 0px;" scrolling="no"></iframe>
 </body>
 

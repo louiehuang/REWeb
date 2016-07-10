@@ -203,7 +203,7 @@
 						<!--注册表单 -->
 						<div class="registration_form">
 							<!-- Form -->
-							<form id="registration_form" action="um!register" method="post">
+							<form id="registration_form" action="ureg!register" method="post">
 
 
 								<div>

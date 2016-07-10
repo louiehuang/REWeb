@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.chinasoft.pojo.Users;
+import com.chinasoft.util.Encryption;
 
 /**
  	* A data access object (DAO) providing persistence and search support for Users entities.
@@ -78,6 +79,20 @@ public class UsersDAO extends HibernateDaoSupport  {
             Users instance = (Users) getHibernateTemplate()
                     .get("com.chinasoft.pojo.Users", id);
             return instance;
+        } catch (RuntimeException re) {
+            log.error("get failed", re);
+            throw re;
+        }
+    }
+    
+    public Users findByAccountAndPwd( String account,String pwd) {
+        try {
+        	 String queryString = "from Users where U_account = '"+account +"'"+" and U_pwd = '"+pwd+"'";
+        	 List list = getHibernateTemplate().find(queryString);
+        	 if(list!=null)
+        		 return (Users)list.get(0);
+        	 else
+        		 return null;
         } catch (RuntimeException re) {
             log.error("get failed", re);
             throw re;

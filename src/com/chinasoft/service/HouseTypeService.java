@@ -1,4 +1,4 @@
-package com.chinasoft.service;
+ 	package com.chinasoft.service;
 
 import com.chinasoft.dao.HouseTypeDAO;
 
@@ -14,5 +14,7 @@ public class HouseTypeService {
 		this.houseTypeDAO = houseTypeDAO;
 	}
 	
-
+	public int getHTypeId(String name){
+		return houseTypeDAO.findIdByName(name);
+	}
 }

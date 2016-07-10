@@ -34,11 +34,19 @@ public class HouseSellEnterprise implements java.io.Serializable {
 	private Double langArea;
 	private Integer hauthenticity;
 	private String remark;
-
+    private String address;
 	// Constructors
 
 	/** default constructor */
 	public HouseSellEnterprise() {
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/** minimal constructor */
@@ -60,7 +68,7 @@ public class HouseSellEnterprise implements java.io.Serializable {
 			String buildingName, String developerName, Integer planningNum,
 			Integer parkingNum, Double manaFee, String propertyName,
 			Double greeningRate, Double builtupArea, Double langArea,
-			Integer hauthenticity, String remark) {
+			Integer hauthenticity, String remark,String address) {
 		this.region = region;
 		this.houseType = houseType;
 		this.enterpriseUsers = enterpriseUsers;
@@ -86,6 +94,7 @@ public class HouseSellEnterprise implements java.io.Serializable {
 		this.langArea = langArea;
 		this.hauthenticity = hauthenticity;
 		this.remark = remark;
+		this.address = address;
 	}
 
 	// Property accessors

@@ -2,3 +2,7 @@ eclipse.preferences.version=1
 encoding//WebRoot/nav_model/footer_nav.jsp=UTF-8
 encoding//WebRoot/nav_model/header_nav.jsp=UTF-8
 encoding//WebRoot/nav_model/header_nav_admin.jsp=UTF-8
+encoding//src/com/chinasoft/service/buyerRent.java=UTF-8
+encoding//src/com/chinasoft/service/newhouse.java=UTF-8
+encoding//src/com/chinasoft/service/renthouse.java=UTF-8
+encoding//src/com/chinasoft/service/secondhouse.java=UTF-8

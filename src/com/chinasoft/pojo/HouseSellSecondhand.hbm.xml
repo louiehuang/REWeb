@@ -52,5 +52,8 @@
         <property name="hauthenticity" type="java.lang.Integer">
             <column name="HAuthenticity" />
         </property>
+            <property name="address" type="java.lang.String">
+            <column name="address" />
+        </property>
     </class>
 </hibernate-mapping>

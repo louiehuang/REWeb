@@ -23,8 +23,17 @@ public class HouseSellRent implements java.io.Serializable {
 	private String remark;
 	private Integer havailability;
 	private Integer hauthenticity;
-
+    private String address;
+    
 	// Constructors
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	/** default constructor */
 	public HouseSellRent() {
@@ -49,7 +58,7 @@ public class HouseSellRent implements java.io.Serializable {
 			String title, String pics, Double price, Double size,
 			Integer houseFloor, Integer decoration, Integer orientation,
 			String community, String remark, Integer havailability,
-			Integer hauthenticity) {
+			Integer hauthenticity,String address) {
 		this.region = region;
 		this.houseType = houseType;
 		this.UId = UId;
@@ -64,6 +73,7 @@ public class HouseSellRent implements java.io.Serializable {
 		this.remark = remark;
 		this.havailability = havailability;
 		this.hauthenticity = hauthenticity;
+		this.address = address;
 	}
 
 	// Property accessors

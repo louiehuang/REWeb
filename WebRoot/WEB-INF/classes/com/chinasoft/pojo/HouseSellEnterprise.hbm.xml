@@ -85,5 +85,8 @@
         <property name="remark" type="java.lang.String">
             <column name="Remark" />
         </property>
+          <property name="address" type="java.lang.String">
+            <column name="address" />
+        </property>
     </class>
 </hibernate-mapping>

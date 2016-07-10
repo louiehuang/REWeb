@@ -38,6 +38,9 @@ public class UsersService {
 		}
 	}
 
+	public Users sellRentLogin(String account,String pwd){
+		return usersDAO.findByAccountAndPwd(account, pwd);
+	}
 	/**
 	 * ÓÃ»§×¢²á
 	 * 

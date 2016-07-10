@@ -1,5 +1,8 @@
 package com.chinasoft.action;
 
+import java.io.PrintWriter;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
@@ -12,7 +15,16 @@ import com.chinasoft.util.Encryption;
 public class UsersAction {
 	private UsersService service; // 业务接口对象，有Spring，在这个类中不用new，只用get和set
 	private Users users; // 用户对象
+	private Users s_user; //弹窗登陆
 	
+	public Users getS_user() {
+		return s_user;
+	}
+
+	public void setS_user(Users s_user) {
+		this.s_user = s_user;
+	}
+
 	private Users a_user; // 管理员管理的用户对象
 	
 	private HttpSession session;
@@ -25,18 +37,44 @@ public class UsersAction {
 	
 	/*卖家弹窗登陆*/
 	public String sellrentlogin(){
-		Users users1 = service.login(users);
+		String pwd = Encryption.getMD5(s_user.getUPwd());
+		s_user.setUPwd(pwd);
+		
+		System.out.println("弹窗登陆: " + s_user.getUAccount() + ", " +  pwd);
+
+		Users users1 = service.login(s_user);
+
+
 		if(users1 != null){
 			session = ServletActionContext.getRequest().getSession();
-			session.setAttribute("sellUsers", users1);
+			session.setAttribute("users", users1);
 			return "sellrentlogsuccess";
 		}
 		else{
-
-			return "sellrenterror";
+           return "sellrenterror";
 		}
 	}
 	
+	public void closeLayer(){
+		HttpServletResponse response = ServletActionContext.getResponse();
+		try{
+		 PrintWriter out = response.getWriter();
+		 out.write("<script charset='UTF-8'>alert('log success');parent.location.reload();var index = parent.layer.getFrameIndex(window.name); parent.layer.close(index); </script>");
+	   }catch(Exception e){
+		   e.printStackTrace();
+	   }
+	}
+	
+	public void logerror(){
+		HttpServletResponse response = ServletActionContext.getResponse();
+		try{
+		 PrintWriter out = response.getWriter();
+		 out.write("<script charset='UTF-8'>alert('log error');parent.location.reload();</script>");
+	   }catch(Exception e){
+		   e.printStackTrace();
+	   }
+	}
+
 	
 	/**
 	 * 退出登陆 移出session中的个人用户users
@@ -65,6 +103,8 @@ public class UsersAction {
 	 * @return
 	 */
 	public String register() {
+		
+		System.out.println("123");
 		String uAccount = users.getUAccount();
 		String pwd = Encryption.getMD5(users.getUPwd()); //加密
 		users.setUPwd(pwd);

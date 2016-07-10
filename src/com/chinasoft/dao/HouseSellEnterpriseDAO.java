@@ -1,5 +1,6 @@
 package com.chinasoft.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -269,4 +270,104 @@ public class HouseSellEnterpriseDAO extends HibernateDaoSupport {
 			ApplicationContext ctx) {
 		return (HouseSellEnterpriseDAO) ctx.getBean("HouseSellEnterpriseDAO");
 	}
+	
+ public  List<HouseSellEnterprise> getOptions(double[] price,int[] size,String Addr,String type){
+		 
+		 //最先进行type匹配
+		 //比较面积以后
+		 List<HouseSellEnterprise> listP =new ArrayList<HouseSellEnterprise>();	
+		 //都比较以后
+		List<HouseSellEnterprise> reList = new ArrayList<HouseSellEnterprise>();	
+		 //比较Type和地址以后
+		 List<HouseSellEnterprise> list = new ArrayList<HouseSellEnterprise>();
+		 //只知道Addr得时候
+		 List <HouseSellEnterprise> listT = new ArrayList<HouseSellEnterprise>();
+		 String  queryString = "from HouseSellEnterprise as model where address = '" + Addr+"'";
+			listT = getHibernateTemplate().find(queryString);
+		 //若有匹配的Type进行比较面积
+			int ps_2=0;
+			for(int q = 0 ; q<listT.size();q++){
+				String getType = listT.get(q).getMainType();
+				String[] getType_1 = getType.split(";");
+				for(int s=0;s<getType_1.length;s++){
+					if(type.equals(getType_1[s])){
+						ps_2+=1;
+						list.add(ps_2, listT.get(q));
+					}
+				}
+			}
+		 
+			//添加到已经匹配完type,size,addr后追加到getP的动态变量
+				int ps=0;	
+				for(int j = 0 ; j< list.size() ; j++){
+					String a =list.get(j).getSize();
+					int flag = 0;
+					//size切分
+					String[] b=a.split(";");
+					//	查询是否期中有个值是在区域里面  面积
+					for(int t=0;t<b.length;t++){
+						if((Integer.parseInt( b[t]) <= size[1]) && (Integer.parseInt(b[t]) >= size[0])){
+							flag=1;
+						}else{
+								flag=0;
+							}
+						if(flag == 1){
+						 ps+=1;
+						 listP.add(ps, list.get(j));;
+					 }
+				 } 
+			 }
+				//比较type Addr size以后比较价格
+				int ps_1=0;
+				// 有了面积以后  比较价格是否在这个区域
+				for(int i = 0 ; i< listP.size() ; i++){
+				 String a_1;
+				 int flag_1 = 0;
+				 a_1 = listP.get(i).getPrice();
+				 String[] b_1=a_1.split(";");
+				
+				 //查询是否期中有个值是在区域里面  价格
+				 for(int t=0;t<b_1.length;t++){
+					 if((Double.parseDouble(b_1[t])<= price[1]) && (Double.parseDouble(b_1[t]) >= price[0])){
+						 flag_1=1;
+					 }else{
+						 flag_1=0;
+					 }
+					 if(flag_1 == 1){
+						 ps+=1;
+						 reList.add(ps_1, listP.get(i));
+					 }
+				 } 
+			 }
+				return reList;
+		}
+		 	 
+
+	//重写方法2
+	public List<HouseSellEnterprise> arrayPrice(HouseSellEnterprise hse){
+		
+		log.debug("finding all HouseSellEnterprise instances order by ");
+		try {
+			String queryString = "from HouseSellEnterprise order by Price ASC";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	
+}
+
+	//重写方法3
+	public List<HouseSellEnterprise> arraySize(HouseSellEnterprise hse){
+		
+		log.debug("finding all HouseSellEnterprise instances order by ");
+		try {
+			String queryString = "from HouseSellEnterprise order by Size DESC";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+     }
+	
 }

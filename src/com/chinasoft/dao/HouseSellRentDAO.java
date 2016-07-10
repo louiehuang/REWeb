@@ -45,17 +45,21 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 		// do nothing
 	}
 
-	public void save(HouseSellRent transientInstance) {
+
+
+	public String save(HouseSellRent transientInstance) {
 		log.debug("saving HouseSellRent instance");
 		try {
 			getHibernateTemplate().save(transientInstance);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
-			throw re;
+			return "postError";
 		}
+		return "postSuccess";
 	}
 
+	
 	public void delete(HouseSellRent persistentInstance) {
 		log.debug("deleting HouseSellRent instance");
 		try {
@@ -203,4 +207,55 @@ public class HouseSellRentDAO extends HibernateDaoSupport {
 			ApplicationContext ctx) {
 		return (HouseSellRentDAO) ctx.getBean("HouseSellRentDAO");
 	}
+	
+public List<HouseSellRent> arrayPrice(HouseSellRent hsr){
+		
+		log.debug("finding all HouseSellRent instances order by ");
+		try {
+			String queryString = "from HouseSellRent order by Price ASC";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	
+}
+
+//重写方法2
+public List<HouseSellRent> arraySize(HouseSellRent hsr){
+	
+	log.debug("finding all HouseSellSecondhand instances order by ");
+	try {
+		String queryString = "from HouseSellRent order by Size DESC";
+		return getHibernateTemplate().find(queryString);
+	} catch (RuntimeException re) {
+		log.error("find all failed", re);
+		throw re;
+	}
+
+}
+
+
+//重写方法3
+//多条件查询
+//address为省市区
+	 @SuppressWarnings("unchecked")
+	public  List<HouseSellRent> getOptions(double price[],int size[],int HouseFloor,String address){
+		  if(HouseFloor!=0 && !("不限").equals(address)){
+			   String queryString = "from HouseSellRent where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +" and "+ price[1]+" and HouseFloor="+HouseFloor+"  and address='"+address+"'";
+			     return getHibernateTemplate().find(queryString);
+		      }else if(HouseFloor == 0 && !("不限").equals(address)){
+		    	  String queryString = "from HouseSellRent where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +" and "+ price[1]+" and address='"+address+"'";
+				   return getHibernateTemplate().find(queryString);
+		      }else if(HouseFloor != 0 && ("不限").equals(address)){
+		    	  String queryString = "from HouseSellRent where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +" and "+ price[1]+" and  HouseFloor="+HouseFloor;
+				   return getHibernateTemplate().find(queryString);
+		      }else{
+		    	  String queryString = "from HouseSellRent where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +" and "+ price[1];
+				   return getHibernateTemplate().find(queryString);
+		      }
+	    }
+	
+	
+	
 }

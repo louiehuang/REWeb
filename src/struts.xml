@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+
+
+
+
 <struts>
-	<!-- action -->
 
-	<!-- <package name="indexManage" namespace="/" extends="struts-default"> -->
-	<!-- <action name="im" class="IndexAction"> -->
-	<!-- <result name="success">index.jsp</result> -->
-	<!-- <result name="error">register.jsp</result> -->
-	<!-- </action> -->
-	<!-- </package> -->
 
+<!-- 	<package name="struts-IpAuthorityInterceptor" extends="struts-default"> -->
+<!-- 		<interceptors> -->
+<!-- 			<interceptor name="IpAuthorityInterceptor" class="com.chinasoft.util.IpAuthorityInterceptor"> -->
+<!-- 			</interceptor> -->
+<!-- 			<interceptor-stack name="IpAuthority"> -->
+<!-- 				<interceptor-ref name="IpAuthorityInterceptor"></interceptor-ref> -->
+<!-- 				<interceptor-ref name="defaultStack"></interceptor-ref> -->
+<!-- 			</interceptor-stack> -->
+<!-- 		</interceptors> -->
+
+<!-- 		<default-interceptor-ref name="IpAuthorityInterceptor"></default-interceptor-ref> -->
+		<!-- 全局结果 -->
+<!-- 		<global-results> -->
+			<!-- 拦截没登录返回结果 -->
+<!-- 			<result name="noPermission" type="redirect">testOutput.jsp</result> -->
+<!-- 		</global-results> -->
+<!-- 	</package> -->
+	
+
+	
+<!-- 	<package name="usersManage" namespace="/" extends="struts-IpAuthorityInterceptor"> -->
+	
 	<package name="usersManage" namespace="/" extends="struts-default">
 		<!-- 首页信息 -->
 		<action name="im" class="IndexAction">
@@ -26,6 +45,8 @@
 		</action>
 		<!--鑫神配置解释 -->
 
+
+
 		<!-- 个人用户 -->
 		<action name="um" class="UsersAction">
 			<result name="logsuccess" type="chain">
@@ -41,7 +62,14 @@
 				<param name="actionName">im</param>
 				<param name="method">LoadInfo</param>
 			</result>
-
+            <result name="sellrentlogsuccess" type="chain">
+			   <param name="actionName">um</param>
+			   <param name="method">closeLayer</param>
+			</result>
+			<result name="sellrenterror" type="chain">	   
+			<param name="actionName">um</param>
+			   <param name="method">logerror</param>
+		</result>
 			<result name="admin_update_success">admin.jsp</result>
 		</action>
 
@@ -68,11 +96,39 @@
 
 
 	<package name="houseManage" namespace="/" extends="struts-default">
+	
+		<!-- 个人用户 -->
+		<action name="ureg" class="UsersAction">
+			<result name="regsuccess" type="chain">
+				<param name="actionName">im</param>
+				<param name="method">LoadInfo</param>
+			</result>
+		</action>
+	
+	
 		<action name="rm" class="HouseSellRentAction">
 			<result name="success">index.jsp</result>
+			<result name="buyRentSuccess">buyer_rent.jsp</result>
+			<result name="buyRequestSuccess">buyer.jsp</result>
 			<result name="error">testOutput.jsp</result>
+			<result name="postSuccess" type="chain">
+		    	<param name="actionName">rm</param>
+				<param name="method">closeLayer</param>
+			</result>
+			<result name="postError" type="chain">
+		    	<param name="actionName">rm</param>
+				<param name="method">promptError</param>
+			</result>
+			<result name="postBRequestSuccess" type="chain">
+		    	<param name="actionName">rm</param>
+				<param name="method">closeLayerandRequest</param>
+			</result>
+			<result name="postBRentSuccess" type="chain">
+		    	<param name="actionName">rm</param>
+				<param name="method">closeLayerandRent</param>
+			</result>
 		</action>
-		<action name="nm" class="HouseSellEnterpriseAction">
+	<action name="nm" class="HouseSellEnterpriseAction">
 			<result name="success">index.jsp</result>
 			<result name="error">testOutput.jsp</result>
 		</action>
@@ -106,10 +162,7 @@
 		</action>
 
 
-		<action name="admin_um" class="HouseSellRentAction">
-			<result name="success">index.jsp</result>
-			<result name="error">testOutput.jsp</result>
-		</action>
+	
 
 		<action name="json_queryUser" class="JsonAction" method="json_findUser">
 			<result type="json" name="find_success">
@@ -259,6 +312,58 @@
 		</action>
 	</package>
 	<!-- 雯神配置结束 -->
-	
-	
+
+	<package name="newHouseAction" namespace="/" extends="struts-default">
+		<action name="newHouseAct" class="newHouseAct">
+			<result name="SUCCESS">/newhouse.jsp</result>
+			<result name="arraySize">/newhouse.jsp</result>
+			<result name="arrayPrice">/newhouse.jsp</result>
+			<result name="noLimit">/newhouse.jsp</result>
+			<result name="ERROR">/newhouse.jsp</result>
+		</action>
+	</package>
+
+	<package name="rentHouseAct" namespace="/" extends="struts-default">
+		<action name="rentHouseAct" class="rentHouseAct">
+			<result name="SUCCESS">/renthouse.jsp</result>
+			<result name="arraySize">/renthouse.jsp</result>
+			<result name="arrayPrice">/renthouse.jsp</result>
+			<result name="noLimit">/renthouse.jsp</result>
+			<result name="ERROR">/renthouse.jsp</result>
+		</action>
+	</package>
+
+
+	<package name="secondHouseAct" namespace="/" extends="struts-default">
+		<action name="secondHouseAct" class="secondHouseAct">
+			<result name="SUCCESS">/secondhouse.jsp</result>
+			<result name="arraySize">/secondhouse.jsp</result>
+			<result name="arrayPrice">/secondhouse.jsp</result>
+			<result name="noLimit">/secondhouse.jsp</result>
+			<result name="ERROR">/secondhouse.jsp</result>
+		</action>
+	</package>
+
+	<package name="buyerRequestAct" namespace="/" extends="struts-default">
+		<action name="buyerRequestAct" class="buyerRequestAct">
+			<result name="SUCCESS">/buyer.jsp</result>
+			<result name="arraySize">/buyer.jsp</result>
+			<result name="arrayPrice">/buyer.jsp</result>
+			<result name="noLimit">/buyer.jsp</result>
+			<result name="ERROR">/buyer.jsp</result>
+		</action>
+	</package>
+
+
+	<package name="buyerRentAct" namespace="/" extends="struts-default">
+		<action name="buyerRentAct" class="buyerRentAct">
+			<result name="SUCCESS">/buyer_rent.jsp</result>
+			<result name="arraySize">/buyer_rent.jsp</result>
+			<result name="arrayPrice">/buyer_rent.jsp</result>
+			<result name="noLimit">/buyer_rent.jsp</result>
+			<result name="ERROR">/buyer_rent.jsp</result>
+		</action>
+	</package>
+
+
 </struts>    

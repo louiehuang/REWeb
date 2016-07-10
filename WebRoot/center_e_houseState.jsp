@@ -37,14 +37,33 @@
 </head>
 
 <body style="background-color:#F8F8F8">
-	 <!--iframe导航页面中跳转加上 target="_parent"，使父页面刷新-->
-	<% if (session.getAttribute("enterpriseUsers") == null) { %>
+	<%
+		if (session.getAttribute("users") != null) {
+			System.out.println("普通用户导航");
+			Users u = (Users) session.getAttribute("users");
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav_after.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else if (session.getAttribute("enterpriseUsers") != null){
+			System.out.println("企业用户导航");
+	%>
+	<iframe id="header_nav" src="nav_model/header_nav_enterprise.jsp"
+		width="100%" height="120px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else if (session.getAttribute("adminUsers") != null){
+			System.out.println("管理员导航");
+			%>
+	<iframe id="header_nav" src="nav_model/header_nav_admin.jsp"
+		width="100%" height="45px" style="border: 0px;" scrolling="no"></iframe>
+	<%
+		} else{
+	%>
 	<iframe id="header_nav" src="nav_model/header_nav.jsp" width="100%"
 		height="120px" style="border: 0px;" scrolling="no"></iframe>
-	<% } else { %>
-	<iframe id="header_nav" src="nav_model/header_nav_after.jsp" width="100%"
-		height="120px" style="border: 0px;" scrolling="no"></iframe>
-	<% }%>
+	<% }%>	
+
+
 	<div class="container-fluid" style="margin-top:20px;margin-bottom: 50px;">
 		<div class="row-fluid">
 			<div class="span3">

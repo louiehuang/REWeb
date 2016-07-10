@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>AdminPanel</title>
+<title>信息管理</title>
 <link media="all" rel="stylesheet" type="text/css" href="css/all.css" />
 <link href="css/bootstrap.min.css" rel="stylesheet" />
 <link href="css/ bootstrap-combined.min.css" rel="stylesheet" />

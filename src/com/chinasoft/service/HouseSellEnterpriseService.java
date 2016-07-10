@@ -28,6 +28,12 @@ public class HouseSellEnterpriseService {
 	 * 获取企业新房的首页显示信息，4条
 	 * @return
 	 */
+	public String save(HouseSellEnterprise houseSellEnterprise){
+		houseSellEnterpriseDAO.save(houseSellEnterprise);
+		return "postSuccess";
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public List<HouseSellEnterprise> getSellNewInfo() {
 		return houseSellEnterpriseDAO.findAll().subList(0, 4);

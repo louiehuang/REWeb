@@ -217,4 +217,52 @@ public class HouseSellSecondhandDAO extends HibernateDaoSupport {
 			ApplicationContext ctx) {
 		return (HouseSellSecondhandDAO) ctx.getBean("HouseSellSecondhandDAO");
 	}
+	
+
+	 @SuppressWarnings("unchecked")
+	public  List<HouseSellSecondhand> getOptions(double[] price,int[] size,int HouseFloor,String address){
+			
+		   if(HouseFloor!=0 && !("不限").equals(address)){
+			   String queryString = "from HouseSellSecondhand where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +" and "+ price[1]+" and  HouseFloor = "+HouseFloor+"  and address='"+address+"'";
+			     return getHibernateTemplate().find(queryString);
+		      }else if(HouseFloor==0 && !("不限").equals(address)){
+		    	  String queryString = "from HouseSellSecondhand  where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +"and"+ price[1]+" and  address='"+address+"'";
+				   return getHibernateTemplate().find(queryString);
+		      }else if(HouseFloor!=0 && ("不限").equals(address)){
+		    	  String queryString = "from HouseSellSecondhand where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +" and "+ price[1]+" and  HouseFloor="+HouseFloor;
+				   return getHibernateTemplate().find(queryString);
+		      }else{
+		    	  String queryString = "from HouseSellSecondhand where Size between "+size[0]+" and "+ size[1]+" and Price between " + price[0] +" and "+ price[1]+" ";
+				   return getHibernateTemplate().find(queryString);
+		      }
+	 
+	    }
+	
+	//重写方法2
+		public List<HouseSellSecondhand> arrayPrice(HouseSellSecondhand hss){
+			
+				log.debug("finding all HouseSellSecondhand instances order by ");
+				try {
+					String queryString = "from HouseSellSecondhand order by Price ASC";
+					return getHibernateTemplate().find(queryString);
+				} catch (RuntimeException re) {
+					log.error("find all failed", re);
+					throw re;
+				}
+			
+		}
+
+		//重写方法3
+		public List<HouseSellSecondhand> arraySize(HouseSellSecondhand hss){
+			
+			log.debug("finding all HouseSellSecondhand instances order by ");
+			try {
+				String queryString = "from HouseSellSecondhand order by Size DESC";
+				return getHibernateTemplate().find(queryString);
+			} catch (RuntimeException re) {
+				log.error("find all failed", re);
+				throw re;
+			}
+		
+	}
 }

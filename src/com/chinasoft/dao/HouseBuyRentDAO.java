@@ -40,6 +40,67 @@ public class HouseBuyRentDAO extends HibernateDaoSupport {
 		// do nothing
 	}
 
+
+public List<HouseBuyRent> arrayFloor(HouseBuyRent hsr){
+		
+		log.debug("finding all HouseSellSecondhand instances order by ");
+		try {
+			String queryString = "from HouseBuyRent order by Floor DESC";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+
+	}
+
+	
+public List<HouseBuyRent> arraySize(HouseBuyRent hsr){
+		
+		log.debug("finding all HouseSellSecondhand instances order by ");
+		try {
+			String queryString = "from HouseBuyRent order by Size DESC";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+
+	}
+
+
+	//重写方法3
+	//多条件查询
+	//address为省市区
+		 @SuppressWarnings("unchecked")
+		public  List<HouseBuyRent> getOptions(double pirce[],int size[],int HouseFloor,String address){
+			  if(HouseFloor!=0 && !("不限").equals(address)){
+				   String queryString = "from HouseBuyRent where Size between "+size[0]+" and "+ size[1]+" and Pirce between " + pirce[0] +" and "+ pirce[1]+" and HouseFloor="+HouseFloor+"  and address='"+address+"'";
+				     return getHibernateTemplate().find(queryString);
+			      }else if(HouseFloor == 0 && !("不限").equals(address)){
+			    	  String queryString = "from HouseBuyRent where Size between "+size[0]+" and "+ size[1]+" and Pirce between " + pirce[0] +" and "+ pirce[1]+" and address='"+address+"'";
+					   return getHibernateTemplate().find(queryString);
+			      }else if(HouseFloor != 0 && ("不限").equals(address)){
+			    	  String queryString = "from HouseBuyRent where Size between "+size[0]+" and "+ size[1]+" and Pirce between " + pirce[0] +" and "+ pirce[1]+" and  HouseFloor="+HouseFloor;
+					   return getHibernateTemplate().find(queryString);
+			      }else{
+			    	  String queryString = "from HouseBuyRent where Size between "+size[0]+" and "+ size[1]+" and Pirce between " + pirce[0] +" and "+ pirce[1];
+					   return getHibernateTemplate().find(queryString);
+			      }
+		    }
+			public List<HouseBuyRent> arrayPirce(HouseBuyRent hsr){
+				
+				log.debug("finding all HouseBuyRent instances order by ");
+				try {
+					String queryString = "from HouseBuyRent order by Pirce ASC";
+					return getHibernateTemplate().find(queryString);
+				} catch (RuntimeException re) {
+					log.error("find all failed", re);
+					throw re;
+				}
+			
+		}
+	
 	public void save(HouseBuyRent transientInstance) {
 		log.debug("saving HouseBuyRent instance");
 		try {

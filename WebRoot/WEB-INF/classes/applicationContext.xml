@@ -182,7 +182,28 @@
 		<property name="houseSellRentService">
 			<ref bean="HouseSellRentService" />
 		</property>
+		<property name="regionService">
+			<ref bean="RegionService" />
+		</property>
+		<property name="houseTypeService">
+			<ref bean="HouseTypeService" />
+		</property>
+		<property name="houseSellEnterpriseService">
+			<ref bean="HouseSellEnterpriseService" />
+		</property>
+		<property name="houseBuyRentService">
+			<ref bean="HouseBuyRentService" />
+		</property>
+		<property name="houseBuyRequestService">
+			<ref bean="HouseBuyRequestService" />
+		</property>
+	<property name="houseSellSecondhandService">
+			<ref bean="HouseSellSecondhandService" />
+		</property>
+		
 	</bean>
+
+
 
 	<!--企业新房配置 -->
 	<bean id="HouseSellEnterpriseDAO" class="com.chinasoft.dao.HouseSellEnterpriseDAO">
@@ -212,6 +233,22 @@
 			<ref bean="HouseSellSecondhandDAO" />
 		</property>
 	</bean>
+	<bean id="HouseBuyRentService" class="com.chinasoft.service.HouseBuyRentService">
+		<property name="houseBuyRentDAO">
+			<ref bean="HouseBuyRentDAO" />
+		</property>
+	</bean>
+	<bean id="HouseBuyRequestService" class="com.chinasoft.service.HouseBuyRequestService">
+		<property name="houseBuyRequestDAO">
+			<ref bean="HouseBuyRequestDAO" />
+		</property>
+	</bean>
+	<bean id="RegionService" class="com.chinasoft.service.RegionService">
+		<property name="regionDAO">
+			<ref bean="RegionDAO" />
+		</property>
+	</bean>
+	
 	<bean id="HouseSellSecondhandAction" class="com.chinasoft.action.HouseSellSecondhandAction">
 		<property name="houseSellSecondhandService">
 			<ref bean="HouseSellSecondhandService" />
@@ -437,6 +474,71 @@
 		</property>
 	</bean>
 	<!-- 鑫神配置结束 -->
+<bean id="newhouse" class="com.chinasoft.service.newhouse">
+		<property name="dao">
+			<ref bean="HouseSellEnterpriseDAO" />
+		</property>
+		<property name="regionDAO">
+			<ref bean="RegionDAO" />
+		</property>
+	</bean>
+	
+	<bean id="buyerRent" class="com.chinasoft.service.buyerRent">
+		<property name="dao">
+			<ref bean="HouseBuyRentDAO" />
+		</property>
+		<property name="regionDAO">
+			<ref bean="RegionDAO" />
+		</property>
+	</bean>
+	<bean id="buyerRequest" class="com.chinasoft.service.buyerRequest">
+		<property name="dao">
+			<ref bean="HouseBuyRequestDAO" />
+		</property>
+		<property name="regionDAO">
+			<ref bean="RegionDAO" />
+		</property>
+	</bean>
+	<bean id="renthouse" class="com.chinasoft.service.renthouse">
+		<property name="dao">
+			<ref bean="HouseSellRentDAO" />
+		</property>
+		<property name="regionDAO">
+			<ref bean="RegionDAO" />
+		</property>
+	</bean>
+	<bean id="secondhouse" class="com.chinasoft.service.secondhouse">
+		<property name="dao">
+			<ref bean="HouseSellSecondhandDAO" />
+		</property>
+		<property name="regionDAO">
+			<ref bean="RegionDAO" />
+		</property>
+	</bean>
+<bean id="newHouseAct" class="com.chinasoft.action.newHouseAct">
+	   <property name="nhouse">
+			<ref bean="newhouse" />
+		</property>
+	</bean>
+    <bean id="buyerRequestAct" class="com.chinasoft.action.buyerRequestAct">
+	    <property name="rhouse">
+			<ref bean="buyerRequest" />
+		</property>
+	</bean>
+    <bean id="buyerRentAct" class="com.chinasoft.action.buyerRentAct">
+	    <property name="rhouse">
+			<ref bean="buyerRent" />
+		</property>
+	</bean>    <bean id="rentHouseAct" class="com.chinasoft.action.rentHouseAct">
+	    <property name="rhouse">
+			<ref bean="renthouse" />
+		</property>
+	</bean>
+    <bean id="secondHouseAct" class="com.chinasoft.action.secondHouseAct">
+        <property name="shouse">
+			<ref bean="secondhouse" />
+		</property>
+	</bean>
 
 
 </beans>

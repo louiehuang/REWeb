@@ -42,6 +42,17 @@ public class HouseTypeDAO extends HibernateDaoSupport {
 			throw re;
 		}
 	}
+	
+	public int findIdByName(Object name){
+		String queryString = "from HouseType where name = '"+name+"'";
+	    List list = getHibernateTemplate().find(queryString);
+	    if(list.size()>0){
+	    	HouseType houseType = (HouseType)list.get(0);
+	    	System.out.println("house type:"+houseType.getHtypeId());
+	    	return houseType.getHtypeId();
+	    }else
+	    	return -1;
+	}
 
 	public void delete(HouseType persistentInstance) {
 		log.debug("deleting HouseType instance");

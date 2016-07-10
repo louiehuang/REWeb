@@ -56,7 +56,7 @@
 				<div class="log_reg">
 					<ul>
 						<li><a id="header_a_log" href="../ec!LoadEnterpirseInfo"
-							target="_parent">个人中心</a></li>
+							target="_parent">企业中心</a></li>
 						<span class="log"> </span>
 						<li><a id="header_a_reg" href="<%=basePath %>em!signOut"
 							" target="_parent">退出登陆</a></li>
@@ -80,15 +80,14 @@
 		<div class="header_btm">
 			<div class="menu">
 				<ul>
-					<li class="active"><a href="../falseIndex.jsp" target="_parent">首页</a></li>
-					<li><a href="../secondhouse.jsp" target="_parent">租房</a></li>
-					<li><a href="../secondhouse.jsp" target="_parent">二手房</a></li>
-					<li><a href="../newhouse.jsp" target="_parent">新房</a></li>
-					<li><a href="../buyer.jsp" target="_parent">求租/购</a></li>
-					<li><a href="../seller.jsp" target="_parent">出租/售</a></li>
+					<li class="active"><a href="../im!LoadInfo" target="_parent">首页</a></li>
+				<li><a href="../rentHouseAct?noLimit" target="_parent">租房</a></li>
+					<li><a href="../secondHouseAct?noLimit" target="_parent">二手房</a></li>
+					<li><a href="../newHouseAct?noLimit" target="_parent">新房</a></li>
+					<li><a href="../buyerRequestAct?noLimit" target="_parent">求购</a></li>
+					<li><a href="../buyerRentAct?noLimit" target="_parent">求租</a></li>
 					<li><a href="../falseIndex.jsp" target="_parent">成交行情</a></li>
-					<li><a href="../falseIndex.jsp" target="_parent">资讯</a></li>
-					<div class="clear"></div>
+					<li><a href="../falseIndex.jsp" target="_parent">资讯</a></li>	<div class="clear"></div>
 				</ul>
 			</div>
 
